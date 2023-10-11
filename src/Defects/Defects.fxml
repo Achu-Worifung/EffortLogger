@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Defects.Controller">
+   <children>
+      <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="57.0" prefWidth="1000.0" text="Defect Console">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <Label layoutX="46.0" layoutY="137.0" text="1. Select the Project" />
+      <MenuButton fx:id="selectProject" alignment="CENTER" layoutX="94.0" layoutY="167.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="384.0" text="-no project selected-">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+      </MenuButton>
+      <Label layoutX="582.0" layoutY="146.0" text="2.a. Clear this Project's Defect Log." />
+      <Label layoutX="94.0" layoutY="199.0" text="one effort log entry for this project.">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="46.0" layoutY="239.0" text="2.b. Select one of the following defects to make it the Current Defect or press &quot;Create a New Defect&quot;" />
+      <MenuButton fx:id="selectDefect" alignment="CENTER" layoutX="94.0" layoutY="263.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="276.0" text="-no defect selected-" textAlignment="CENTER">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+      </MenuButton>
+      <Label layoutX="46.0" layoutY="325.0" text="3. Define or update the following Current Defect attributes:" />
+      <Label layoutX="80.0" layoutY="353.0" text="Num Defect Name">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="607.0" layoutY="344.0" text="Status: Closed">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="77.0" layoutY="412.0" text="Defect Symptoms or Cause /Resolution">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="80.0" layoutY="465.0" text="Effort Category:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="46.0" layoutY="768.0" text="These attributes hve been saved" />
+      <Label layoutX="43.0" layoutY="816.0" text="4. Press the &quot;Update the Current Defect&quot; to save the changes made above" />
+      <MenuButton fx:id="fix" alignment="CENTER" layoutX="469.0" layoutY="764.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="384.0" text="-no project selected-">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+      </MenuButton>
+      <Label layoutX="445.0" layoutY="768.0" text="Fix:" />
+      <Label layoutX="78.0" layoutY="601.0" text="Step when injected" />
+      <Label layoutX="349.0" layoutY="602.0" text="step when removed" />
+      <Label layoutX="638.0" layoutY="602.0" text="Defect Category" />
+      <Button fx:id="clearLog" layoutX="596.0" layoutY="167.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="202.0" text="Clear this Defect Log" />
+      <Button fx:id="newProject" layoutX="596.0" layoutY="263.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="202.0" text="Create a New Defect" />
+      <Button fx:id="close" layoutX="560.0" layoutY="370.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Close" />
+      <Button fx:id="reopen" layoutX="734.0" layoutY="370.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Reopen" />
+      <TextArea layoutX="80.0" layoutY="482.0" prefHeight="104.0" prefWidth="813.0" wrapText="true" />
+      <ListView fx:id="stepInj" layoutX="79.0" layoutY="619.0" prefHeight="136.0" prefWidth="200.0" />
+      <ListView fx:id="stepRem" layoutX="345.0" layoutY="619.0" prefHeight="136.0" prefWidth="200.0" />
+      <ListView fx:id="defectCategory" layoutX="634.0" layoutY="619.0" prefHeight="136.0" prefWidth="200.0" />
+      <Button fx:id="updateDefect" layoutX="43.0" layoutY="843.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="202.0" text="Update the Current Defect" />
+      <Button fx:id="delDefect" layoutX="353.0" layoutY="843.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="202.0" text="Delete the Current Defect" />
+      <Button fx:id="toConsole" layoutX="651.0" layoutY="841.0" mnemonicParsing="false" onAction="#toConsole" prefHeight="25.0" prefWidth="202.0" text="Proceed To Effort Log Console" />
+   </children>
+</AnchorPane>
