@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.AnchorPane;
 
@@ -44,6 +45,8 @@ public class Controller {
 
 	    @FXML
 	    private Button startactivity;
+	    @FXML
+	    private Label clock;
 
     private Stage stage;
     private Scene scene;
@@ -72,13 +75,14 @@ public class Controller {
 	}
     public void startActivity(ActionEvent event)
     {
-    	
-    	clockoff.setStyle("-fx-background-color: GREEN;");
+    	clock.setText("Clock Is ON");
+    	clock.setStyle("-fx-background-color: GREEN;");
     }
     public void stopActivity(ActionEvent event)
     {
     	
-    	clockoff.setStyle("-fx-background-color: RED;");
+    	clock.setText("Clock Is OFF");
+    	clock.setStyle("-fx-background-color: RED;");
     
     }
     

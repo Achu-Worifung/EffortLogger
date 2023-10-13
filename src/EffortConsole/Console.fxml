@@ -137,23 +137,10 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <AnchorPane fx:id="clockoff" layoutX="121.0" layoutY="49.0" prefHeight="40.0" prefWidth="800.0" AnchorPane.bottomAnchor="750.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="60.0">
-         <children>
-            <Label layoutX="303.0" prefHeight="42.0" prefWidth="195.0" text="Clock is Stopped">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="clockon" layoutX="110.0" layoutY="59.0" prefHeight="40.0" prefWidth="774.0" visible="false" AnchorPane.bottomAnchor="750.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="60.0">
-         <children>
-            <Label layoutX="302.0" prefHeight="42.0" prefWidth="137.0" text="Clock is On">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
+      <Label fx:id="clock" alignment="CENTER" layoutX="428.0" layoutY="54.0" prefHeight="42.0" prefWidth="137.0" text="Clock is OFF" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

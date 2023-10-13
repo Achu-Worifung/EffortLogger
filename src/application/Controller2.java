@@ -1,6 +1,7 @@
 package application;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -54,6 +55,10 @@ public class Controller2 implements Initializable{
 	private TextField txt_luname1;
 	@FXML
 	private Label prompt;
+	@FXML
+	private Label cWarning;
+	@FXML
+	private Label lWarning;
 
 	@FXML
 	void switchForm(ActionEvent event) 
@@ -97,25 +102,69 @@ public class Controller2 implements Initializable{
 		box_role.getItems().add("Supervisor");
 		
 	}
-	public boolean checkUsername()
+	public boolean isValidUsername(String username)
 	{
-		String username = txt_cfname.getText();
-		return false;
-	}
-	public boolean validPass(String password)
-	{
-		String specialCharacters  = "@!%$#&()_-+?~";
-		if(password.length() < 8) return false;
-		for(int i = 0; i < password.length(); i++)
-		{
-			if(Character.isUpperCase(password.charAt((i)))) break;
-		}
-//		for(int i = 0; i < specialCharacters.length(); i++)
-//		{
-//			if(password.contains(specialCharacters.charAt(i)) break;
-//		}
 		
-		return false;
+		if(username.length() < 3) 
+		{
+			//set the warning label
+			 cWarning.setText("Username length must be greater than 3");
+			return false;
+		}
+		if(!Pattern.matches("^[a-zA-Z0-9]+$", username))
+		{
+			//set the label to display warning
+			cWarning.setText("Only Alpha-Numeric Character are allowed for the Username");
+			return false;
+		}
+		//when db is only check for uniqueness of the username
+		return true;
+	}
+	
+	
+	public boolean isValidPassword(String password)
+	{
+		 if(password.length() < 8)
+		 {
+			 cWarning.setText("Password Must have a Minimum length of 8 characters");
+			 return false;
+		 }
+		 
+		 if(!Pattern.matches("(?=.*[A-Z])", password))
+		 {
+			 cWarning.setText("Password Must have At least one uppercase letter");
+			 return false;
+		 }
+		 if(!Pattern.matches("(?=.*[@#$%^&+=!])", password))
+		 {
+			 cWarning.setText("Password Must have least one special character");
+			 return false;
+		 }
+		 if(!Pattern.matches("(?=\\\\S+$)", password))
+		 {
+			 cWarning.setText("Password Must have NO whitespace allowed");
+			 //need no white space
+			 return false;
+		 }
+		 return true;
+				 
+	}
+	public void createUser(ActionEvent event)
+	{
+		String un = txt_cpass.getText();
+		String pass = txt_cfname.getText();
+		if(!isValidPassword(pass) || !isValidUsername(un))
+		{
+			// if() {} query db to ensure username is not already taken
+			event.consume();
+			return;
+		}
+		//setting username and password login field to the username and password just created
+		txt_luname1.setText(un);
+		txt_lpass1.setText(pass);
+		switchForm(event);
+		
+		
 	}
 
 }
