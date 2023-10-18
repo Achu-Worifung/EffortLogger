@@ -46,7 +46,7 @@
                   </Label>
                   <TextField fx:id="txt_luname1" layoutX="416.0" layoutY="171.0" prefHeight="35.0" prefWidth="200.0" promptText="Username" styleClass="textField" stylesheets="@application.css" />
                   <PasswordField fx:id="txt_lpass1" layoutX="416.0" layoutY="238.0" prefHeight="35.0" prefWidth="200.0" promptText="Password" styleClass="textField" stylesheets="@application.css" />
-                  <Button fx:id="btn_llogin1" layoutX="423.0" layoutY="349.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="200.0" styleClass="buttons" stylesheets="@application.css" text="Login" textFill="WHITE">
+                  <Button fx:id="btn_llogin1" layoutX="423.0" layoutY="349.0" mnemonicParsing="false" onAction="#LogIn" prefHeight="35.0" prefWidth="200.0" styleClass="buttons" stylesheets="@application.css" text="Login" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>

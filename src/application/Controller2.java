@@ -59,6 +59,8 @@ public class Controller2 implements Initializable{
 	private Label cWarning;
 	@FXML
 	private Label lWarning;
+	
+	AddUserToDb adduser;
 
 	@FXML
 	void switchForm(ActionEvent event) 
@@ -100,71 +102,97 @@ public class Controller2 implements Initializable{
 		box_role.getItems().add("User");
 		box_role.getItems().add("Employee");
 		box_role.getItems().add("Supervisor");
+		this.adduser = new AddUserToDb();
 		
 	}
 	public boolean isValidUsername(String username)
 	{
 		
+		cWarning.setText(" ");
 		if(username.length() < 3) 
 		{
-			//set the warning label
+			System.out.println("len is " + username.length());
 			 cWarning.setText("Username length must be greater than 3");
 			return false;
 		}
-		if(!Pattern.matches("^[a-zA-Z0-9]+$", username))
-		{
-			//set the label to display warning
-			cWarning.setText("Only Alpha-Numeric Character are allowed for the Username");
-			return false;
-		}
+		//all the char allowed in username
+		if(!Pattern.compile("^[a-zA-Z0-9$]+$_%#@!&^").matcher(username).find())
+    	{
+    	    
+    	    System.out.println("username is " + username);
+    	    return true;
+    	}
 		//when db is only check for uniqueness of the username
-		return true;
+		cWarning.setText("Username character not allowed");
+		return false;
 	}
 	
 	
 	public boolean isValidPassword(String password)
 	{
+		cWarning.setText("");
+		System.out.println(password);
 		 if(password.length() < 8)
 		 {
 			 cWarning.setText("Password Must have a Minimum length of 8 characters");
+			 System.out.println(password);
 			 return false;
 		 }
 		 
-		 if(!Pattern.matches("(?=.*[A-Z])", password))
+		 if(!Pattern.compile("(?=.*[A-Z])").matcher(password).find())
 		 {
+			 
 			 cWarning.setText("Password Must have At least one uppercase letter");
 			 return false;
 		 }
-		 if(!Pattern.matches("(?=.*[@#$%^&+=!])", password))
+		 if(!Pattern.compile("(?=.*[@#$%^&+=!])").matcher(password).find())
 		 {
+			
 			 cWarning.setText("Password Must have least one special character");
 			 return false;
 		 }
-		 if(!Pattern.matches("(?=\\\\S+$)", password))
-		 {
-			 cWarning.setText("Password Must have NO whitespace allowed");
-			 //need no white space
-			 return false;
-		 }
+		 
+		 
 		 return true;
 				 
 	}
 	public void createUser(ActionEvent event)
 	{
-		String un = txt_cpass.getText();
-		String pass = txt_cfname.getText();
-		if(!isValidPassword(pass) || !isValidUsername(un))
+		//check for blanks
+		if (txt_cfname.getText().isBlank() || box_role.getValue().isBlank())
 		{
+			 cWarning.setText("No blanks allowed");
+			 return;
+		}
+		String un = txt_cuname.getText();
+		String pass = txt_cpass.getText();
+		if(isValidPassword(pass) && isValidUsername(un))
+		{
+			System.out.println("valid password");
 			// if() {} query db to ensure username is not already taken
-			event.consume();
+			if(!adduser.addUserTODB(txt_cfname.getText(),txt_cuname.getText(), pass, box_role.getValue().toString()))
+			{
+				event.consume();
+				cWarning.setText("User Name alread exist");
+				return;
+			}
+			
+			txt_luname1.setText(un);
+			txt_lpass1.setText(pass);
+			switchForm(event);
 			return;
 		}
-		//setting username and password login field to the username and password just created
-		txt_luname1.setText(un);
-		txt_lpass1.setText(pass);
-		switchForm(event);
 		
-		
+	}
+	public void LogIn(ActionEvent event)
+	{
+		if(adduser.authen(txt_luname1.getText(), txt_lpass1.getText()))
+		{
+			System.out.println("login successful");
+			return;
+		}
+		lWarning.setText("Username or Password is INCORRECT");
+		txt_lpass1.setText("");
 	}
 
 }
