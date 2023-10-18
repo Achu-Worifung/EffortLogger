@@ -1,6 +1,5 @@
 package Defects;
 
-import java.awt.TextArea;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -10,49 +9,51 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuButton;
 import javafx.stage.Stage;
 
 public class Controller {
 	
-	 @FXML
-	    private Button clearLog;
+	@FXML
+    private Button clearLog;
 
-	    @FXML
-	    private Button close;
+    @FXML
+    private Button close;
 
-	    @FXML
-	    private ListView<?> defectCategory;
+    @FXML
+    private ListView<?> defectCategory;
 
-	    @FXML
-	    private Button delDefect;
+    @FXML
+    private Button delDefect;
 
-	    
+    @FXML
+    private ComboBox<String> fix;
 
-	    @FXML
-	    private MenuButton fix;
+    @FXML
+    private Button newProject;
 
-	    @FXML
-	    private Button reopen;
+    @FXML
+    private Button reopen;
 
-	    @FXML
-	    private MenuButton selectDefect;
+    @FXML
+    private ComboBox<String> selectDefect;
 
-	    @FXML
-	    private MenuButton selectProject;
+    @FXML
+    private ComboBox<String> selectProject;
 
-	    @FXML
-	    private ListView<?> stepInj;
+    @FXML
+    private ListView<String> stepInj;
 
-	    @FXML
-	    private ListView<?> stepRem;
+    @FXML
+    private ListView<String> stepRem;
 
-	    @FXML
-	    private Button toConsole;
+    @FXML
+    private Button toConsole;
 
-	    @FXML
-	    private Button updateDefect;
+    @FXML
+    private Button updateDefect;
+
 
 	    
 	    private Stage stage;

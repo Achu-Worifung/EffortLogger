@@ -102,6 +102,7 @@ public class Controller2 implements Initializable{
 		box_role.getItems().add("User");
 		box_role.getItems().add("Employee");
 		box_role.getItems().add("Supervisor");
+		//connecting to the db
 		this.adduser = new AddUserToDb();
 		
 	}

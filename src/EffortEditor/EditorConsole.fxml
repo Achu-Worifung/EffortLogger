@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -17,12 +16,6 @@
          </font>
       </Label>
       <Label layoutX="36.0" layoutY="127.0" text="1. Select the Project in order to edit its Effort Log." />
-      <MenuButton fx:id="projects" layoutX="84.0" layoutY="157.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="384.0" text="Business Project">
-        <items>
-          <MenuItem mnemonicParsing="false" text="Action 1" />
-          <MenuItem mnemonicParsing="false" text="Action 2" />
-        </items>
-      </MenuButton>
       <Label layoutX="572.0" layoutY="136.0" text="2.a. Clear this Project's Effort Log." />
       <Button fx:id="clearLog" layoutX="569.0" layoutY="157.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Clear This Effort Log" />
       <Label layoutX="84.0" layoutY="189.0" text="one effort log entry for this project.">
@@ -31,12 +24,6 @@
          </font>
       </Label>
       <Label layoutX="36.0" layoutY="229.0" text="2.b. Select the Effort Log Entry to be modified and make it the Current Effort Log Entry" />
-      <MenuButton fx:id="effortentry" layoutX="84.0" layoutY="253.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="836.0" text="Business Project">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
-      </MenuButton>
       <Label layoutX="84.0" layoutY="289.0" text="nn. yyy-mm-dd (hh:mm:ss:mm:ss) &lt; LIfe Cycle Step&gt;: Effort Category&gt;; Details&gt;">
          <font>
             <Font size="13.0" />
@@ -54,17 +41,17 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="452.0" layoutY="370.0" text="hh:mm:ss">
+      <Label layoutX="366.0" layoutY="367.0" text="hh:mm:ss">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="599.0" layoutY="340.0" text="Stop Time:">
+      <Label layoutX="576.0" layoutY="343.0" text="Stop Time:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="756.0" layoutY="367.0" text="hh:mm:ss">
+      <Label layoutX="647.0" layoutY="367.0" text="hh:mm:ss">
          <font>
             <Font size="13.0" />
          </font>
@@ -74,47 +61,29 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <MenuButton fx:id="cycleStep" layoutX="66.0" layoutY="410.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="327.0">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
-      </MenuButton>
       <Label layoutX="70.0" layoutY="455.0" text="Effort Category:">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <MenuButton fx:id="effortCat" layoutX="70.0" layoutY="478.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="223.0">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
-      </MenuButton>
-      <Label layoutX="562.0" layoutY="454.0" text="Plan:">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <MenuButton fx:id="plan" layoutX="562.0" layoutY="477.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="403.0">
-         <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
-         </items>
-      </MenuButton>
       <Label layoutX="80.0" layoutY="536.0" text="These attributes hve been saved.">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Button fx:id="UpdateEntry" layoutX="432.0" layoutY="532.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Update This Entry" />
+      <Button fx:id="UpdateEntry" layoutX="478.0" layoutY="533.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Update This Entry" />
       <Label layoutX="39.0" layoutY="578.0" text="3.b. Delete the Current Effort Log Entry" />
       <Button fx:id="deleteEntry" layoutX="36.0" layoutY="599.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Delete This Entry" />
       <Label layoutX="40.0" layoutY="652.0" text="3.c.Split the Current Effort Log Entry into two entries" />
       <Button fx:id="split" layoutX="37.0" layoutY="673.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Split This Entry into Two Entries" />
       <Label layoutX="550.0" layoutY="650.0" text="4.Proceed to the Effort Log Console" />
       <Button fx:id="toConsole" layoutX="547.0" layoutY="671.0" mnemonicParsing="false" onAction="#toConsole" prefHeight="25.0" prefWidth="209.0" text="Proceed to the Effort Log Console" />
-      <TextArea fx:id="endTime" layoutX="664.0" layoutY="333.0" prefHeight="19.0" prefWidth="200.0" />
-      <TextArea fx:id="startTime" layoutX="368.0" layoutY="333.0" prefHeight="19.0" prefWidth="200.0" />
+      <ComboBox fx:id="projects" layoutX="91.0" layoutY="157.0" prefHeight="25.0" prefWidth="378.0" />
+      <ComboBox fx:id="effortentry" layoutX="92.0" layoutY="258.0" prefHeight="25.0" prefWidth="684.0" />
+      <TextField fx:id="startTime" layoutX="366.0" layoutY="339.0" />
+      <TextField fx:id="endTime" layoutX="644.0" layoutY="339.0" />
+      <ComboBox fx:id="cycleStep" layoutX="66.0" layoutY="416.0" prefHeight="25.0" prefWidth="327.0" />
+      <ComboBox fx:id="effortCat" layoutX="67.0" layoutY="477.0" prefHeight="25.0" prefWidth="223.0" />
+      <ComboBox layoutX="416.0" layoutY="477.0" prefHeight="25.0" prefWidth="389.0" />
    </children>
 </AnchorPane>

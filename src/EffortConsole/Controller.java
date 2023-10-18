@@ -1,52 +1,55 @@
 package EffortConsole;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.stage.Stage;
 
-public class Controller {
-	 @FXML
-	    private MenuButton chooseproject;
+public class Controller implements Initializable{
+    @FXML
+    private ComboBox<String> chooseproject;
 
-	    @FXML
-	    private AnchorPane clockoff;
+    @FXML
+    private Label clock;
 
-	    @FXML
-	    private AnchorPane clockon;
+    @FXML
+    private Button defects;
 
-	    @FXML
-	    private Button defects;
+    @FXML
+    private Button defination;
 
-	    @FXML
-	    private Button defination;
+    @FXML
+    private Button editor;
 
-	    @FXML
-	    private Button editor;
+    @FXML
+    private Button effortanddefectlogs;
 
-	    @FXML
-	    private Button effortanddefectlogs;
+    @FXML
+    private ComboBox<String> effortcat;
 
-	    @FXML
-	    private MenuButton effortcat;
+    @FXML
+    private ComboBox<String> lifecycle;
 
-	    @FXML
-	    private MenuButton lifecycle;
+    @FXML
+    private ComboBox<String> plan;
 
-	    @FXML
-	    private Button startactivity;
-	    @FXML
-	    private Label clock;
+    @FXML
+    private Button startactivity;
 
     private Stage stage;
     private Scene scene;
@@ -77,14 +80,41 @@ public class Controller {
     {
     	clock.setText("Clock Is ON");
     	clock.setStyle("-fx-background-color: GREEN;");
+    	
     }
     public void stopActivity(ActionEvent event)
     {
-    	
+    	//project drop down
     	clock.setText("Clock Is OFF");
     	clock.setStyle("-fx-background-color: RED;");
     
     }
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// adding drop down menu options
+		chooseproject.getItems().add("Business Project");
+		chooseproject.getItems().add("Development Project");
+		
+		String[] lifeCycleItems = {"Planning", "Information Gathering", "Information Understanding", "Verifying",
+				"Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+		for (String item: lifeCycleItems)
+		{
+			lifecycle.getItems().add(item);
+		}
+		String[] effortCat = {"Plan","Deliverables", "Interruptions", "Defects", "Others"};
+		for (String item: effortCat)
+		{
+			effortcat.getItems().add(item);
+		}
+		String[] planList = {"Project Plan", "Risk Management Plan", "Conceptual Design Plan", "Detailed Design Plan", "Implementation Plan"};
+		for (String item: planList)
+		{
+			plan.getItems().add(item);
+		}
+		
+
+		
+	}
     
     
 
