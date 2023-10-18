@@ -62,6 +62,10 @@ public class AddUserToDb {
 			System.out.println("failed to connect to database");
 			return false;
 		}
+		finally
+		{
+			close();
+		}
 		return true;
 	}
 	
@@ -88,20 +92,41 @@ public class AddUserToDb {
 
 	public boolean authen(String username, String Password)
 	{
+		reopen();
 		System.out.println("username :" + username);
 		System.out.println("password :" + Password);
 		Document document = collection.find(eq("UserName", username)).first();
 		if(document == null) 
 		{
 			System.out.println("username not in db");
+			close();
 			return false;
 		}
 		String hashedPassword = document.getString("Password");
 		if(Encrypt(Password).contentEquals(hashedPassword))
 		{
+			close();
 			return true;
 		}
+		close();
 		return false;
 	}
+	public void close() {
+		if(mongoClient == null)  return;
+        mongoClient.close();
+        mongoClient = null;
+        database = null;
+        collection = null;
+    }
+
+    public void reopen() {
+        try {
+            mongoClient = MongoClients.create(uri);
+            database = mongoClient.getDatabase("EffortLoggerv2");
+            collection = database.getCollection("Users");
+        } catch (MongoException e) {
+            System.out.println("connection failed");
+        }
+    }
 
 }
