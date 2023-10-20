@@ -1,9 +1,15 @@
 package EffortEditor;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import org.bson.Document;
+
+import ToDB.Query;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -89,7 +95,19 @@ public class Controller implements Initializable{
 		}
 		
 		
+	
 		
+		
+	}
+	public String chooseProject()
+	{
+		List<Document> result = new Query().getEffortLog(projects.getValue().toString());
+		for (Document doc: result)
+		{
+			effortentry.getItems().add(doc.getString(date)+"("+doc.getString(startTime)+ ")"
+		+doc.getString(endTime)+doc.getString(cycleStep)+doc.getString(effortCat)+doc.getString(cycleStep)); //last one meant to be random
+		}
+		return projects.getValue().toString();
 	}
 
 

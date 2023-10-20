@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ToDB.Query;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,6 +56,8 @@ public class Controller implements Initializable{
     private Scene scene;
     private Parent root;
     
+    //query object
+    Query q;
     @FXML
 	void switchForm(ActionEvent event) throws IOException 
 	{
@@ -92,6 +95,10 @@ public class Controller implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// adding drop down menu options
+		if (new Query().openEffort())
+		{
+			startActivity(null);
+		}else stopActivity(null);
 		chooseproject.getItems().add("Business Project");
 		chooseproject.getItems().add("Development Project");
 		
