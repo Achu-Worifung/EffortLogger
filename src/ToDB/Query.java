@@ -16,6 +16,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.DeleteResult;
 
@@ -122,6 +123,31 @@ public class Query {
 	        // Handle the exception
 	    }
 		return null;
+	}
+	public List<String> getDefects()
+	{
+		System.out.println("ran");
+		close();
+		reopen("Defects");
+		ArrayList<String> defects = new ArrayList<>();
+		try {
+			MongoCollection<Document> collection = database.getCollection("Defects");
+			MongoCursor<Document> cursor = collection.find().iterator();
+			//change Name to defect eventually
+			try {
+	            while (cursor.hasNext()) {
+	            	Document document = cursor.next();
+	            	String defect = document.getString("Name");
+	                defects.add(defect);
+	            }
+	        } finally {
+	            cursor.close();
+	        }
+		}catch(MongoException me)
+		{
+			//error handling
+		}
+		return defects;
 	}
 
 	public boolean openEffort()

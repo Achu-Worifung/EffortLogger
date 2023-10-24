@@ -32,7 +32,7 @@ public class AddUserToDb {
 		}
 	}
 	
-	public boolean addUserTODB(String fullName, String userName, String Password, String role)
+	public boolean addUserTODB(String fullName, String userName, String Password, String role, String jobTitle)
 	{
 		try
 		{
@@ -46,10 +46,12 @@ public class AddUserToDb {
 					//inserting new user
 					InsertOneResult result = collection.insertOne(new Document()
 							.append("_id", new ObjectId())
-							.append("FullName", fullName)
+							.append("FullName", Encrypt(fullName))
 							.append("UserName", userName)
+							.append("Job Title", jobTitle)
 							.append("role", role)
 							.append("Password", Encrypt(Password)));
+					database.getCollection("Full Names").insertOne(new Document().append("Full Name", fullName));
 				}catch(MongoException insert)
 				{
 					System.out.println("failed to insert user into database");

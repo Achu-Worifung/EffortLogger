@@ -20,6 +20,10 @@ public class Controller2 implements Initializable{
 	boolean toCreate = false;
 	@FXML
 	private ComboBox<String> box_role;
+	@FXML
+	private ComboBox<String> job_title;
+	@FXML
+	private ComboBox<String> level;
 
 	@FXML
 	private Button btn_csignup;
@@ -102,6 +106,14 @@ public class Controller2 implements Initializable{
 		box_role.getItems().add("User");
 		box_role.getItems().add("Employee");
 		box_role.getItems().add("Supervisor");
+		
+		
+		job_title.getItems().add("Junior Developer");
+		job_title.getItems().add("Senior Developer");
+		
+		level.getItems().add("Level 1");
+		level.getItems().add("Level 2");
+		level.getItems().add("Level 3");
 		//connecting to the db
 		this.adduser = new AddUserToDb();
 		
@@ -171,7 +183,8 @@ public class Controller2 implements Initializable{
 		{
 			System.out.println("valid password");
 			// if() {} query db to ensure username is not already taken
-			if(!adduser.addUserTODB(txt_cfname.getText(),txt_cuname.getText(), pass, box_role.getValue().toString()))
+			String jobTitle = job_title.getValue().toString()+" "+level.getValue().toString();
+			if(!adduser.addUserTODB(txt_cfname.getText(),txt_cuname.getText(), pass, box_role.getValue().toString(), jobTitle))
 			{
 				event.consume();
 				cWarning.setText("User Name alread exist");

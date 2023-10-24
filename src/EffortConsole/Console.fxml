@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -32,7 +33,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Label layoutX="47.0" layoutY="539.0" prefHeight="21.0" prefWidth="667.0" text="3. Press tge &quot;Stop this Activity&quot; to generate an effort log entry log enstry using the attributes above">
+      <Label layoutX="54.0" layoutY="544.0" prefHeight="21.0" prefWidth="667.0" text="3. Press tge &quot;Stop this Activity&quot; to generate an effort log entry log enstry using the attributes above">
          <font>
             <Font size="15.0" />
          </font>
@@ -52,12 +53,12 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="48.0" layoutY="636.0" prefHeight="21.0" prefWidth="625.0" text="2. Select the project, life cycle steps, effort category, and deliverables from the following lists:">
+      <Label layoutX="55.0" layoutY="641.0" prefHeight="21.0" prefWidth="625.0" text="2. Select the project, life cycle steps, effort category, and deliverables from the following lists:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Button alignment="CENTER" layoutX="104.0" layoutY="574.0" mnemonicParsing="false" onAction="#stopActivity" prefHeight="25.0" prefWidth="165.0" text="Stop this Activity" textAlignment="CENTER">
+      <Button alignment="CENTER" layoutX="111.0" layoutY="579.0" mnemonicParsing="false" onAction="#stopActivity" prefHeight="25.0" prefWidth="165.0" text="Stop this Activity" textAlignment="CENTER">
          <effect>
             <Glow />
          </effect>
@@ -65,7 +66,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="editor" alignment="CENTER" layoutX="87.0" layoutY="688.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" text="Effort Log Editor" textAlignment="CENTER">
+      <Button fx:id="editor" alignment="CENTER" layoutX="94.0" layoutY="693.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" text="Effort Log Editor" textAlignment="CENTER">
          <effect>
             <Glow />
          </effect>
@@ -73,7 +74,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="effortanddefectlogs" alignment="CENTER" layoutX="743.0" layoutY="688.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="31.0" prefWidth="191.0" text="Effort and Defect Logs" textAlignment="CENTER">
+      <Button fx:id="effortanddefectlogs" alignment="CENTER" layoutX="744.0" layoutY="693.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="31.0" prefWidth="191.0" text="Effort and Defect Logs" textAlignment="CENTER">
          <effect>
             <Glow />
          </effect>
@@ -81,7 +82,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="defination" alignment="CENTER" layoutX="526.0" layoutY="688.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" text="Definitions" textAlignment="CENTER">
+      <Button fx:id="defination" alignment="CENTER" layoutX="533.0" layoutY="693.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" text="Definitions" textAlignment="CENTER">
          <effect>
             <Glow />
          </effect>
@@ -89,7 +90,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="defects" alignment="CENTER" layoutX="298.0" layoutY="688.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" text="Defect Log Console" textAlignment="CENTER">
+      <Button fx:id="defects" alignment="CENTER" layoutX="305.0" layoutY="693.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" text="Defect Log Console" textAlignment="CENTER">
          <effect>
             <Glow />
          </effect>
@@ -102,9 +103,20 @@
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <ComboBox fx:id="lifecycle" layoutX="536.0" layoutY="306.0" prefHeight="31.0" prefWidth="347.0" />
+      <ComboBox fx:id="lifecycle" layoutX="536.0" layoutY="306.0" onAction="#DynamicSwitch" prefHeight="31.0" prefWidth="347.0" />
       <ComboBox fx:id="chooseproject" layoutX="104.0" layoutY="306.0" prefHeight="31.0" prefWidth="423.0" />
-      <ComboBox fx:id="plan" layoutX="462.0" layoutY="428.0" prefHeight="31.0" prefWidth="423.0" />
-      <ComboBox fx:id="effortcat" layoutX="100.0" layoutY="428.0" prefHeight="31.0" prefWidth="278.0" />
+      <ComboBox fx:id="randdrop" layoutX="462.0" layoutY="428.0" prefHeight="31.0" prefWidth="423.0" />
+      <ComboBox fx:id="effortcat" layoutX="100.0" layoutY="428.0" onAction="#DynamicSwitchByEffortCat" prefHeight="31.0" prefWidth="278.0" />
+      <Label fx:id="randLable" layoutX="463.0" layoutY="397.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="hide" layoutX="100.0" layoutY="474.0" text="Enter Other details here:" visible="false">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="hideText" layoutX="100.0" layoutY="508.0" prefHeight="25.0" prefWidth="789.0" visible="false" />
    </children>
 </AnchorPane>
