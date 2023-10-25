@@ -44,7 +44,7 @@ public class Query {
 		}
 
 	}
-	public boolean StartEfforts(String projectType, LocalDate date, LocalTime startTime, String lifeCycleStep, String effortCategory )
+	public boolean StartEfforts(String projectType, LocalDate date, LocalTime startTime, String lifeCycleStep, String effortCategory, String randomdrop )
 	
 	{
 		//close current mongodb client
@@ -59,8 +59,8 @@ public class Query {
 					.append("End Time", "")
 					.append("Time Spend", "")
 					.append("Life Cyle Step", lifeCycleStep)
-					.append("Number of Entries", 0)
-					.append("Randome", lifeCycleStep) //this is for the one that keeps changing
+					//.append("Number of Entries", 0) dont think efforts can have a number of entries
+					.append(effortCategory, randomdrop) //this is for the one that keeps changing chane it to effortCa
 					.append("effort Category", effortCategory));
 		}catch(MongoException e)
 		{

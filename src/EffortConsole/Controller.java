@@ -2,6 +2,8 @@ package EffortConsole;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -14,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -62,6 +66,7 @@ public class Controller implements Initializable{
 	private Scene scene;
 	private Parent root;
 	boolean ranbycode;
+	private boolean isOn;
 
 	//query object
 	Query q;
@@ -84,16 +89,61 @@ public class Controller implements Initializable{
 			stage.setScene(scene);
 			stage.show();
 		}
+		if(event.getSource() == defination)
+		{
+			Parent root = FXMLLoader.load(getClass().getResource("/definitions/console.fxml"));
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
+		else 
+		{
+			Parent root = FXMLLoader.load(getClass().getResource("/effortAndDefectLogs/console.fxml"));
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+
+		}
 
 	}
-
 	@FXML
-	void DynamicSwitch(ActionEvent event) {
+	void DynamicSwitchByProject(ActionEvent event) {
+		lifecycle.getItems().clear(); //clearing current items
+
+		//adding new appropriate items
+		if(chooseproject.getValue() == "Business Project")
+		{
+			String[] lifeCycleItems = {"Planning", "Information Gathering", "Information Understanding", "Verifying",
+					"Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
+			for (String item: lifeCycleItems)
+			{
+				lifecycle.getItems().add(item);
+			}
+			lifecycle.setValue(lifeCycleItems[0]);
+		}
+		else 
+		{
+			String[] lifeCycleItems = {"Problem understanding", "Conceptual Design Plan", "Requirements", "Conceptul Design","Conceptual Design Review","Detailed Design Plan",
+					"Detailed Design/Prototype","Detailed Design Review","Implementation Plan","Test Case Generation","Solution Specification","Solution Review","Solution Implementaion",
+					"Unit/System Test","Reflection","Repository Update"};
+			for (String item: lifeCycleItems)
+			{
+				lifecycle.getItems().add(item);
+			}
+			lifecycle.setValue(lifeCycleItems[0]);
+
+		}
+
+	}
+	@FXML
+	void DynamicSwitchByLifeCyle(ActionEvent event) {
 		//dynamic switch depending on the life cyle
 		ranbycode = true;
 		System.out.println("ran");
 		pickEffortCat(); //sets text of effort category drop down depending on life cycle choice
-		setRandom(); //sets text of random drop down depending on life cycle choice
+		//setRandom(); //sets text of random drop down depending on life cycle choice
 		setRandomDrop(); //set the choice available in random depending on life cycle choice
 		String text = effortcat.getValue() == "Plans"? "Plans":"Deliverables";
 		randLable.setText(text);
@@ -112,7 +162,7 @@ public class Controller implements Initializable{
 		randLable.setText(text);
 		//setting up the dropdown for random
 		if(!ranbycode) {
-			if(text == "Plan")
+			if(text == "Plans")
 			{
 				choice =new String[]{"Project plans", "Risk Management", "Conceptual Design Plan", "Detailed Design Plan", "Implementation Plan"};
 				for(String s: choice)
@@ -165,26 +215,79 @@ public class Controller implements Initializable{
 	}
 	public void startActivity(ActionEvent event)
 	{
+		if(isOn) {
+			//alert when trying to start a clock when one is already running
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Start A new  Activity");
+			alert.setHeaderText("CLOCK IS ALREADY RUNNING");
+			alert.show();
+
+			return; //is the clock is already on do nothing
+		}
+		isOn = true;
 		clock.setText("Clock Is ON");
 		clock.setStyle("-fx-background-color: GREEN;");
+		//getting all infor
+		String project = chooseproject.getValue();
+		String lifeCycle = lifecycle.getValue();
+		String effortCat = effortcat.getValue();
+		String randdropdown;
+		if(randdrop.getValue() == null || randdrop.getValue().isEmpty())
+		{
+			randdropdown = hideText.getText();
+		}
+		else  randdropdown = randdrop.getValue();
+
+		//create a thread for faster performance java concurrancy.
+		Thread pushEffort = new Thread(() -> {
+			new Query().StartEfforts(project, LocalDate.now(), LocalTime.now(), lifeCycle, effortCat, randdropdown);
+		});
+		pushEffort.setDaemon(true);//method will exit if only daemon thread is left leading to faster performance
+		pushEffort.start();
 
 	}
 	public void stopActivity(ActionEvent event)
 	{
 		//project drop down
+		if(!isOn) {
+			//alert when trying to stop a clock when none is already running
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Stop Current Activity");
+			alert.setHeaderText("THE CLOCK IS NOT RUNNING");
+			alert.show();
+			return;
+		}
+		isOn = false;
 		clock.setText("Clock Is OFF");
 		clock.setStyle("-fx-background-color: RED;");
+		//stopping an activity
+		//create a thread for faster performance java concurrency.
+		Thread pushEffort = new Thread(() -> {
+			new Query().endEffort(LocalTime.now());
+		});
+		pushEffort.setDaemon(true);//method will exit if only daemon thread is left leading to faster performance
+		pushEffort.start();
+
 
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// adding drop down menu options
+		//set the label color and text to the right one depending on the activity
 		if (new Query().openEffort())
 		{
-			startActivity(null);
-		}else stopActivity(null);
+			clock.setText("Clock Is ON");
+			clock.setStyle("-fx-background-color: GREEN;");
+			isOn = true;
+		}else 
+		{
+			clock.setText("Clock Is OFF");
+			clock.setStyle("-fx-background-color: RED;");
+			isOn = false;
+		}
+		// adding drop down menu options
 		chooseproject.getItems().add("Business Project");
 		chooseproject.getItems().add("Development Project");
+		chooseproject.setValue("Business Project");
 
 		String[] lifeCycleItems = {"Planning", "Information Gathering", "Information Understanding", "Verifying",
 				"Outlining", "Drafting", "Finalizing", "Team Meeting", "Coach Meeting", "Stakeholder Meeting"};
@@ -192,144 +295,202 @@ public class Controller implements Initializable{
 		{
 			lifecycle.getItems().add(item);
 		}
-		String[] effortCat = {"Plan","Deliverables", "Interruptions", "Defects", "Others"};
+		lifecycle.setValue(lifeCycleItems[0]);
+		String[] effortCat = {"Plans","Deliverables", "Interruptions", "Defects", "Others"};
 		for (String item: effortCat)
 		{
 			effortcat.getItems().add(item);
+		}
+		effortcat.setValue(effortCat[0]);
+		randLable.setText(effortcat.getValue());
+		String []choice =new String[]{"Project plans", "Risk Management", "Conceptual Design Plan", "Detailed Design Plan", "Implementation Plan"};
+		for(String s: choice)
+		{
+			randdrop.getItems().add(s); //add all times in choice to the dropdown
+			randdrop.setValue(choice[0]);
 		}
 
 
 
 
 
-
 	}
-	//	public String[] random(String effortCat)
-	//	{
-	//		//the life cycle steps controlls the effort category which controlls the random
-	//		String choice[];
-	//		switch(effortCat)
-	//		{
-	//		case "Plans":
-	//			 choice = new String[]{"Project plans", "Risk Management", "Conceptual Design Plan", "Detailed Design Plan", "Implementation Plan"};
-	//			break;
-	//		case "deliverables":
-	//			choice = new String[]{"Conceptual Design", "Detailed Design", "Test case", "Solution", "Reflection", "Outline", "Draft", "Report", "User Defined", "Other"};
-	//			break;
-	//		case "interruptions":
-	//			choice = new String[]{"Break", "Phone", "Teammate", "Visitor", "Other"};
-	//			break;
-	//		case "defect":
-	//			choice = new String[] {"-no defect selected-"};
-	//			break;
-	//			default:
-	//				choice = new String[] {""};
-	//		}
-	//		return choice;
-	//	
-	//	}
+
 	public void setRandomDrop()
 	{
 		String choice[];
 		randdrop.getItems().clear(); //removing all current items
-		if(lifecycle.getValue() == "Planning")
+		String lifeCycleValue = lifecycle.getValue();
+		if(lifeCycleValue == "Planning")
 		{
 			choice = new String[]{"Project plans", "Risk Management", "Conceptual Design Plan", "Detailed Design Plan", "Implementation Plan"};
 			for (String item: choice)
 			{
 				randdrop.getItems().add(item); //add all times in choice to the dropdown
 			}
+			randdrop.setValue(choice[0]); //set the value to the 1st available choice
 			return; //stop method execution
 		}
-		if(lifecycle.getValue() == "Information Gathering"|| lifecycle.getValue() == "Information Understanding"||lifecycle.getValue() == "Verifying")
+		//this will resort in conceptual design 
+		String concept[] = {"Detailed Design Review","Detailed Design/Prototype","Information Gathering","Information Understanding","Verifying","Problem understanding","Requirements","Conceptul Design","Conceptual Design Review"};
+		//check if selected value is a conceptual design plan
+		for (String s: concept)
 		{
-			choice = new String[]{"Conceptual Design", "Detailed Design", "Test case", "Solution", "Reflection", "Outline", "Draft", "Report", "User Defined", "Other"};
-			for (String item: choice)
+			if (s == lifeCycleValue)
 			{
-				randdrop.getItems().add(item);
+				choice = new String[]{"Conceptual Design", "Detailed Design", "Test case", "Solution", "Reflection", "Outline", "Draft", "Report", "User Defined", "Other"};
+				for (String item: choice)
+				{
+					randdrop.getItems().add(item);
+				}
+				randdrop.setValue(choice[0]);
+				if(s.equalsIgnoreCase("Detailed Design/Prototype") || s.equalsIgnoreCase("Detailed Design Review"))
+				{
+					randdrop.getItems().remove(0);
+					randdrop.setValue(choice[1]);
+
+				}
+				return;
 			}
+		}
+
+		//this will resort in solutions for random drop
+		String solutions[] = {"Repository Update","Reflection","Unit/System Test","Solution Implementaion","Solution Review","Solution Specification", "Test Case Generation"};
+		//check if selected value is a solution
+		for (String s: solutions)
+		{
+			if(s == lifeCycleValue)
+			{
+				choice = new String[]{"Solution","Reflection","Outline","Draft","Report","User Defined","Other"};
+				for (String item: choice)
+				{
+					randdrop.getItems().add(item);
+				}
+				if(lifeCycleValue == "Test Case Generation")
+				{
+					randdrop.getItems().add(0, "Test Case");
+				}
+				randdrop.setValue(randdrop.getItems().get(0));
+				return;
+			}
+		}
+		//check if selected value is "Test Case Generation"
+//		if(lifeCycleValue == "Test Case Generation")
+//		{
+//			choice = new String[] {"Test Case","Solution","Reflection","Outline","Draft","Report","User Defined","Other"};
+//			for (String item: choice)
+//			{
+//				randdrop.getItems().add(item);
+//			}
+//			randdrop.setValue(choice[0]);
+//			return;
+//		}
+		//check if selected value is "Implementation Plan"
+		if(lifeCycleValue == "Implementation Plan")
+		{
+			randdrop.getItems().add("Implementation Plan");
+			randdrop.setValue("Implementation Plan");
 			return;
 		}
-		if(lifecycle.getValue() == "Outlining")
+		//check if selected value is "Conceptual Design Plan"
+		if(lifeCycleValue == "Conceptual Design Plan")
 		{
-			choice = new String[] {"Outline", "Draft", "Report","User Defined","Other"};
-			for (String item: choice)
-			{
-				randdrop.getItems().add(item);
-			}
+			randdrop.getItems().add("Conceptual Design Plan");
+			randdrop.getItems().add("Detailed Design Plan");
+			randdrop.getItems().add("Implementation Plan");
+			randdrop.setValue("Conceptual Design Plan");
 			return;
 		}
-		if(lifecycle.getValue() == "Drafting")
+		//check if selected value is ""Detailed Design Plan"
+		if(lifeCycleValue == "Detailed Design Plan")
+		{
+			randdrop.getItems().add("Detailed Design Plan");
+			randdrop.getItems().add("Implementation Plan");
+			randdrop.setValue("Detailed Design Plan");
+			return;
+		}
+
+
+		if(lifeCycleValue == "Drafting"|| lifeCycleValue == "Finalizing"||lifeCycleValue == "Outlining")
 		{
 			choice = new String[]{"Drafting", "Report", "User Defined", "Others"};
 			for (String item: choice)
 			{
 				randdrop.getItems().add(item);
 			}
-			return;
-		}
-		if(lifecycle.getValue() == "Finalizing")
-		{
-			choice = new String[]{"Report", "User Defined", "Others"};
-			for (String item: choice)
-			{
-				randdrop.getItems().add(item);
+			if(lifeCycleValue == "Finalizing") {
+				randdrop.getItems().remove(0);
 			}
+			if(lifeCycleValue == "Outlining")
+			{
+				randdrop.getItems().remove(0);
+				randdrop.getItems().add(0, "Outline");
+				randdrop.getItems().add(1, "Draft");
+			}
+			randdrop.setValue( randdrop.getItems().get(0));
+
 			return;
 		}
-		if(lifecycle.getValue() == "Team Meeting"||lifecycle.getValue() == "Coach Meeting"||lifecycle.getValue() == "Stakeholder Meeting")
+
+		if(lifeCycleValue == "Team Meeting"||lifeCycleValue == "Coach Meeting"||lifeCycleValue == "Stakeholder Meeting")
 		{
 			choice = new String[]{"Conceptual Desing", "Detailed Design", "Test Case","Solution", "Reflection", "OUtline", "Draft", "Report", "User Defined", "Other"};
 			for (String item: choice)
 			{
 				randdrop.getItems().add(item);
 			}
+			randdrop.setValue(choice[0]);
+
 			return;
 		}
 	}
 	public void pickEffortCat()
 	{
-		if(lifecycle.getValue() == "Planning")
+		String[] plans = {"Planning", "Conceptual Design Plan","Detailed Design Plan","Implementation Plan"};
+		for (String s: plans)
 		{
-			effortcat.setValue("Plans"); 
+			if (s == lifecycle.getValue())
+			{
+				effortcat.setValue("Plans"); 
+				return;
+			}
 		}
-		else 
-			effortcat.setValue("Deliverables"); 
+		effortcat.setValue("Deliverables"); 
 	}
-	public void setRandom()
-	{
-		//set the dropdown for random accordingly
-		if(lifecycle.getValue() == "Planning")
-		{
-			randdrop.setValue("Project Plan"); 
-			return;
-		}
-		if(lifecycle.getValue() == "Information Gathering" || lifecycle.getValue() == "Information Understanding"|| lifecycle.getValue() == "Verifying")
-		{
-			randdrop.setValue("Information Gathering"); 
-			return;
-		}
-		if(lifecycle.getValue() == "Outlining")
-		{
-			randdrop.setValue("Outline"); 
-			return;
-		}
-		if(lifecycle.getValue() == "Drafting")
-		{
-			randdrop.setValue("Drafts"); 
-			return;
-		}
-		if(lifecycle.getValue() == "Finalizing")
-		{
-			randdrop.setValue("Report"); 
-			return;
-		}
-		if(lifecycle.getValue() == "Team Meeting"||lifecycle.getValue() == "Coach Meeting"||lifecycle.getValue() == "Stakeholder Meeting")
-		{
-			randdrop.setValue("Conceptual Design"); 
-			return;
-		}
-	}
+	//	public void setRandom()
+	//	{
+	//		//set the dropdown for random accordingly
+	//		if(lifecycle.getValue() == "Planning")
+	//		{
+	//			randdrop.setValue("Project Plan"); 
+	//			return;
+	//		}
+	//		if(lifecycle.getValue() == "Information Gathering" || lifecycle.getValue() == "Information Understanding"|| lifecycle.getValue() == "Verifying")
+	//		{
+	//			randdrop.setValue("Information Gathering"); 
+	//			return;
+	//		}
+	//		if(lifecycle.getValue() == "Outlining")
+	//		{
+	//			randdrop.setValue("Outline"); 
+	//			return;
+	//		}
+	//		if(lifecycle.getValue() == "Drafting")
+	//		{
+	//			randdrop.setValue("Drafts"); 
+	//			return;
+	//		}
+	//		if(lifecycle.getValue() == "Finalizing")
+	//		{
+	//			randdrop.setValue("Report"); 
+	//			return;
+	//		}
+	//		if(lifecycle.getValue() == "Team Meeting"||lifecycle.getValue() == "Coach Meeting"||lifecycle.getValue() == "Stakeholder Meeting")
+	//		{
+	//			randdrop.setValue("Conceptual Design"); 
+	//			return;
+	//		}
+	//	}
 
 
 }
