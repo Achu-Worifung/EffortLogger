@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.mongodb.client.FindIterable;
@@ -18,6 +19,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 
 public class Query {
@@ -116,12 +118,14 @@ public class Query {
 	    close();
 	    reopen("Efforts");
 	    try {
-	        FindIterable<Document> results = collection.find(eq("Project", project));
-	        List<Document> resultList = new ArrayList<>();
+	    	FindIterable<Document> results = collection.find(eq("Project", project));
+	    	List<Document> resultList = new ArrayList<>();
+	    	results.into(resultList);
 	       return resultList;
 	    } catch (MongoException e) {
 	        // Handle the exception
 	    }
+	    close();
 		return null;
 	}
 	public List<String> getDefects()
@@ -162,13 +166,16 @@ public class Query {
 		return true;
 		
 	}
-	public boolean clearEffortLog()
+	//for effort log editor meant to clear either business/development project logs
+	public boolean clearEffortLog(String Project)
 	{
 		close();
-		reopen("Effort");
-		MongoCollection<Document> collection = database.getCollection("Efforts");
-		DeleteResult done = collection.deleteMany(new Document());
-		if(done != null) return true;
+		reopen("Efforts");
+		System.out.println(Project);
+		DeleteResult result = collection.deleteMany(eq("Project", Project));
+
+
+		if(result != null) return true;
 		return false;
 	}
 	public boolean deleteEntry()

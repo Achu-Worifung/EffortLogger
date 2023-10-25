@@ -17,8 +17,8 @@
       </Label>
       <Label layoutX="36.0" layoutY="127.0" text="1. Select the Project in order to edit its Effort Log." />
       <Label layoutX="572.0" layoutY="136.0" text="2.a. Clear this Project's Effort Log." />
-      <Button fx:id="clearLog" layoutX="569.0" layoutY="157.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Clear This Effort Log" />
-      <Label layoutX="84.0" layoutY="189.0" text="one effort log entry for this project.">
+      <Button fx:id="clearLog" layoutX="569.0" layoutY="157.0" mnemonicParsing="false" onAction="#clearLog" prefHeight="25.0" prefWidth="209.0" text="Clear This Effort Log" />
+      <Label fx:id="entries" layoutX="84.0" layoutY="189.0">
          <font>
             <Font size="13.0" />
          </font>
@@ -78,7 +78,7 @@
       <Button fx:id="split" layoutX="37.0" layoutY="673.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Split This Entry into Two Entries" />
       <Label layoutX="550.0" layoutY="650.0" text="4.Proceed to the Effort Log Console" />
       <Button fx:id="toConsole" layoutX="547.0" layoutY="671.0" mnemonicParsing="false" onAction="#toConsole" prefHeight="25.0" prefWidth="209.0" text="Proceed to the Effort Log Console" />
-      <ComboBox fx:id="projects" layoutX="91.0" layoutY="157.0" prefHeight="25.0" prefWidth="378.0" />
+      <ComboBox fx:id="projects" layoutX="91.0" layoutY="157.0" onAction="#selectProject" prefHeight="25.0" prefWidth="378.0" />
       <ComboBox fx:id="effortentry" layoutX="92.0" layoutY="258.0" prefHeight="25.0" prefWidth="684.0" />
       <TextField fx:id="startTime" layoutX="366.0" layoutY="339.0" />
       <TextField fx:id="endTime" layoutX="644.0" layoutY="339.0" />
