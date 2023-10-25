@@ -105,7 +105,7 @@
       </Label>
       <ComboBox fx:id="lifecycle" layoutX="536.0" layoutY="306.0" onAction="#DynamicSwitchByLifeCyle" prefHeight="31.0" prefWidth="347.0" />
       <ComboBox fx:id="chooseproject" layoutX="104.0" layoutY="306.0" onAction="#DynamicSwitchByProject" prefHeight="31.0" prefWidth="423.0" />
-      <ComboBox fx:id="randdrop" layoutX="462.0" layoutY="428.0" prefHeight="31.0" prefWidth="423.0" />
+      <ComboBox fx:id="randdrop" layoutX="462.0" layoutY="428.0" onAction="#DynamicSwitchByRand" prefHeight="31.0" prefWidth="423.0" />
       <ComboBox fx:id="effortcat" layoutX="100.0" layoutY="428.0" onAction="#DynamicSwitchByEffortCat" prefHeight="31.0" prefWidth="278.0" />
       <Label fx:id="randLable" layoutX="463.0" layoutY="397.0">
          <font>

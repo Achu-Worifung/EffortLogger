@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import ToDB.Query;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -104,9 +105,7 @@ public class Controller implements Initializable{
 			scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
-
 		}
-
 	}
 	@FXML
 	void DynamicSwitchByProject(ActionEvent event) {
@@ -133,9 +132,7 @@ public class Controller implements Initializable{
 				lifecycle.getItems().add(item);
 			}
 			lifecycle.setValue(lifeCycleItems[0]);
-
 		}
-
 	}
 	@FXML
 	void DynamicSwitchByLifeCyle(ActionEvent event) {
@@ -174,7 +171,7 @@ public class Controller implements Initializable{
 			}
 			if(text == "Deliverables")
 			{
-				choice =new String[]{"Conceptual Design", "Detailed Design", "Test case", "Solution", "Reflection", "Outline", "Draft", "Report", "User Defined", "Other"};
+				choice =new String[]{"Conceptual Design", "Detailed Design", "Test case", "Solution", "Reflection", "Outline", "Draft", "Report", "User Defined", "Others"};
 				for(String s: choice)
 				{
 					randdrop.getItems().add(s); //add all times in choice to the dropdown
@@ -185,7 +182,7 @@ public class Controller implements Initializable{
 		}
 		if(text == "Interruptions")
 		{
-			choice = new String[] {"Break","Phone", "Visitor","Other"};
+			choice = new String[] {"Break","Phone", "Visitor","Others"};
 			for(String s: choice)
 			{
 				randdrop.getItems().add(s); //add all times in choice to the dropdown
@@ -193,26 +190,38 @@ public class Controller implements Initializable{
 			}
 			return;
 		}
-		if(text == "Defects")
-		{
-			//might want to do this in the initialize method for faster respond
-			List<String> defect = new Query().getDefects(); //get defects from db
-
-
-			for(String s: defect)
-			{
-				randdrop.getItems().add(s); //add all times in choice to the dropdown
-			}
-			randdrop.setValue(defect.get(0));
-			return;
+		if (text.equals("Defects")) {
+		    Thread getDefect = new Thread(() -> {
+		        List<String> defect = new Query().getDefects(); // get defects from db
+		        Platform.runLater(() -> {
+		            for (String s : defect) {
+		                randdrop.getItems().add(s); // add all items in choice to the dropdown
+		            }
+		            randdrop.setValue(randdrop.getItems().get(0));
+		        });
+		    });
+		    getDefect.setDaemon(true);
+		    getDefect.start();
+		    return;
+		
 		}if(text == "Others") {
 			//set the hidden label visible
 			hide.setVisible(true);
 			hideText.setVisible(true);
 		}
-
-
 	}
+
+    @FXML
+    void DynamicSwitchByRand(ActionEvent event) {
+    	hide.setVisible(false);
+    	hideText.setVisible(false);
+    	String text = randdrop.getValue();
+    	if(text == "Others")
+    	{
+    		hide.setVisible(true);
+    		hideText.setVisible(true);
+    	}
+    }
 	public void startActivity(ActionEvent event)
 	{
 		if(isOn) {
@@ -232,7 +241,7 @@ public class Controller implements Initializable{
 		String lifeCycle = lifecycle.getValue();
 		String effortCat = effortcat.getValue();
 		String randdropdown;
-		if(randdrop.getValue() == null || randdrop.getValue().isEmpty())
+		if(randdrop.getValue() == null || randdrop.getValue().isEmpty()|| randdrop.getValue()=="Others")
 		{
 			randdropdown = hideText.getText();
 		}
@@ -267,8 +276,6 @@ public class Controller implements Initializable{
 		});
 		pushEffort.setDaemon(true);//method will exit if only daemon thread is left leading to faster performance
 		pushEffort.start();
-
-
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -309,11 +316,6 @@ public class Controller implements Initializable{
 			randdrop.getItems().add(s); //add all times in choice to the dropdown
 			randdrop.setValue(choice[0]);
 		}
-
-
-
-
-
 	}
 
 	public void setRandomDrop()
@@ -338,7 +340,7 @@ public class Controller implements Initializable{
 		{
 			if (s == lifeCycleValue)
 			{
-				choice = new String[]{"Conceptual Design", "Detailed Design", "Test case", "Solution", "Reflection", "Outline", "Draft", "Report", "User Defined", "Other"};
+				choice = new String[]{"Conceptual Design", "Detailed Design", "Test case", "Solution", "Reflection", "Outline", "Draft", "Report", "User Defined", "Others"};
 				for (String item: choice)
 				{
 					randdrop.getItems().add(item);
@@ -361,7 +363,7 @@ public class Controller implements Initializable{
 		{
 			if(s == lifeCycleValue)
 			{
-				choice = new String[]{"Solution","Reflection","Outline","Draft","Report","User Defined","Other"};
+				choice = new String[]{"Solution","Reflection","Outline","Draft","Report","User Defined","Others"};
 				for (String item: choice)
 				{
 					randdrop.getItems().add(item);
@@ -374,41 +376,27 @@ public class Controller implements Initializable{
 				return;
 			}
 		}
-		//check if selected value is "Test Case Generation"
-//		if(lifeCycleValue == "Test Case Generation")
-//		{
-//			choice = new String[] {"Test Case","Solution","Reflection","Outline","Draft","Report","User Defined","Other"};
-//			for (String item: choice)
-//			{
-//				randdrop.getItems().add(item);
-//			}
-//			randdrop.setValue(choice[0]);
-//			return;
-//		}
+
 		//check if selected value is "Implementation Plan"
-		if(lifeCycleValue == "Implementation Plan")
+		if(lifeCycleValue == "Implementation Plan"||lifeCycleValue == "Conceptual Design Plan"|| lifeCycleValue == "Detailed Design Plan")
 		{
 			randdrop.getItems().add("Implementation Plan");
 			randdrop.setValue("Implementation Plan");
+			if(lifeCycleValue == "Conceptual Design Plan")
+			{
+				randdrop.getItems().add(0, "Conceptual Design Plan");
+				randdrop.getItems().add(1, "Detailed Design Plan");
+				randdrop.setValue("Conceptual Design Plan");
+			}
+			if(lifeCycleValue == "Detailed Design Plan")
+			{
+				randdrop.getItems().add(0, "Detailed Design Plan");
+				randdrop.setValue("Detailed Design Plan");
+				
+			}
 			return;
 		}
-		//check if selected value is "Conceptual Design Plan"
-		if(lifeCycleValue == "Conceptual Design Plan")
-		{
-			randdrop.getItems().add("Conceptual Design Plan");
-			randdrop.getItems().add("Detailed Design Plan");
-			randdrop.getItems().add("Implementation Plan");
-			randdrop.setValue("Conceptual Design Plan");
-			return;
-		}
-		//check if selected value is ""Detailed Design Plan"
-		if(lifeCycleValue == "Detailed Design Plan")
-		{
-			randdrop.getItems().add("Detailed Design Plan");
-			randdrop.getItems().add("Implementation Plan");
-			randdrop.setValue("Detailed Design Plan");
-			return;
-		}
+
 
 
 		if(lifeCycleValue == "Drafting"|| lifeCycleValue == "Finalizing"||lifeCycleValue == "Outlining")
@@ -434,7 +422,7 @@ public class Controller implements Initializable{
 
 		if(lifeCycleValue == "Team Meeting"||lifeCycleValue == "Coach Meeting"||lifeCycleValue == "Stakeholder Meeting")
 		{
-			choice = new String[]{"Conceptual Desing", "Detailed Design", "Test Case","Solution", "Reflection", "OUtline", "Draft", "Report", "User Defined", "Other"};
+			choice = new String[]{"Conceptual Design", "Detailed Design", "Test Case","Solution", "Reflection", "OUtline", "Draft", "Report", "User Defined", "Others"};
 			for (String item: choice)
 			{
 				randdrop.getItems().add(item);
@@ -457,40 +445,7 @@ public class Controller implements Initializable{
 		}
 		effortcat.setValue("Deliverables"); 
 	}
-	//	public void setRandom()
-	//	{
-	//		//set the dropdown for random accordingly
-	//		if(lifecycle.getValue() == "Planning")
-	//		{
-	//			randdrop.setValue("Project Plan"); 
-	//			return;
-	//		}
-	//		if(lifecycle.getValue() == "Information Gathering" || lifecycle.getValue() == "Information Understanding"|| lifecycle.getValue() == "Verifying")
-	//		{
-	//			randdrop.setValue("Information Gathering"); 
-	//			return;
-	//		}
-	//		if(lifecycle.getValue() == "Outlining")
-	//		{
-	//			randdrop.setValue("Outline"); 
-	//			return;
-	//		}
-	//		if(lifecycle.getValue() == "Drafting")
-	//		{
-	//			randdrop.setValue("Drafts"); 
-	//			return;
-	//		}
-	//		if(lifecycle.getValue() == "Finalizing")
-	//		{
-	//			randdrop.setValue("Report"); 
-	//			return;
-	//		}
-	//		if(lifecycle.getValue() == "Team Meeting"||lifecycle.getValue() == "Coach Meeting"||lifecycle.getValue() == "Stakeholder Meeting")
-	//		{
-	//			randdrop.setValue("Conceptual Design"); 
-	//			return;
-	//		}
-	//	}
+
 
 
 }
