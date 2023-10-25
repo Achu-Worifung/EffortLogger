@@ -63,7 +63,7 @@ public class Query {
 					.append("Life Cyle Step", lifeCycleStep)
 					//.append("Number of Entries", 0) dont think efforts can have a number of entries
 					.append(effortCategory, randomdrop) //this is for the one that keeps changing chane it to effortCa
-					.append("effort Category", effortCategory));
+					.append("Effort Category", effortCategory));
 		}catch(MongoException e)
 		{
 			System.out.println("Failed to Insert Effort");

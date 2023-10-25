@@ -70,6 +70,7 @@ public class Controller implements Initializable{
 	private Scene scene;
 	private Parent root;
 	private List<Document> efforts;
+	private String effortDate, start, end, lifeCycle,effort, rand;
 
 	@FXML
 	void toConsole(ActionEvent event) throws IOException {
@@ -124,19 +125,32 @@ public class Controller implements Initializable{
 			 });
 			
 		});
+		getEffort.setDaemon(true);
+		getEffort.start();
 		//populating entries dropdown untested
 		Thread pop = new Thread(() ->{
-			while(getEffort.isAlive()) {}//if u r still getting the documents do nothing
-			for(int i = 1; i<=efforts.size(); i++)
+			while(getEffort.isAlive()) {System.out.println("waiting...");}//if u r still getting the documents do nothing
+			int count;
+			a: //label the loop
+			for(int i = 0; i<efforts.size(); i++)
 			{
+				count = i+1;
 				Document doc = efforts.get(i);
-				effortentry.getItems().add(i+doc.getString("Date")+"("+doc.getString("Start Time")+"-"+doc.getString("End TIme")+doc.getString("Life Cyle Step")+doc.getString("Effort Category")+doc.getString(doc.getString("Effort Category")));
+				effortDate = doc.getString("Date");
+				start = doc.getString("Start Time");
+				end = doc.getString("End Time");
+				effort = doc.getString("Effort Category");
+				lifeCycle = doc.getString("Life Cyle Step");
+				rand = doc.getString(effort);
+				//skip over any effort with a null value
+				String[] item = {effortDate,start,end,effort,lifeCycle,rand};
+				for(String s: item) if(s == null) continue a; //skip the current document
+				effortentry.getItems().add(count+". "+effortDate+"("+start+"-"+end+")"+lifeCycle+effort+rand);
 			}
 		});
 		pop.setDaemon(true);
 		pop.start();
-		getEffort.setDaemon(true);
-		getEffort.start();
+		
 		if(cycleStep.getItems() != null) cycleStep.getItems().clear();;
 		if(projectType.equalsIgnoreCase("Development Project"))
 		{
