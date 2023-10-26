@@ -66,7 +66,7 @@
       </Label>
       <Button fx:id="UpdateEntry" layoutX="478.0" layoutY="569.0" mnemonicParsing="false" onAction="#update" prefHeight="25.0" prefWidth="209.0" text="Update This Entry" />
       <Label layoutX="36.0" layoutY="604.0" text="3.b. Delete the Current Effort Log Entry" />
-      <Button fx:id="deleteEntry" layoutX="33.0" layoutY="625.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Delete This Entry" />
+      <Button fx:id="deleteEntry" layoutX="33.0" layoutY="625.0" mnemonicParsing="false" onAction="#deleteEnt" prefHeight="25.0" prefWidth="209.0" text="Delete This Entry" />
       <Label layoutX="37.0" layoutY="678.0" text="3.c.Split the Current Effort Log Entry into two entries" />
       <Button fx:id="split" layoutX="34.0" layoutY="699.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" text="Split This Entry into Two Entries" />
       <Label layoutX="547.0" layoutY="676.0" text="4.Proceed to the Effort Log Console" />

@@ -209,9 +209,14 @@ public class Query {
 		if(result != null) return true;
 		return false;
 	}
-	public boolean deleteEntry()
+	public boolean deleteEntry(ObjectId id)
 	{
-		return true;
+		close();
+		reopen("Efforts");
+		DeleteResult result = collection.deleteOne(eq("_id", id));
+		if(result != null)
+			return true;
+		else return false;
 	}
 
 

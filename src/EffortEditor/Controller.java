@@ -24,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -348,6 +349,25 @@ public class Controller implements Initializable{
 					+doc.getString(endTime)+doc.getString(cycleStep)+doc.getString(effortCat)+doc.getString(cycleStep)); //last one meant to be random
 		}
 		return projects.getValue().toString();
+	}
+	public void deleteEnt(ActionEvent event)
+	{
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete an Effort Log Entry Request");
+		alert.setHeaderText("Are you sure you want to delte this effort log entry? IT CANNOT BE UNDONE.");
+		if(!(alert.showAndWait().get() == ButtonType.OK))
+		{
+			return;
+		}
+		if(id == null)
+		{
+			 alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Delete Error");
+			alert.setHeaderText("You must first select a log before you can delete it.");
+			alert.show();
+			return;
+		}
+		new Query().deleteEntry(id);
 	}
 
 
