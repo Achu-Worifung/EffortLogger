@@ -6,6 +6,7 @@ import static com.mongodb.client.model.Filters.eq;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +22,14 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 
 public class Query {
 	String uri = "mongodb+srv://achuworifung:QqgHwlf9hnQl53fW@cluster0.fodlvul.mongodb.net/";
 	MongoClient mongoClient;
 	MongoDatabase database;
 	MongoCollection<Document> collection;
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss"); //used to format
 
 	public void close() {
 		if(mongoClient == null)  return;
@@ -57,11 +60,11 @@ public class Query {
 			collection.insertOne(new Document()
 					.append("Project", projectType)
 					.append("Date", date.toString())
-					.append("Start Time", startTime.toString())
+					.append("Start Time", startTime.format(formatter))
 					.append("End Time", "")
 					.append("Time Spend", "")
 					.append("Life Cyle Step", lifeCycleStep)
-					//.append("Number of Entries", 0) dont think efforts can have a number of entries
+					.append("Number of Entries", 0) 
 					.append(effortCategory, randomdrop) //this is for the one that keeps changing chane it to effortCa
 					.append("Effort Category", effortCategory));
 		}catch(MongoException e)
@@ -72,6 +75,31 @@ public class Query {
 		return true;
 		
 	}
+	public boolean updateEffort(ObjectId id, int timespent, int numberOfEntries, String date, String startTime,String end, String lifeCycleStep, String effortCategory, String randomdrop) {
+
+	    // close current mongodb client
+	    close();
+	    reopen("Efforts");
+
+	    try {
+	    	//find doc with the same id and update it
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Date", date)));
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Start Time", startTime)));
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("End Time", end)));
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Life Cyle Step", lifeCycleStep)));
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Effort Category", effortCategory)));
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document(effortCategory, randomdrop)));
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Time Spend", timespent)));
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Number of Entries", numberOfEntries)));
+	    	
+	    	//
+	    	return true;
+	    } catch (MongoException e) {
+	        System.out.println("Failed to update Effort");
+	        return false;
+	    }
+	}
+
 	public boolean endEffort(LocalTime endTime )
 	
 	{
@@ -85,7 +113,7 @@ public class Query {
 			LocalTime start = LocalTime.parse(document.getString("Start Time"));
 			Duration timeSpend = Duration.between(start, endTime);
 			long minute = timeSpend.toMinutes(); //this is in minutes
-			collection.updateOne(eq("_id", document.getObjectId("_id")), new Document("$set", new Document("End Time", endTime.toString())));
+			collection.updateOne(eq("_id", document.getObjectId("_id")), new Document("$set", new Document("End Time", endTime.format(formatter))));
 			collection.updateOne(eq("_id", document.getObjectId("_id")), new Document("$set", new Document("Time Spend", minute)));
 			
 		}catch(MongoException e)
