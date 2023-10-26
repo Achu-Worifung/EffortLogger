@@ -4,6 +4,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,11 +22,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class Controller implements Initializable{
@@ -86,7 +89,7 @@ public class Controller implements Initializable{
 	private Parent root;
 	private List<Document> efforts;
 	private String effortDate, start, end, lifeCycle,effort, rand;
-	boolean canSwitch;
+	boolean canUpdate;
 
 	@FXML
 	void toConsole(ActionEvent event) throws IOException {
@@ -115,7 +118,7 @@ public class Controller implements Initializable{
 		{
 			effortCat.getItems().add(item);
 		}
-		canSwitch = false;
+		
 
 	}
 	//clear project type effort Log
@@ -224,7 +227,7 @@ public class Controller implements Initializable{
 		labelrand.setText(effortCat.getValue());
 		random.setValue(doc.getString(effortCat.getValue()));
 		
-		
+		canUpdate = true;
 	}
 	public void DynamicSwitchByEffortCat(ActionEvent event)  {
 		System.out.println("effortcat ran");
@@ -285,11 +288,15 @@ public class Controller implements Initializable{
 			hide.setVisible(true);
 			hideText.setVisible(true);
 		}
+		canUpdate = true;
 	}
 	public void changed(ActionEvent event)
 	{
 		//create a boolean that says when we can update
-		change.setStyle("-fx-background-color: RED;");
+		System.out.println("ran changed");
+		if(event.getSource() == effortCat) DynamicSwitchByEffortCat( event);
+		if(canUpdate)
+			change.setStyle("-fx-background-color: RED;");
 	}
 	public void update(ActionEvent event)
 	{
@@ -307,8 +314,29 @@ public class Controller implements Initializable{
 		{
 			rand = hide.getText();
 		}
+		String valid = new ValidateUpdate().valide(he, start, end);
+		if(!valid.equals("success"))
+		{
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Effort Log Editor");
+			alert.setHeaderText(valid);
+			alert.show();
+			//do the alert
+			return;
+		}
+		//calculating the diff in time
+		Duration time = Duration.between(start, end);
+		long timeSpent = time.toSeconds();
 		
-		//Document document = collection.find(eq("UserName", username)).first();
+		boolean succ =new Query().updateEffort(id, timeSpent, he, st, et, life, cat, rand);
+		if(succ)
+		{
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Effort Log Editor");
+			alert.setHeaderText("Effort Edited Successfully");
+			alert.show();
+		}
+		
 		
 	}
 	public String chooseProject()

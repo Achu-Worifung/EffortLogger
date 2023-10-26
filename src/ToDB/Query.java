@@ -75,7 +75,7 @@ public class Query {
 		return true;
 		
 	}
-	public boolean updateEffort(ObjectId id, int timespent, int numberOfEntries, String date, String startTime,String end, String lifeCycleStep, String effortCategory, String randomdrop) {
+	public boolean updateEffort(ObjectId id, long timespent, String date, String startTime,String end, String lifeCycleStep, String effortCategory, String randomdrop) {
 
 	    // close current mongodb client
 	    close();
@@ -90,9 +90,12 @@ public class Query {
 	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Effort Category", effortCategory)));
 	    	collection.updateOne(eq("_id", id), new Document("$set", new Document(effortCategory, randomdrop)));
 	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Time Spend", timespent)));
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Number of Entries", numberOfEntries)));
 	    	
-	    	//
+	    	//getting entries number
+	    	Integer entries = collection.find(eq("_id", id)).first().getInteger("Number of Entries");
+	    	
+	    	entries++;
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Number of Entries", entries)));
 	    	return true;
 	    } catch (MongoException e) {
 	        System.out.println("Failed to update Effort");
