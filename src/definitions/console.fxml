@@ -1,25 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.ScatterChart?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="definitions.DefController">
    <children>
-      <ScrollPane layoutY="7.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <content>
-            <ScatterChart>
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </ScatterChart>
-         </content>
-      </ScrollPane>
+      <TableView fx:id="tableView" prefHeight="481.0" prefWidth="582.0">
+        <columns>
+          <TableColumn fx:id="projectNameColumn" onEditCommit="#changeProjectNameCellEvent" prefWidth="188.00006103515625" text="Project Names:" />
+            <TableColumn fx:id="columnOne" onEditCommit="#changeColumn1CellEvent" prefWidth="38.4000244140625" text="1" />
+            <TableColumn fx:id="columnTwo" onEditCommit="#changeColumn2CellEvent" prefWidth="38.4000244140625" text="2" />
+            <TableColumn fx:id="columnThree" onEditCommit="#changeColumnThreeCellEvent" prefWidth="38.4000244140625" text="3" />
+            <TableColumn fx:id="columnFour" onEditCommit="#changeColumn4CellEvent" prefWidth="41.5999755859375" text="4" />
+            <TableColumn fx:id="columnFive" onEditCommit="#changeColumn5CellEvent" prefWidth="38.4000244140625" text="5" />
+            <TableColumn fx:id="columnSix" onEditCommit="#changeColumn6CellEvent" prefWidth="38.4000244140625" text="6" />
+            <TableColumn fx:id="columnSeven" onEditCommit="#changeColumn7CellEvent" prefWidth="38.4000244140625" text="7" />
+            <TableColumn fx:id="columnEight" onEditCommit="#changeColumn8CellEvent" prefWidth="41.5999755859375" text="8" />
+            <TableColumn fx:id="columnNine" onEditCommit="#changeColumn9CellEvent" prefWidth="38.4000244140625" text="9" />
+            <TableColumn fx:id="columnTen" onEditCommit="#changeColumn10CellEvent" prefWidth="38.4000244140625" text="10" />
+            <TableColumn fx:id="column11" onEditCommit="#changeColumn11CellEvent" prefWidth="38.4000244140625" text="11" />
+            <TableColumn fx:id="column12" onEditCommit="#changeColumn12CellEvent" prefWidth="41.5999755859375" text="12" />
+            <TableColumn fx:id="column13" onEditCommit="#changeColumn13CellEvent" prefWidth="42.39996337890625" text="13" />
+            <TableColumn fx:id="column14" onEditCommit="#changeColumn14CellEvent" prefWidth="74.40008544921875" text="14" />
+            <TableColumn fx:id="column15" onEditCommit="#changeColumn15CellEvent" prefWidth="38.4000244140625" text="15" />
+            <TableColumn fx:id="column16" onEditCommit="#changeColumn16CellEvent" prefWidth="38.4000244140625" text="16" />
+            <TableColumn fx:id="column17" onEditCommit="#changeColumn17CellEvent" prefWidth="38.4000244140625" text="17" />
+            <TableColumn fx:id="column18" onEditCommit="#changeColumn18CellEvent" prefWidth="41.5999755859375" text="18" />
+            <TableColumn fx:id="column19" onEditCommit="#changeColumn19CellEvent" prefWidth="38.4000244140625" text="19" />
+            <TableColumn fx:id="column20" onEditCommit="#changeColumn20CellEvent" prefWidth="38.4000244140625" text="20" />
+            <TableColumn fx:id="column21" onEditCommit="#changeColumn21CellEvent" prefWidth="38.4000244140625" text="21" />
+            <TableColumn fx:id="column22" onEditCommit="#changeColumn22CellEvent" prefWidth="41.5999755859375" text="22" />
+            <TableColumn fx:id="column23" onEditCommit="#changeColumn23CellEvent" prefWidth="75.0" text="23" />
+            <TableColumn fx:id="column24" onEditCommit="#changeColumn24CellEvent" prefWidth="74.40008544921875" text="24" />
+            <TableColumn fx:id="column25" onEditCommit="#changeColumn25CellEvent" prefWidth="38.4000244140625" text="25" />
+        </columns>
+      </TableView>
+      <TableView fx:id="lifeTableView" layoutX="582.0" prefHeight="315.0" prefWidth="364.0">
+        <columns>
+          <TableColumn fx:id="lifeCycleColumn" prefWidth="275.99998474121094" text="2. Specify The Life Cycle Steps:" />
+          <TableColumn fx:id="effortCategoryColumn" prefWidth="41.60003662109375" text="EC" />
+            <TableColumn fx:id="defaultDColumn" prefWidth="46.39996337890625" text="D" />
+        </columns>
+      </TableView>
+      <TableView fx:id="categoryTableView" layoutX="582.0" layoutY="315.0" prefHeight="167.0" prefWidth="364.0">
+        <columns>
+          <TableColumn fx:id="categoryColumn" prefWidth="363.20001220703125" text="3. Specify Category here:" />
+        </columns>
+      </TableView>
+      <TableView fx:id="plansTableView" layoutX="582.0" layoutY="482.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="plansColumn" prefWidth="199.20001220703125" text="4. Specify the Plans here:" />
+        </columns>
+      </TableView>
+      <TableView fx:id="deliverableTableView" layoutX="91.0" layoutY="482.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="deliverableColumn" prefWidth="199.1999969482422" text="5. Specify the Deliverables" />
+        </columns>
+      </TableView>
+      <TableView fx:id="interruptionTableView" layoutX="318.0" layoutY="482.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="breakColumn" prefWidth="199.20001220703125" text="6. Specify the interruptions here:" />
+        </columns>
+      </TableView>
+      <TableView fx:id="defectTableView" layoutX="782.0" layoutY="482.0" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="defectColumn" prefWidth="199.20001220703125" text="7. Specify the defect categories" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
