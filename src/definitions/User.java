@@ -4,12 +4,12 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class User {
 	
-	private SimpleStringProperty projectName;
-	private Integer colThree, col1, col2, col4, col5, col6, col7, col8, col9, col10, col11, col12,
-	col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25;
+	public SimpleStringProperty projectName;
+	public Integer colThree, col1, col2, col4, col5, col6, col7, col8, col9, col10, col11, col12,
+	col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, id;
 	
 	
-	public User(String projectName, Integer colThree, Integer col1, Integer col2, Integer col4,
+	public User(Integer id, String projectName, Integer colThree, Integer col1, Integer col2, Integer col4,
 			Integer col5, Integer col6, Integer col7, Integer col8, Integer col9, Integer col10, Integer col11,
 			Integer col12, Integer col13, Integer col14, Integer col15, Integer col16, Integer col17, Integer col18,
 			Integer col19, Integer col20, Integer col21, Integer col22, Integer col23, Integer col24, Integer col25) {
@@ -40,10 +40,12 @@ public class User {
 		this.col23 = col23;
 		this.col24 = col24;
 		this.col25 = col25;
+		this.id = id;
 	}
 	
-	public User(String projectName) {
+	public User(Integer id, String projectName) {
 		this.projectName = new SimpleStringProperty(projectName);
+		this.id = id;
 	}
 
 	public User(String projectName, Integer colThree)

@@ -3,10 +3,12 @@ package definitions;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Defect {
-	private SimpleStringProperty defectName;
+	public SimpleStringProperty defectName;
+	public Integer id;
 	
-	public Defect(String defectName) {
+	public Defect(Integer id, String defectName) {
 		this.defectName = new SimpleStringProperty(defectName);
+		this.id = id;
 	}
 
 	public String getDefectName() {

@@ -3,10 +3,12 @@ package definitions;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Category {
-	private SimpleStringProperty categoryName;
+	public SimpleStringProperty categoryName;
+	public Integer id;
 	
-	public Category(String categoryName) {
+	public Category(Integer id,String categoryName) {
 		this.categoryName = new SimpleStringProperty(categoryName);
+		this.id = id;
 	}
 
 	public String getCategoryName() {

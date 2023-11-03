@@ -3,13 +3,14 @@ package definitions;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Life {
-	private SimpleStringProperty lifeName;
-	private Integer defaultDefect, defaultEC;
+	public SimpleStringProperty lifeName;
+	public Integer defaultDefect, defaultEC, id;
 	
-	public Life(String lifeName, Integer defaultDefect, Integer defaultEC) {
+	public Life(Integer id, String lifeName, Integer defaultDefect, Integer defaultEC) {
 		this.lifeName = new SimpleStringProperty(lifeName);
 		this.defaultDefect = defaultDefect;
 		this.defaultEC = defaultEC;
+		this.id = id;
 	}
 	
 	public Life(String lifeName) {

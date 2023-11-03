@@ -24,6 +24,14 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
+import definitions.Break;
+import definitions.Category;
+import definitions.Defect;
+import definitions.Deliverable;
+import definitions.Life;
+import definitions.Plans;
+import definitions.User;
+
 public class Query {
 	String uri = "mongodb+srv://achuworifung:QqgHwlf9hnQl53fW@cluster0.fodlvul.mongodb.net/";
 	MongoClient mongoClient;
@@ -31,6 +39,7 @@ public class Query {
 	MongoCollection<Document> collection;
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss"); //used to format
 
+	//Closes mongo client
 	public void close() {
 		if(mongoClient == null)  return;
 		mongoClient.close();
@@ -39,6 +48,7 @@ public class Query {
 		collection = null;
 	}
 
+	//When you open the application query the database and get the collections
 	public void reopen(String collectionName) {
 		try {
 			mongoClient = MongoClients.create(uri);
@@ -218,7 +228,181 @@ public class Query {
 			return true;
 		else return false;
 	}
-
-
+	//retrieve data from any collection only for definition
+    public List<Plans> get(String Collection)
+    {
+        System.out.println("ran");
+        reopen(Collection); //connects to the collection/ table
+        ArrayList<Plans> plans = new ArrayList<>(); //create an array list to store what the db will return
+        try {
+            MongoCollection<Document> collection = database.getCollection(Collection);
+            MongoCursor<Document> cursor = collection.find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    Document document = cursor.next();
+                    //String prject = document.getString(field); //get the field value from the document
+                    //get the plan id and string and add that to the arraylist of plans
+                    plans.add(new Plans(document.getInteger("Id"), document.getString("Plan")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }catch(MongoException me)
+        {
+            //error handling
+        }
+        return plans;
+    }
+    
+    public List<Defect> getDefect(String Collection)
+    {
+        System.out.println("ran");
+        reopen(Collection); //connects to the collection/ table
+        ArrayList<Defect> defect = new ArrayList<>(); //create an array list to store what the db will return
+        try {
+            MongoCollection<Document> collection = database.getCollection(Collection);
+            MongoCursor<Document> cursor = collection.find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    Document document = cursor.next();
+                    //String prject = document.getString(field); //get the field value from the document
+                    //get the plan id and string and add that to the arraylist of plans
+                    defect.add(new Defect(document.getInteger("Id"), document.getString("Defects")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }catch(MongoException me)
+        {
+            //error handling
+        }
+        return defect;
+    }
+    
+    public List<Life> getLife(String Collection)
+    {
+        System.out.println("ran");
+        reopen(Collection); //connects to the collection/ table
+        ArrayList<Life> life = new ArrayList<>(); //create an array list to store what the db will return
+        try {
+            MongoCollection<Document> collection = database.getCollection(Collection);
+            MongoCursor<Document> cursor = collection.find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    Document document = cursor.next();
+                    //String prject = document.getString(field); //get the field value from the document
+                    //get the plan id and string and add that to the arraylist of plans
+                    life.add(new Life(document.getInteger("Id"), document.getString("Life Cycle Step"), document.getInteger("D"),
+                    		document.getInteger("EC")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }catch(MongoException me)
+        {
+            //error handling
+        }
+        return life;
+    }
+    
+    public List<User> getProjectType(String Collection)
+    {
+        System.out.println("ran");
+        reopen(Collection); //connects to the collection/ table
+        ArrayList<User> user = new ArrayList<>(); //create an array list to store what the db will return
+        try {
+            MongoCollection<Document> collection = database.getCollection(Collection);
+            MongoCursor<Document> cursor = collection.find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    Document document = cursor.next();
+                    //String prject = document.getString(field); //get the field value from the document
+                    //get the plan id and string and add that to the arraylist of plans
+                    user.add(new User(document.getInteger("Id"), document.getString("Project")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }catch(MongoException me)
+        {
+            //error handling
+        }
+        return user;
+    }
+    
+    public List<Category> getCategory(String Collection)
+    {
+        System.out.println("ran");
+        reopen(Collection); //connects to the collection/ table
+        ArrayList<Category> category = new ArrayList<>(); //create an array list to store what the db will return
+        try {
+            MongoCollection<Document> collection = database.getCollection(Collection);
+            MongoCursor<Document> cursor = collection.find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    Document document = cursor.next();
+                    //String prject = document.getString(field); //get the field value from the document
+                    //get the plan id and string and add that to the arraylist of plans
+                    category.add(new Category(document.getInteger("Id"), document.getString("Effort Category")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }catch(MongoException me)
+        {
+            //error handling
+        }
+        return category;
+    }
+    
+    public List<Break> getBreak(String Collection)
+    {
+        System.out.println("ran");
+        reopen(Collection); //connects to the collection/ table
+        ArrayList<Break> breaks = new ArrayList<>(); //create an array list to store what the db will return
+        try {
+            MongoCollection<Document> collection = database.getCollection(Collection);
+            MongoCursor<Document> cursor = collection.find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    Document document = cursor.next();
+                    //String prject = document.getString(field); //get the field value from the document
+                    //get the plan id and string and add that to the arraylist of plans
+                    breaks.add(new Break(document.getInteger("Id"), document.getString("Interruption")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }catch(MongoException me)
+        {
+            //error handling
+        }
+        return breaks;
+    }
+    
+    public List<Deliverable> getDeli(String Collection)
+    {
+        System.out.println("ran");
+        reopen(Collection); //connects to the collection/ table
+        ArrayList<Deliverable> deliverable = new ArrayList<>(); //create an array list to store what the db will return
+        try {
+            MongoCollection<Document> collection = database.getCollection(Collection);
+            MongoCursor<Document> cursor = collection.find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    Document document = cursor.next();
+                    //String prject = document.getString(field); //get the field value from the document
+                    //get the plan id and string and add that to the arraylist of plans
+                    deliverable.add(new Deliverable(document.getInteger("Id"), document.getString("Deliverable")));
+                }
+            } finally {
+                cursor.close();
+            }
+        }catch(MongoException me)
+        {
+            //error handling
+        }
+        return deliverable;
+    }
 }
 

@@ -2,6 +2,8 @@ package definitions;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import ToDB.Query;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -326,37 +328,37 @@ public class DefController implements Initializable{
     //Dummy Data
     public ObservableList<User> getPeople(){
     	ObservableList<User> users = FXCollections.observableArrayList();
-    	users.add(new User("Project Name"));
+    	users.addAll(new Query().getProjectType("ProjectTypes"));
     	return users;
     }
     public ObservableList<Category> getCategory(){
     	ObservableList<Category> category = FXCollections.observableArrayList();
-    	category.add(new Category("Category"));
+    	category.addAll(new Query().getCategory("EffortCategory"));
     	return category;
     }
     public ObservableList<Life> getLife(){
     	ObservableList<Life> life = FXCollections.observableArrayList();
-    	life.add(new Life("Life"));
+    	life.addAll(new Query().getLife("LifeCycleStep"));
     	return life;
     }
     public ObservableList<Break> getInterruption(){
     	ObservableList<Break> breakCol = FXCollections.observableArrayList();
-    	breakCol.add(new Break("Break"));
+    	breakCol.addAll(new Query().getBreak("Interruptions"));
     	return breakCol;
     }
     public ObservableList<Plans> getPlans(){
     	ObservableList<Plans> plans = FXCollections.observableArrayList();
-    	plans.add(new Plans("Plan"));
+    	plans.addAll(new Query().get("Plans"));
     	return plans;
     }
     public ObservableList<Defect> getDefect(){
     	ObservableList<Defect> defect = FXCollections.observableArrayList();
-    	defect.add(new Defect("Defect"));
+    	defect.addAll(new Query().getDefect("DefectCat"));
     	return defect;
     }
     public ObservableList<Deliverable> getDeliverable(){
     	ObservableList<Deliverable> deliverable = FXCollections.observableArrayList();
-    	deliverable.add(new Deliverable("Deliverable"));
+    	deliverable.addAll(new Query().getDeli("Deliverables"));
     	return deliverable;
     }
 }

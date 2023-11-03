@@ -3,10 +3,12 @@ package definitions;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Plans {
-	private SimpleStringProperty plansName;
+	public SimpleStringProperty plansName;
+	public Integer id;
 	
-	public Plans(String plansName) {
+	public Plans(Integer id, String plansName) {
 		this.plansName = new SimpleStringProperty(plansName);
+		this.id = id;
 	}
 	public String getPlansName() {
 		return plansName.get();
@@ -15,4 +17,6 @@ public class Plans {
 	public void setPlansName(String plansName) {
 		this.plansName = new SimpleStringProperty(plansName);
 	}
+	
+	
 }
