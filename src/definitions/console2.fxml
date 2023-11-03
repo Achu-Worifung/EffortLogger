@@ -8,104 +8,108 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" vvalue="0.01" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane hvalue="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="definitions.DefController">
   <content>
-    <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="1869.0" prefWidth="1300.0">
+    <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="2000.0" prefWidth="1300.0">
          <children>
-            <TableView fx:id="tableView" fixedCellSize="3.0" layoutX="3.0" layoutY="14.0" prefHeight="180.0" prefWidth="1294.0" AnchorPane.bottomAnchor="1675.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="14.0">
+            <TableView fx:id="tableView" layoutX="3.0" layoutY="14.0" prefHeight="289.0" prefWidth="1294.0" AnchorPane.bottomAnchor="1697.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="14.0">
                <columns>
-                  <TableColumn fx:id="projectNameColumn" onEditCommit="#changeProjectNameCellEvent" prefWidth="188.00006103515625" text="Project Names:" />
-                  <TableColumn fx:id="columnOne" onEditCommit="#changeColumn1CellEvent" prefWidth="38.4000244140625" text="1" />
-                  <TableColumn fx:id="columnTwo" onEditCommit="#changeColumn2CellEvent" prefWidth="38.4000244140625" text="2" />
-                  <TableColumn fx:id="columnThree" onEditCommit="#changeColumnThreeCellEvent" prefWidth="38.4000244140625" text="3" />
-                  <TableColumn fx:id="columnFour" onEditCommit="#changeColumn4CellEvent" prefWidth="41.5999755859375" text="4" />
-                  <TableColumn fx:id="columnFive" onEditCommit="#changeColumn5CellEvent" prefWidth="38.4000244140625" text="5" />
-                  <TableColumn fx:id="columnSix" onEditCommit="#changeColumn6CellEvent" prefWidth="38.4000244140625" text="6" />
-                  <TableColumn fx:id="columnSeven" onEditCommit="#changeColumn7CellEvent" prefWidth="38.4000244140625" text="7" />
-                  <TableColumn fx:id="columnEight" onEditCommit="#changeColumn8CellEvent" prefWidth="41.5999755859375" text="8" />
-                  <TableColumn fx:id="columnNine" onEditCommit="#changeColumn9CellEvent" prefWidth="38.4000244140625" text="9" />
-                  <TableColumn fx:id="columnTen" onEditCommit="#changeColumn10CellEvent" prefWidth="38.4000244140625" text="10" />
-                  <TableColumn fx:id="column11" onEditCommit="#changeColumn11CellEvent" prefWidth="38.4000244140625" text="11" />
-                  <TableColumn fx:id="column12" onEditCommit="#changeColumn12CellEvent" prefWidth="41.5999755859375" text="12" />
-                  <TableColumn fx:id="column13" onEditCommit="#changeColumn13CellEvent" prefWidth="42.39996337890625" text="13" />
-                  <TableColumn fx:id="column14" onEditCommit="#changeColumn14CellEvent" prefWidth="74.40008544921875" text="14" />
-                  <TableColumn fx:id="column15" onEditCommit="#changeColumn15CellEvent" prefWidth="38.4000244140625" text="15" />
-                  <TableColumn fx:id="column16" onEditCommit="#changeColumn16CellEvent" prefWidth="38.4000244140625" text="16" />
-                  <TableColumn fx:id="column17" onEditCommit="#changeColumn17CellEvent" prefWidth="38.4000244140625" text="17" />
-                  <TableColumn fx:id="column18" onEditCommit="#changeColumn18CellEvent" prefWidth="41.5999755859375" text="18" />
-                  <TableColumn fx:id="column19" onEditCommit="#changeColumn19CellEvent" prefWidth="38.4000244140625" text="19" />
-                  <TableColumn fx:id="column20" onEditCommit="#changeColumn20CellEvent" prefWidth="38.4000244140625" text="20" />
-                  <TableColumn fx:id="column21" onEditCommit="#changeColumn21CellEvent" prefWidth="38.4000244140625" text="21" />
-                  <TableColumn fx:id="column22" onEditCommit="#changeColumn22CellEvent" prefWidth="41.5999755859375" text="22" />
-                  <TableColumn fx:id="column23" onEditCommit="#changeColumn23CellEvent" prefWidth="75.0" text="23" />
-                  <TableColumn fx:id="column24" onEditCommit="#changeColumn24CellEvent" prefWidth="74.40008544921875" text="24" />
-                  <TableColumn fx:id="column25" onEditCommit="#changeColumn25CellEvent" prefWidth="38.4000244140625" text="25" />
+                  <TableColumn fx:id="projectId" prefWidth="42.0" text="projectId" />
+                  <TableColumn fx:id="projectNameColumn" onEditCommit="#changeProjectNameCellEvent" prefWidth="188.0" text="Project Name" />
+                  <TableColumn fx:id="columnOne" onEditCommit="#changeColumn1CellEvent" prefWidth="42.0" text="1" />
+                  <TableColumn fx:id="columnTwo" onEditCommit="#changeColumn2CellEvent" prefWidth="42.0" text="2" />
+                  <TableColumn fx:id="columnThree" onEditCommit="#changeColumnThreeCellEvent" prefWidth="42.0" text="3" />
+                  <TableColumn fx:id="columnFour" onEditCommit="#changeColumn4CellEvent" prefWidth="42.0" text="4" />
+                  <TableColumn fx:id="columnFive" onEditCommit="#changeColumn5CellEvent" prefWidth="42.0" text="5" />
+                  <TableColumn fx:id="columnSix" onEditCommit="#changeColumn6CellEvent" prefWidth="42.0" text="6" />
+                  <TableColumn fx:id="columnSeven" onEditCommit="#changeColumn7CellEvent" prefWidth="42.0" text="7" />
+                  <TableColumn fx:id="columnEight" onEditCommit="#changeColumn8CellEvent" prefWidth="42.0" text="8" />
+                  <TableColumn fx:id="columnNine" onEditCommit="#changeColumn9CellEvent" prefWidth="42.0" text="9" />
+                  <TableColumn fx:id="columnTen" onEditCommit="#changeColumn10CellEvent" prefWidth="42.0" text="10" />
+                  <TableColumn fx:id="column11" onEditCommit="#changeColumn11CellEvent" prefWidth="42.0" text="11" />
+                  <TableColumn fx:id="column12" onEditCommit="#changeColumn12CellEvent" prefWidth="42.0" text="12" />
+                  <TableColumn fx:id="column13" onEditCommit="#changeColumn13CellEvent" prefWidth="42.0" text="13" />
+                  <TableColumn fx:id="column14" onEditCommit="#changeColumn14CellEvent" prefWidth="42.0" text="14" />
+                  <TableColumn fx:id="column15" onEditCommit="#changeColumn15CellEvent" prefWidth="42.0" text="15" />
+                  <TableColumn fx:id="column16" onEditCommit="#changeColumn16CellEvent" prefWidth="42.0" text="16" />
+                  <TableColumn fx:id="column17" onEditCommit="#changeColumn17CellEvent" prefWidth="42.0" text="17" />
+                  <TableColumn fx:id="column18" onEditCommit="#changeColumn18CellEvent" prefWidth="42.0" text="18" />
+                  <TableColumn fx:id="column19" onEditCommit="#changeColumn19CellEvent" prefWidth="42.0" text="19" />
+                  <TableColumn fx:id="column20" onEditCommit="#changeColumn20CellEvent" prefWidth="42.0" text="20" />
+                  <TableColumn fx:id="column21" onEditCommit="#changeColumn21CellEvent" prefWidth="42.0" text="21" />
+                  <TableColumn fx:id="column22" onEditCommit="#changeColumn22CellEvent" prefWidth="42.0" text="22" />
+                  <TableColumn fx:id="column23" onEditCommit="#changeColumn23CellEvent" prefWidth="42.0" text="23" />
+                  <TableColumn fx:id="column24" onEditCommit="#changeColumn24CellEvent" prefWidth="42.0" text="24" />
+                  <TableColumn fx:id="column25" onEditCommit="#changeColumn25CellEvent" prefWidth="42.0" text="25" />
                </columns>
             </TableView>
-            <TableView fx:id="lifeTableView" fixedCellSize="4.0" layoutX="10.0" layoutY="212.0" prefHeight="962.0" prefWidth="378.0" AnchorPane.leftAnchor="10.0">
+            <TableView fx:id="lifeTableView" fixedCellSize="25.0" layoutX="14.0" layoutY="377.0" prefHeight="707.0" prefWidth="378.0" AnchorPane.leftAnchor="14.0">
                <columns>
-                  <TableColumn fx:id="lifeCycleId" prefWidth="39.0" text="ID" />
+                  <TableColumn fx:id="lifeCycleId" prefWidth="39.0" text="Id" />
                   <TableColumn fx:id="lifeCycleColumn" prefWidth="197.0" text="Specify the life Cycle Step here:" />
                   <TableColumn fx:id="effortCategoryColumn" prefWidth="67.0" text="EC" />
                   <TableColumn fx:id="defaultDColumn" prefWidth="72.0" text="D" />
                </columns>
             </TableView>
-            <TableView fx:id="categoryTableView" layoutX="676.0" layoutY="249.0" prefHeight="243.0" prefWidth="291.0">
+            <TableView fx:id="categoryTableView" fixedCellSize="25.0" layoutX="686.0" layoutY="371.0" prefHeight="165.0" prefWidth="291.0">
                <columns>
                   <TableColumn fx:id="categoryId" prefWidth="41.0" text="Id" />
-                  <TableColumn fx:id="categoryColumn" prefWidth="249.0" text="Specify Category here:" />
+                  <TableColumn fx:id="categoryColumn" prefWidth="255.0" text="Specify Category here:" />
                </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
-            <TableView fx:id="plansTableView" layoutX="676.0" layoutY="521.0" prefHeight="258.0" prefWidth="291.0">
+            <TableView fx:id="plansTableView" fixedCellSize="25.0" layoutX="686.0" layoutY="560.0" prefHeight="320.0" prefWidth="291.0">
                <columns>
                   <TableColumn fx:id="plansId" prefWidth="41.0" text="Id" />
-                  <TableColumn fx:id="plansColumn" prefWidth="249.0" text="Specify Plan here:" />
+                  <TableColumn fx:id="plansColumn" prefWidth="255.0" text="Specify Plan here:" />
                </columns>
             </TableView>
-            <TableView fx:id="deliverableTableView" layoutX="676.0" layoutY="823.0" prefHeight="279.0" prefWidth="291.0">
+            <TableView fx:id="deliverableTableView" layoutX="686.0" layoutY="905.0" prefHeight="317.0" prefWidth="291.0">
                <columns>
                   <TableColumn fx:id="deliverableId" prefWidth="41.0" text="Id" />
-                  <TableColumn fx:id="deliverableColumn" prefWidth="249.0" text="Specify Deliverables here:" />
+                  <TableColumn fx:id="deliverableColumn" prefWidth="255.0" text="Specify Deliverables here:" />
                </columns>
             </TableView>
-            <TableView fx:id="interruptionTableView" fixedCellSize="3.0" layoutX="676.0" layoutY="1146.0" prefHeight="271.0" prefWidth="291.0">
+            <TableView fx:id="interruptionTableView" layoutX="682.0" layoutY="1248.0" prefHeight="300.0" prefWidth="291.0">
                <columns>
                   <TableColumn fx:id="breakId" prefWidth="41.0" text="Id" />
-                  <TableColumn fx:id="breakColumn" prefWidth="249.0" text="breakColumn" />
+                  <TableColumn fx:id="breakColumn" prefWidth="255.0" text="breakColumn" />
                </columns>
             </TableView>
-            <TableView fx:id="defectTableView" layoutX="676.0" layoutY="1433.0" prefHeight="424.0" prefWidth="291.0">
+            <TableView fx:id="defectTableView" layoutX="682.0" layoutY="1564.0" prefHeight="424.0" prefWidth="291.0">
                <columns>
                   <TableColumn fx:id="defectId" prefWidth="41.0" text="Id" />
-                  <TableColumn fx:id="defectColumn" prefWidth="249.0" text="Specify Defect category here:" />
+                  <TableColumn fx:id="defectColumn" prefWidth="255.0" text="Specify Defect category here:" />
                </columns>
             </TableView>
-            <Button layoutX="20.0" layoutY="1342.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to the Effort Log Console">
+            <Button layoutX="20.0" layoutY="1512.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to the Effort Log Console">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="20.0" layoutY="1443.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to the Defect Log Console">
+            <Button layoutX="20.0" layoutY="1613.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to the Defect Log Console">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="20.0" layoutY="1537.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to Effort Log Editor">
+            <Button layoutX="20.0" layoutY="1707.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to Effort Log Editor">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="20.0" layoutY="1624.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to Effort  and Defect Logs">
+            <Button layoutX="20.0" layoutY="1794.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to Effort  and Defect Logs">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Text layoutX="412.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EC is the Effort Category and the default for each life cycle step can be specified from block 3." wrappingWidth="256.255859375">
+            <Text layoutX="416.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EC is the Effort Category and the default for each life cycle step can be specified from block 3." wrappingWidth="256.255859375">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text layoutX="412.0" layoutY="554.0" strokeType="OUTSIDE" strokeWidth="0.0" text="D is the default Deliverable item for each life cycle step. The value of D is selected from block 4. 5, or 6 depending on the value of EC" wrappingWidth="256.255859375">
+            <Text layoutX="416.0" layoutY="713.0" strokeType="OUTSIDE" strokeWidth="0.0" text="D is the default Deliverable item for each life cycle step. The value of D is selected from block 4. 5, or 6 depending on the value of EC" wrappingWidth="256.255859375">
                <font>
                   <Font size="15.0" />
                </font>

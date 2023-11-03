@@ -99,7 +99,26 @@ public class DefController implements Initializable{
     private TableColumn<User, String> projectNameColumn;
     @FXML
     private TableView<User> tableView;
-
+    //id column
+    @FXML
+    private TableColumn<Plans, Integer> plansId;
+    @FXML
+    private TableColumn<User, Integer> projectId;
+    @FXML
+    private TableColumn<Deliverable, Integer> deliverableId;
+    @FXML
+    private TableColumn<Defect, Integer> defectId;
+    @FXML
+    private TableColumn<Break, Integer> breakId;
+    @FXML
+    private TableColumn<Category, Integer> categoryId;
+    @FXML
+    private TableColumn<Life, Integer> lifeCycleId;
+    
+    
+    
+    
+    
     //This method will allow the user to double click on a cell and update them
      public void changeProjectNameCellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
@@ -245,6 +264,31 @@ public class DefController implements Initializable{
     deliverableColumn.setCellValueFactory(new PropertyValueFactory<Deliverable, String>("deliverableName"));
     defectColumn.setCellValueFactory(new PropertyValueFactory<Defect, String>("defectName"));
     plansColumn.setCellValueFactory(new PropertyValueFactory<Plans, String>("plansName"));
+    //setting up id cells
+//    
+//    private TableColumn<Plans, Integer> plansId;
+//    @FXML
+//    private TableColumn<Deliverable, Integer> deliverableId;
+//    @FXML
+//    private TableColumn<Defect, Integer> defectId;
+//    @FXML
+//    private TableColumn<Break, Integer> breakId;
+//    @FXML
+//    private TableColumn<Category, Integer> categoryId;
+//    @FXML
+//    private TableColumn<Life, Integer> lifeCycleId;
+    plansId.setCellValueFactory(new PropertyValueFactory<Plans, Integer>("id"));
+    deliverableId.setCellValueFactory(new PropertyValueFactory<Deliverable, Integer>("id"));
+    defectId.setCellValueFactory(new PropertyValueFactory<Defect, Integer>("id"));
+    breakId.setCellValueFactory(new PropertyValueFactory<Break, Integer>("id"));
+    categoryId.setCellValueFactory(new PropertyValueFactory<Category, Integer>("id"));
+    lifeCycleId.setCellValueFactory(new PropertyValueFactory<Life, Integer>("id"));
+    projectId.setCellValueFactory(new PropertyValueFactory<User, Integer>("id"));
+    
+    //setting up effort cat and d column
+    effortCategoryColumn.setCellValueFactory(new PropertyValueFactory<Life, Integer>("defaultEC"));
+    defaultDColumn.setCellValueFactory(new PropertyValueFactory<Life, Integer>("defaultDefect"));
+    
     //You can delete everything after this line
     columnOne.setCellValueFactory(new PropertyValueFactory<User, Integer>("col1"));
     columnTwo.setCellValueFactory(new PropertyValueFactory<User, Integer>("col2"));
@@ -272,7 +316,7 @@ public class DefController implements Initializable{
     column24.setCellValueFactory(new PropertyValueFactory<User, Integer>("col24"));
     column25.setCellValueFactory(new PropertyValueFactory<User, Integer>("col25"));
     //To this Line
-    //Load Dummy Data
+    //Load data into tables
     tableView.setItems(getPeople());
     categoryTableView.setItems(getCategory());
     lifeTableView.setItems(getLife());
@@ -339,6 +383,7 @@ public class DefController implements Initializable{
     public ObservableList<Life> getLife(){
     	ObservableList<Life> life = FXCollections.observableArrayList();
     	life.addAll(new Query().getLife("LifeCycleStep"));
+    	
     	return life;
     }
     public ObservableList<Break> getInterruption(){
@@ -348,6 +393,7 @@ public class DefController implements Initializable{
     }
     public ObservableList<Plans> getPlans(){
     	ObservableList<Plans> plans = FXCollections.observableArrayList();
+    	
     	plans.addAll(new Query().get("Plans"));
     	return plans;
     }

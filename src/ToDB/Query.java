@@ -267,7 +267,7 @@ public class Query {
                     Document document = cursor.next();
                     //String prject = document.getString(field); //get the field value from the document
                     //get the plan id and string and add that to the arraylist of plans
-                    defect.add(new Defect(document.getInteger("Id"), document.getString("Defects")));
+                    defect.add(new Defect(document.getInteger("Id"), document.getString("Defect Category")));
                 }
             } finally {
                 cursor.close();
@@ -318,7 +318,7 @@ public class Query {
                     Document document = cursor.next();
                     //String prject = document.getString(field); //get the field value from the document
                     //get the plan id and string and add that to the arraylist of plans
-                    user.add(new User(document.getInteger("Id"), document.getString("Project")));
+                    user.add(new User(document.getInteger("Id"), document.getString("Project"),1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));
                 }
             } finally {
                 cursor.close();

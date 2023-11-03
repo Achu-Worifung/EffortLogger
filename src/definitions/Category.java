@@ -1,14 +1,16 @@
 package definitions;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Category {
 	public SimpleStringProperty categoryName;
-	public Integer id;
+	public IntegerProperty id;
 	
-	public Category(Integer id,String categoryName) {
+	public Category(int id,String categoryName) {
 		this.categoryName = new SimpleStringProperty(categoryName);
-		this.id = id;
+		  this.id = new SimpleIntegerProperty(id);
 	}
 
 	public String getCategoryName() {
@@ -18,4 +20,11 @@ public class Category {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = new SimpleStringProperty(categoryName);
 	}
+	public int getId()
+	{
+		  return id.get();
+	}
+	public void setId(int id) {
+        this.id.set(id);
+    }
 }
