@@ -34,111 +34,90 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller">
+<VBox prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller2">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.64" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
-        <AnchorPane prefHeight="550.0" prefWidth="181.0">
-          <children>
-            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Master" textAlignment="CENTER" wrapText="false">
-              <font>
-                <Font size="18.0" fx:id="x1" />
-              </font>
-              <textFill>
-                <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
-              </textFill>
-            </Label>
-                  <TextField fx:id="searchInput" layoutX="19.0" layoutY="128.0" prefHeight="25.0" prefWidth="190.0" />
-                  <Button fx:id="search" layoutX="19.0" layoutY="194.0" mnemonicParsing="false" onAction="#search" text="Search" />
-          </children>
-        </AnchorPane>
-        <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
-               <content>
-                  <FlowPane fx:id="histdata" prefHeight="846.0" prefWidth="491.0">
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <ScrollPane fx:id="result" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER">
+                     <content>
+                        <FlowPane fx:id="resultFlow" prefHeight="896.0" prefWidth="633.0">
+                           <children>
+                              <AnchorPane fx:id="searchPane" prefHeight="107.0" prefWidth="631.0">
+                                 <children>
+                                    <TextField fx:id="searchBar1" layoutX="81.0" layoutY="58.0" prefHeight="25.0" prefWidth="416.0" />
+                                    <Button fx:id="search1" layoutX="486.0" layoutY="58.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="108.0" text="Search" />
+                                    <Button fx:id="back1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="50.0" text="&lt;-" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </FlowPane>
+                     </content>
+                     <StackPane.margin>
+                        <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                     </StackPane.margin>
+                  </ScrollPane>
+                  <ScrollPane fx:id="display" hbarPolicy="NEVER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER">
+                     <content>
+                        <FlowPane fx:id="displayFlow" prefHeight="896.0" prefWidth="633.0">
+                           <children>
+                              <AnchorPane fx:id="searchPane1" prefHeight="107.0" prefWidth="631.0">
+                                 <children>
+                                    <TextField fx:id="searchBar11" layoutX="81.0" layoutY="58.0" prefHeight="25.0" prefWidth="416.0" />
+                                    <Button fx:id="search11" layoutX="486.0" layoutY="58.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="108.0" text="Search" />
+                                    <Button fx:id="back11" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="50.0" text="&lt;-" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </FlowPane>
+                     </content>
+                     <StackPane.margin>
+                        <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                     </StackPane.margin>
+                  </ScrollPane>
+               </children>
+            </StackPane>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane fx:id="pokercards" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Label text="Historical data" />
+                        <ImageView fx:id="w0" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="20.0">
+                           <image>
+                              <Image url="@poker%20cards/p1.png" />
+                           </image></ImageView>
+                        <ImageView fx:id="w1" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="220.0">
+                           <image>
+                              <Image url="@poker%20cards/p2.png" />
+                           </image></ImageView>
+                        <ImageView fx:id="w2" fitHeight="180.0" fitWidth="200.0" layoutX="87.0" layoutY="443.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="420.0">
+                           <image>
+                              <Image url="@poker%20cards/p3.png" />
+                           </image></ImageView>
+                        <ImageView fx:id="w3" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="685.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="620.0">
+                           <image>
+                              <Image url="@poker%20cards/p4.png" />
+                           </image></ImageView>
                      </children>
-                  </FlowPane>
-               </content>
-        </ScrollPane>
-        <AnchorPane>
-          <children>
-            <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="$x2" wrapText="false" />
-          </children>
-        </AnchorPane>
+                  </AnchorPane>
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                    <content>
+                      <AnchorPane fx:id="qlookPane" minHeight="0.0" minWidth="0.0" prefHeight="895.0" prefWidth="354.0" />
+                    </content>
+                  </ScrollPane>
+               </children>
+            </StackPane>
       </items>
     </SplitPane>
-    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
-      <children>
-        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
-          <font>
-            <Font size="11.0" fx:id="x3" />
-          </font>
-          <textFill>
-            <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
-          </textFill>
-        </Label>
-        <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-        <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
-      </children>
-      <padding>
-        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-      </padding>
-    </HBox>
   </children>
 </VBox>
