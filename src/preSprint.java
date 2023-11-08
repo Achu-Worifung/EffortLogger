@@ -25,14 +25,16 @@ public class preSprint {
 //		this.t = title;
 //		this.d = desc;
 //	}
-    public AnchorPane pane(String t, String desc, String buttonid) throws IOException {
+    public AnchorPane pane(sample sam, String buttonid) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("preSprint.fxml"));
         AnchorPane pane = loader.load();
 
         preSprint controller = loader.getController();
-        controller.setTitle(t);
-        controller.setDescription(desc);
+        controller.setTitle(sam.title);
+        controller.setDescription(sam.description);
         controller.setButtonId(buttonid);
+//        controller.qlookButton.setOnAction(new controller2().quicklook(sam));
+        
         
 
         return pane;

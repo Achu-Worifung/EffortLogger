@@ -37,6 +37,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -52,16 +53,19 @@
                <children>
                   <ScrollPane fx:id="result" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER">
                      <content>
-                        <FlowPane fx:id="resultFlow" prefHeight="896.0" prefWidth="633.0">
+                        <FlowPane fx:id="resultFlow" hgap="3.0" prefHeight="896.0" prefWidth="633.0" vgap="1.0">
                            <children>
                               <AnchorPane fx:id="searchPane" prefHeight="107.0" prefWidth="631.0">
                                  <children>
                                     <TextField fx:id="searchBar1" layoutX="81.0" layoutY="58.0" prefHeight="25.0" prefWidth="416.0" />
-                                    <Button fx:id="search1" layoutX="486.0" layoutY="58.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="108.0" text="Search" />
-                                    <Button fx:id="back1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="50.0" text="&lt;-" />
+                                    <Button fx:id="search1" layoutX="486.0" layoutY="58.0" mnemonicParsing="false" onAction="#searchSprint" prefHeight="25.0" prefWidth="108.0" text="Search" />
+                                    <Button fx:id="back1" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="33.0" prefWidth="50.0" text="&lt;-" />
                                  </children>
                               </AnchorPane>
                            </children>
+                           <padding>
+                              <Insets left="1.0" right="1.0" top="2.0" />
+                           </padding>
                         </FlowPane>
                      </content>
                      <StackPane.margin>
@@ -70,16 +74,19 @@
                   </ScrollPane>
                   <ScrollPane fx:id="display" hbarPolicy="NEVER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER">
                      <content>
-                        <FlowPane fx:id="displayFlow" prefHeight="896.0" prefWidth="633.0">
+                        <FlowPane fx:id="displayFlow" hgap="3.0" prefHeight="896.0" prefWidth="633.0">
                            <children>
                               <AnchorPane fx:id="searchPane1" prefHeight="107.0" prefWidth="631.0">
                                  <children>
                                     <TextField fx:id="searchBar11" layoutX="81.0" layoutY="58.0" prefHeight="25.0" prefWidth="416.0" />
-                                    <Button fx:id="search11" layoutX="486.0" layoutY="58.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="108.0" text="Search" />
+                                    <Button fx:id="search11" layoutX="486.0" layoutY="58.0" mnemonicParsing="false" onAction="#searchSprint" prefHeight="25.0" prefWidth="108.0" text="Search" />
                                     <Button fx:id="back11" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="50.0" text="&lt;-" />
                                  </children>
                               </AnchorPane>
                            </children>
+                           <padding>
+                              <Insets left="1.0" right="1.0" top="2.0" />
+                           </padding>
                         </FlowPane>
                      </content>
                      <StackPane.margin>
@@ -90,30 +97,50 @@
             </StackPane>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <AnchorPane fx:id="pokercards" prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <ImageView fx:id="w0" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="20.0">
-                           <image>
-                              <Image url="@poker%20cards/p1.png" />
-                           </image></ImageView>
-                        <ImageView fx:id="w1" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="220.0">
-                           <image>
-                              <Image url="@poker%20cards/p2.png" />
-                           </image></ImageView>
-                        <ImageView fx:id="w2" fitHeight="180.0" fitWidth="200.0" layoutX="87.0" layoutY="443.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="420.0">
-                           <image>
-                              <Image url="@poker%20cards/p3.png" />
-                           </image></ImageView>
-                        <ImageView fx:id="w3" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="685.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="620.0">
-                           <image>
-                              <Image url="@poker%20cards/p4.png" />
-                           </image></ImageView>
-                     </children>
-                  </AnchorPane>
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                    <content>
-                      <AnchorPane fx:id="qlookPane" minHeight="0.0" minWidth="0.0" prefHeight="895.0" prefWidth="354.0" />
-                    </content>
+                  <ScrollPane fx:id="scrollpoker" prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <AnchorPane fx:id="pokercards" prefHeight="896.0" prefWidth="352.0">
+                           <children>
+                              <ImageView fx:id="w0" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="20.0" onMouseEntered="#w0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="20.0">
+                                 <image>
+                                    <Image url="@poker%20cards/p1.png" />
+                                 </image>
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                              </ImageView>
+                              <ImageView fx:id="w1" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="219.0" onMouseEntered="#w1" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="220.0">
+                                 <image>
+                                    <Image url="@poker%20cards/p2.png" />
+                                 </image>
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                              </ImageView>
+                              <ImageView fx:id="w2" fitHeight="180.0" fitWidth="200.0" layoutX="87.0" layoutY="443.0" onMouseEntered="#w2" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="420.0">
+                                 <image>
+                                    <Image url="@poker%20cards/p3.png" />
+                                 </image>
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                              </ImageView>
+                              <ImageView fx:id="w3" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="685.0" onMouseEntered="#w3" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="620.0">
+                                 <image>
+                                    <Image url="@poker%20cards/p4.png" />
+                                 </image>
+                                 <effect>
+                                    <Glow />
+                                 </effect>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane fx:id="qlookScroll" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
+                     <content>
+                        <FlowPane fx:id="qlookPane" prefHeight="895.0" prefWidth="355.0" />
+                     </content>
                   </ScrollPane>
                </children>
             </StackPane>

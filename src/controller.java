@@ -188,6 +188,7 @@ public class controller implements Initializable {
 		// TODO Auto-generated method stub
 		populate(null);
 	}
+	//each sam should have an id that so you can look up defects with
 	public void qlook(sample sample)
 	{
 		//check if there is already something in the qlook panel

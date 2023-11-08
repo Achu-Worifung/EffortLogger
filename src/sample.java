@@ -4,10 +4,12 @@ import java.util.List;
 
 public class sample {
 	String title, description;
-	sample(String t, String d)
+	int weight;
+	sample(String t, String d, int w)
 	{
 		this.description = d;
 		this.title = t;
+		this.weight = w;
 	}
 	sample()
 	{
@@ -35,22 +37,22 @@ public class sample {
 				+ "This is essential for gaining a comprehensive understanding of the"
 				+ " project's specific requirements and constraints, ensuring that only "
 				+ "the most relevant historical projects are considered during the estimation"
-				+ " process."));
+				+ " process.",2));
 		sam.add(new sample("Weight endowment", "Weight Endowment, a powerful tool integrated "
 				+ "into the EffortLogger system, revolutionizes the planning poker process,"
-				+ " offering a seamless means to swiftly assign weights to user stories. This"));
+				+ " offering a seamless means to swiftly assign weights to user stories. This",1));
 		sam.add(new sample("Weight endowment", "Weight Endowment, a powerful tool integrated "
 				+ "into the EffortLogger system, revolutionizes the planning poker process,"
-				+ " offering a seamless means to swiftly assign weights to user stories. This"));
+				+ " offering a seamless means to swiftly assign weights to user stories. This",0));
 		sam.add(new sample("Weight endowment", "Weight Endowment, a powerful tool integrated "
 				+ "into the EffortLogger system, revolutionizes the planning poker process,"
-				+ " offering a seamless means to swiftly assign weights to user stories. This"));
+				+ " offering a seamless means to swiftly assign weights to user stories. This",8));
 		sam.add(new sample("Weight endowment", "Weight Endowment, a powerful tool integrated "
 				+ "into the EffortLogger system, revolutionizes the planning poker process,"
-				+ " offering a seamless means to swiftly assign weights to user stories. This"));
+				+ " offering a seamless means to swiftly assign weights to user stories. This",5));
 		sam.add(new sample("Weight endowment", "Weight Endowment, a powerful tool integrated "
 				+ "into the EffortLogger system, revolutionizes the planning poker process,"
-				+ " offering a seamless means to swiftly assign weights to user stories. This"));
+				+ " offering a seamless means to swiftly assign weights to user stories. This",10));
 		return sam;
 	}
 
