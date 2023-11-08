@@ -21,6 +21,12 @@ public class sample {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	public int getWeight() {
+		return weight;
+	}
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
 	public String getDescription() {
 		return description;
 	}

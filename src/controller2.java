@@ -24,6 +24,10 @@ import javafx.scene.layout.FlowPane;
 
 public class controller2 implements Initializable{
 
+	// Create a drop shadow effect for the glowing effect
+    DropShadow glowEffect = new DropShadow();
+   
+    
 	@FXML
 	private Button back1;
 
@@ -113,6 +117,7 @@ public class controller2 implements Initializable{
 	@FXML
 	private Label title;
 	boolean indisplay;
+	public sample quicklooksample;
 
 
 	@FXML
@@ -154,6 +159,7 @@ public class controller2 implements Initializable{
 
 		//actionevent for quicklook button
 		qbutton.setOnMouseClicked(event -> {
+			quicklooksample = sam;
 			quicklook(sam);
 
 		});
@@ -343,6 +349,8 @@ public class controller2 implements Initializable{
 
 
 	}
+	
+	//on hover envets
 	public void w0(MouseEvent e)
 	{
 		letItGlow(w0);
@@ -361,13 +369,38 @@ public class controller2 implements Initializable{
 	}
 	public void letItGlow(ImageView imageView)
 	{
-		// Create a drop shadow effect for the glowing effect
-        DropShadow glowEffect = new DropShadow();
-        glowEffect.setColor(javafx.scene.paint.Color.GREEN); // Set the color of the glow
-
+		
+		 glowEffect.setColor(javafx.scene.paint.Color.GREEN); // Set the color of the glow
         // Add event handlers for hover effect
         imageView.setOnMouseEntered(e -> imageView.setEffect(glowEffect));
         imageView.setOnMouseExited(e -> imageView.setEffect(null));
 	}
+	
+	//on click event
+	public void w0Clicked(MouseEvent e)
+	{
+		quicklooksample.setWeight(0);
+		qlookScroll.toFront();
+	}
+	public void w1Clicked(MouseEvent e)
+	{
+		
+		quicklooksample.setWeight(1);
+		qlookScroll.toFront();
 
+	}
+	public void w2Clicked(MouseEvent e)
+	{
+		
+		quicklooksample.setWeight(2);
+		qlookScroll.toFront();
+
+	}
+	public void w3Clicked(MouseEvent e)
+	{
+		quicklooksample.setWeight(3);
+		qlookScroll.toFront();
+
+		
+	}
 }
