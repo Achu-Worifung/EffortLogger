@@ -2,32 +2,35 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+
+
+import Backend.pokerPlanningRequestPrototype;
+import Backend.quicklookInfo;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 
 public class controller2 implements Initializable{
 
 	// Create a drop shadow effect for the glowing effect
-    DropShadow glowEffect = new DropShadow();
-   
-    
+	DropShadow glowEffect = new DropShadow();
+	Singleton singleton = Singleton.getInstance(); //getting singleton instance
+	Label dynamicLabel;
+
 	@FXML
 	private Button back1;
 
@@ -41,7 +44,7 @@ public class controller2 implements Initializable{
 	private AnchorPane pokercards;
 
 	@FXML
-	private FlowPane qlookPane;
+	protected FlowPane qlookPane;
 
 	@FXML
 	private ScrollPane result;
@@ -82,7 +85,7 @@ public class controller2 implements Initializable{
 	private ImageView w3;
 
 
-	private List<sample> myList;
+	//	private List<sample> myList;
 
 	@FXML
 	private AnchorPane Sprint;
@@ -97,9 +100,11 @@ public class controller2 implements Initializable{
 	private FlowPane displayFlow;
 	@FXML
 	private FlowPane resultFlow;
-
-	@FXML
-	private AnchorPane noSprint;
+	//	private Stage stage;
+	//	private Scene scene;
+	//	private Parent root;
+	//	@FXML
+	//	private AnchorPane noSprint;
 
 	@FXML
 	private Label titleLabel;
@@ -117,8 +122,10 @@ public class controller2 implements Initializable{
 	@FXML
 	private Label title;
 	boolean indisplay;
-	public sample quicklooksample;
-
+	public quicklookInfo quicklooksample;
+	public quicklookInfo infosample;
+	AnchorPane root; //for the quick loop 
+	List<quicklookInfo> information;//
 
 	@FXML
 	void search(ActionEvent event) {
@@ -129,9 +136,10 @@ public class controller2 implements Initializable{
 		//addint if there is a sprint of not
 		AnchorPane isSprint = FXMLLoader.load(getClass().getResource("upcomming.fxml"));
 		displayFlow.getChildren().add(isSprint);
-		myList = new sample().getlist();
+		information = new pokerPlanningRequestPrototype().getQuicklook();
+		//		myList = new sample().getlist();
 		int i = -1;
-		for (sample sam : myList)
+		for (quicklookInfo qlook : information)
 		{
 			i++;
 			//			//adding sample data
@@ -140,13 +148,13 @@ public class controller2 implements Initializable{
 			//			displayFlow.getChildren().add(pastSprint);
 
 			//creating prev sprint anchor
-			createSprint(displayFlow, sam, Integer.toString(i));
+			createSprint(displayFlow, qlook, Integer.toString(i));
 
 
 		}
 	}
 	//creating the sprint 
-	public void createSprint(FlowPane pane, sample sam, String i)
+	public void createSprint(FlowPane pane, quicklookInfo qlook, String i)
 	{
 		AnchorPane preSprint = new AnchorPane();
 		preSprint.setPrefSize(300, 230);
@@ -159,23 +167,23 @@ public class controller2 implements Initializable{
 
 		//actionevent for quicklook button
 		qbutton.setOnMouseClicked(event -> {
-			quicklooksample = sam;
-			quicklook(sam);
+			infosample = qlook;
+			quicklook(qlook);
 
 		});
 
 		//creating rating label
-		Label rating = new Label("Rating: ");
+		Label rating = new Label("Rating: "+qlook.getPastRating().get(0));
 		rating.setStyle("-fx-font-size: 12;");
 
 		//creating the title label
-		Label titleLabel = new Label(sam.getTitle());
+		Label titleLabel = new Label(qlook.getTitle());
 		titleLabel.setStyle("-fx-font-size: 14;");
 		//creating description label
 		Label des = new Label("Description:");
 		des.setStyle("-fx-font-size: 12;");
 		//creating decription area
-		TextArea desText = new TextArea(sam.getDescription());
+		TextArea desText = new TextArea(qlook.getDesc());
 		desText.setWrapText(true);
 		desText.setEditable(true);
 		//positioning the elements
@@ -204,100 +212,31 @@ public class controller2 implements Initializable{
 		pane.getChildren().add(preSprint);
 	}
 	//qlookbutton on action
-	public void quicklook(sample sample)
+	public void quicklook(quicklookInfo qlook)
 	{
 		//check if there is already something in the qlook panel
 		qlookPane.getChildren().clear();
-		AnchorPane root = new AnchorPane();
-		root.setPrefSize(340, 895);
-		Label titleLabel = new Label(sample.title);
-		AnchorPane.setLeftAnchor(titleLabel, 5.0);
-		AnchorPane.setTopAnchor(titleLabel, 7.0);
 
-		Label descriptionLabel = new Label("description:");
-		AnchorPane.setLeftAnchor(descriptionLabel, 5.0);
-		AnchorPane.setTopAnchor(descriptionLabel, 64.0);
-		//description text area
-		TextArea descriptionTextArea = new TextArea(sample.description);
-		descriptionTextArea.setWrapText(true);
-		AnchorPane.setLeftAnchor(descriptionTextArea, 5.0);
-		AnchorPane.setRightAnchor(descriptionTextArea, 5.0);
-		AnchorPane.setTopAnchor(descriptionTextArea, 104.0);
-		descriptionTextArea.setPrefWidth(340.0);
-		descriptionTextArea.setPrefHeight(113.0);
+		qLook ql = new qLook();
+		root = ql.getAnchor(qlook);
+		quicklooksample = qlook;
 
-		Label assignedWeightLabel = new Label("Assigned weight: "+sample.weight);
-		AnchorPane.setLeftAnchor(assignedWeightLabel, 15.0);
-		AnchorPane.setTopAnchor(assignedWeightLabel, 262.0);
-		//change weight button
-		Button changeButton = new Button("change");
-		changeButton.setOnMouseClicked(event -> {
+		//adding onclick action to the change button
+		Button change = ql.getChangeButton();
+		dynamicLabel = ql.getAssignedWeightLabel();
+		change.setOnMouseClicked(event -> {
 			changeWeight();
 
 		});
-		AnchorPane.setRightAnchor(changeButton, 15.0);
-		AnchorPane.setTopAnchor(changeButton, 262.0);
-		changeButton.setPrefSize(125, 25);
-		//weight history and defects
-		TableView<String> tableView = new TableView<>();
-		TableColumn<String, String> pastWeightColumn = new TableColumn<>("past weight");
-		pastWeightColumn.setPrefWidth(75.0);
-		TableColumn<String, String> defectsColumn = new TableColumn<>("defects");
-		defectsColumn.setPrefWidth(254.0);
-		tableView.getColumns().addAll(pastWeightColumn, defectsColumn);
-		AnchorPane.setLeftAnchor(tableView, 5.0);
-		AnchorPane.setRightAnchor(tableView, 5.0);
-		AnchorPane.setTopAnchor(tableView, 336.0);
-		tableView.setPrefWidth(344.0);
-		tableView.setPrefHeight(151.0);
-		//effort label
-		Label effortsLabel = new Label("Efforts");
-		effortsLabel.setWrapText(true);
-		AnchorPane.setLeftAnchor(effortsLabel, 12.0);
-		AnchorPane.setTopAnchor(effortsLabel, 499.0);
-		//effort text area
-		TextArea effortsTextArea = new TextArea();
-		AnchorPane.setLeftAnchor(effortsTextArea, 1.0);
-		AnchorPane.setRightAnchor(effortsTextArea, 9.0);
-		AnchorPane.setTopAnchor(effortsTextArea, 531.0);
-		effortsTextArea.setPrefWidth(354.0);
-		effortsTextArea.setPrefHeight(113.0);
-		//other information label
-		Label otherInfoLabel = new Label("Other info");
-		AnchorPane.setLeftAnchor(otherInfoLabel, 11.0);
-		AnchorPane.setTopAnchor(otherInfoLabel, 654.0);
-		//other information text area
-		TextArea otherInfoTextArea = new TextArea(sample.description);
-		otherInfoTextArea.setWrapText(true);
-		AnchorPane.setLeftAnchor(otherInfoTextArea, 5.0);
-		AnchorPane.setRightAnchor(otherInfoTextArea, 5.0);
-		AnchorPane.setTopAnchor(otherInfoTextArea, 686.0);
-		otherInfoTextArea.setPrefWidth(344.0);
-		otherInfoTextArea.setPrefHeight(113.0);
-		//create new sprint button
-		Button createNewPrintButton = new Button("create new sprint");
-		AnchorPane.setLeftAnchor(createNewPrintButton, 5.0);
-		AnchorPane.setBottomAnchor(createNewPrintButton, 30.0);
-		createNewPrintButton.setPrefSize(125, 25);
-		//start a new sprint button
-		Button startSprintButton = new Button("start sprint");
-		AnchorPane.setRightAnchor(startSprintButton, 5.0);
-		AnchorPane.setBottomAnchor(startSprintButton, 30.0);
-		startSprintButton.setPrefSize(125, 25);
 
-		root.getChildren().addAll(
-				titleLabel, descriptionLabel, descriptionTextArea, assignedWeightLabel, changeButton,
-				tableView, effortsLabel, effortsTextArea, otherInfoLabel, otherInfoTextArea,
-				createNewPrintButton, startSprintButton
-				);
 		//adding to the quicklook scroll
 		qlookPane.getChildren().add(root);
 	}
-	
+
 	private void changeWeight() {
 		// TODO Auto-generated method stub
 		scrollpoker.toFront();
-		
+
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -319,7 +258,8 @@ public class controller2 implements Initializable{
 	}
 	public void searchSprint(ActionEvent e) throws IOException
 	{
-		System.out.println("here");
+		back11.setDisable(false);
+		back1.setDisable(false);
 		//deleting any node present in flow
 		for (int i = resultFlow.getChildren().size() - 1; i >= 1; i--) {
 			resultFlow.getChildren().remove(i);
@@ -336,21 +276,25 @@ public class controller2 implements Initializable{
 			search = searchBar1.getText();
 			searchBar11.setText(search);
 		}
-		int i = -1;
-		for(sample sam: myList)
+		//		int i = -1;
+		for(int i = 0; i < information.size(); i++)
 		{
-			i++;
-			if(sam.title.contains(search) || sam.description.contains(search))
+			quicklookInfo info = information.get(i);
+			if(info.title.contains(search) || info.getDesc().contains(search)||info.getOtherInfo().contains(search))
 			{
-
-				createSprint(resultFlow, sam, Integer.toString(i));
+				createSprint(resultFlow, info, Integer.toString(i));
 			}
 		}
+		//		for(quicklookInfo info: information)
+		//		{
+		//			i++;
+		//			
+		//		}
 
 
 	}
-	
-	//on hover envets
+
+	//on hover envets(dont worry about it)
 	public void w0(MouseEvent e)
 	{
 		letItGlow(w0);
@@ -369,38 +313,76 @@ public class controller2 implements Initializable{
 	}
 	public void letItGlow(ImageView imageView)
 	{
-		
-		 glowEffect.setColor(javafx.scene.paint.Color.GREEN); // Set the color of the glow
-        // Add event handlers for hover effect
-        imageView.setOnMouseEntered(e -> imageView.setEffect(glowEffect));
-        imageView.setOnMouseExited(e -> imageView.setEffect(null));
+
+		glowEffect.setColor(javafx.scene.paint.Color.GREEN); // Set the color of the glow
+		// Add event handlers for hover effect
+		imageView.setOnMouseEntered(e -> imageView.setEffect(glowEffect));
+		imageView.setOnMouseExited(e -> imageView.setEffect(null));
 	}
-	
-	//on click event
+
+	//changing the weight
 	public void w0Clicked(MouseEvent e)
 	{
-		quicklooksample.setWeight(0);
+		quicklooksample.setRating((quicklooksample.getRating())/2);
+		int len = dynamicLabel.getText().length();
+		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getRating());
 		qlookScroll.toFront();
 	}
 	public void w1Clicked(MouseEvent e)
 	{
-		
-		quicklooksample.setWeight(1);
+
+		quicklooksample.setRating((quicklooksample.getRating()+1)/2);
+		int len = dynamicLabel.getText().length();
+		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getRating());
 		qlookScroll.toFront();
 
 	}
 	public void w2Clicked(MouseEvent e)
 	{
-		
-		quicklooksample.setWeight(2);
+
+		quicklooksample.setRating((quicklooksample.getRating()+2)/2);
+		int len = dynamicLabel.getText().length();
+		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getRating());
 		qlookScroll.toFront();
 
 	}
 	public void w3Clicked(MouseEvent e)
 	{
-		quicklooksample.setWeight(3);
+		System.out.println("here");
+		quicklooksample.setRating((quicklooksample.getRating()+3)/2);
+		int len = dynamicLabel.getText().length();
+		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getRating());
 		qlookScroll.toFront();
 
-		
 	}
+	//	public void makeNewSprint(ActionEvent e)
+	//	{
+	//		//check if there is already something in the qlook panel
+	//		qlookPane.getChildren().clear();
+	//
+	//		qLook ql = new qLook();
+	//		AnchorPane root = ql.getAnchor(new sample("","",0));
+	//		//adding onclick action to the change button
+	//		Button change = ql.getChangeButton();
+	//		change.setOnMouseClicked(event -> {
+	//			changeWeight();
+	//
+	//		});
+	//
+	//		//adding to the quicklook scroll
+	//		qlookPane.getChildren().add(root);
+	//	}
+	//	@FXML
+	public void startSPrint(ActionEvent event)throws IOException
+	{
+
+		AnchorPane root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml")); //connects to the effort console
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		singleton.setQuicklook(infosample); //passing qlook object to singlenton class
+
+	}
+
 }
