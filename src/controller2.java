@@ -11,6 +11,7 @@ import javafx.scene.Node;
 
 import Backend.pokerPlanningRequestPrototype;
 import Backend.quicklookInfo;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -323,35 +324,35 @@ public class controller2 implements Initializable{
 	//changing the weight
 	public void w0Clicked(MouseEvent e)
 	{
-		quicklooksample.setRating((quicklooksample.getRating())/2);
+		quicklooksample.setPresentRating((quicklooksample.getPresentRating())/2);
 		int len = dynamicLabel.getText().length();
-		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getRating());
+		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getPresentRating());
 		qlookScroll.toFront();
 	}
 	public void w1Clicked(MouseEvent e)
 	{
 
-		quicklooksample.setRating((quicklooksample.getRating()+1)/2);
+		quicklooksample.setPresentRating((quicklooksample.getPresentRating()+1)/2);
 		int len = dynamicLabel.getText().length();
-		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getRating());
+		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getPresentRating());
 		qlookScroll.toFront();
 
 	}
 	public void w2Clicked(MouseEvent e)
 	{
 
-		quicklooksample.setRating((quicklooksample.getRating()+2)/2);
+		quicklooksample.setPresentRating((quicklooksample.getPresentRating()+2)/2);
 		int len = dynamicLabel.getText().length();
-		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getRating());
+		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getPresentRating());
 		qlookScroll.toFront();
 
 	}
 	public void w3Clicked(MouseEvent e)
 	{
 		System.out.println("here");
-		quicklooksample.setRating((quicklooksample.getRating()+3)/2);
+		quicklooksample.setPresentRating((quicklooksample.getPresentRating()+3)/2);
 		int len = dynamicLabel.getText().length();
-		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getRating());
+		dynamicLabel.setText( dynamicLabel.getText().substring(0, len-2)+ " "+quicklooksample.getPresentRating());
 		qlookScroll.toFront();
 
 	}
@@ -373,6 +374,54 @@ public class controller2 implements Initializable{
 	//		qlookPane.getChildren().add(root);
 	//	}
 	//	@FXML
+
+
+
+
+//	void countDown() {
+//		Thread countDownThread = new Thread(() -> {
+//			int timeLeft = 60; // Start from 60 minutes
+//
+//			// Loop until timeLeft becomes 0
+//			while (timeLeft > 0) {
+//				// Update the label on the JavaFX Application Thread
+//				Platform.runLater(() -> {
+//					countdownLabel.setText("Time Left: " + timeLeft + " minutes");
+//				});
+//
+//				try {
+//					// Sleep for 1 minute (60000 milliseconds)
+//					Thread.sleep(60000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//
+//				// Decrement the timeLeft
+//				timeLeft--;
+//			}
+//
+//			// After the countdown is complete, you can perform additional actions if needed
+//			Platform.runLater(() -> {
+//				countdownLabel.setText("Time's up!");
+//				// Additional actions after countdown completes
+//			});
+//		});
+//
+//		// Set the thread as a daemon thread
+//		countDownThread.setDaemon(true);
+//		// Start the countdown thread
+//		countDownThread.start();
+//		
+//	}
+	public void startNow(ActionEvent event)throws IOException
+	{
+		//go to the main console do something to load in in the initializer then just show it here for improved performance
+		AnchorPane root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml")); //connects to the effort console
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+	}
 	public void startSPrint(ActionEvent event)throws IOException
 	{
 
@@ -381,6 +430,7 @@ public class controller2 implements Initializable{
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+//		countDown(); // label that controls the time
 		singleton.setQuicklook(infosample); //passing qlook object to singlenton class
 
 	}

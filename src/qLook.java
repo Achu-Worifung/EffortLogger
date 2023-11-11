@@ -1,4 +1,6 @@
-import Backend.quicklookInfo;
+import java.util.List;
+
+import Backend.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -102,8 +104,8 @@ public class qLook {
 		AnchorPane.setTopAnchor(descriptionTextArea, 104.0);
 		descriptionTextArea.setPrefWidth(340.0);
 		descriptionTextArea.setPrefHeight(113.0);
-
-		assignedWeightLabel = new Label("Assigned weight: "+qlook.getRating());
+		//getting the current rating
+		assignedWeightLabel = new Label("Assigned weight: "+qlook.getPresentRating());
 		AnchorPane.setLeftAnchor(assignedWeightLabel, 15.0);
 		AnchorPane.setTopAnchor(assignedWeightLabel, 262.0);
 		//change weight button
