@@ -76,7 +76,7 @@ public class PokerPlaningRespondsPrototype {
 						doc.getString("User Story"), doc.getList("Prev Rating", Integer.class),doc.getInteger("Rating"), userRate);
 				//effort object
 				//start and end times are list not strings
-				effortList.add(new effort(doc.getList("Start Time", String.class), doc.getList("End Time", String.class), doc.getString("Project"),doc.getList("Start Date", String.class)
+				effortList.add(new effort(doc.getString("Status")  ,doc.getList("Start Time", String.class), doc.getList("End Time", String.class), doc.getString("Project"),doc.getList("Start Date", String.class)
 						, doc.getList("Life Cycle Step", String.class), doc.getList("Effort Category", String.class), quickInfo));
 			}
 		} catch(MongoException e) {
@@ -151,6 +151,7 @@ public class PokerPlaningRespondsPrototype {
 		// Creating the document with all fields and values
 		collection.insertOne( new Document()
 				.append("_id", eff.getInfo().id)
+				.append("Status", eff.getStatus())
 				.append("Title", eff.getInfo().getTitle())
 				.append("Project", eff.getProjectType())
 				.append("User Story", eff.getInfo().desc)
@@ -183,6 +184,7 @@ public class PokerPlaningRespondsPrototype {
 		reopen("Efforts");
 		ObjectId docId = eff.getInfo().getId();
 		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Title", eff.getInfo().getTitle())));
+		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Status", eff.getStatus())));
 		collection.updateOne(eq("_id", docId), new Document("$set", new Document("User Story", eff.getInfo().desc)));
 		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Other Information", eff.getInfo().getOtherInfo())));
 		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Rating", eff.getInfo().getPresentRating())));

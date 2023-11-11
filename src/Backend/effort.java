@@ -4,11 +4,11 @@ import java.util.List;
 
 public class effort {
     List<String> startTime, endTime, startDate, lifeCycle, effortCat, randdrop;
-    String projectType;
+    String projectType, status;
     quicklookInfo info;
     
     // just get the start and end time for now
-    public effort(List<String> startTime, List<String>  endTime, String projectType, List<String>  startDate, List<String>  lifeCycle,
+    public effort(String status,List<String> startTime, List<String>  endTime, String projectType, List<String>  startDate, List<String>  lifeCycle,
     		List<String>  effortCat,  quicklookInfo info) {
 		super();
 		this.startTime = startTime;
@@ -18,6 +18,15 @@ public class effort {
 		this.lifeCycle = lifeCycle;
 		this.effortCat = effortCat;
 		this.info = info;
+		this.status = status;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public List<String> getStartTime() {
