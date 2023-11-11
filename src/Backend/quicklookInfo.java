@@ -13,31 +13,36 @@ public class quicklookInfo {
     List<Integer> pastRating;
     Integer presentRating;
     ObjectId id;
+    Rate userRate;
     int rating;
 
     public quicklookInfo(ObjectId id, String title, String otherInfo, String desc, List<Integer> pastRating,
-            Integer presentRating) {
+            Integer presentRating, Rate userRate) { //pastRating is a list of list make it a list
         this.title = title;
         this.otherInfo = otherInfo;
         this.desc = desc;
         this.pastRating = pastRating;
         this.presentRating = presentRating;
         this.id = id;
-        this.rating = 0;
+        this.presentRating = 0;
+        this.userRate  = userRate; //link usersname to rating so one user can't have different rating
         for(Integer rate: pastRating)
         {
-        	rating += rate;
+        	presentRating += rate;
         }
-        rating = rating/pastRating.size();
+        presentRating = presentRating/pastRating.size();
     }
 
-    public int getRating() {
-		return rating;
+
+	public Rate getUserRate() {
+		return userRate;
 	}
 
-	public void setRating(int rating) {
-		this.rating = rating;
+
+	public void setUserRate(Rate userRate) {
+		this.userRate = userRate;
 	}
+
 
 	public String getDesc() {
         return desc;

@@ -1,46 +1,88 @@
 package Backend;
 
+import java.util.List;
 
 public class effort {
-    String startTime, endTime, projectType, startDate;
-
+    List<String> startTime, endTime, startDate, lifeCycle, effortCat, randdrop;
+    String projectType;
+    quicklookInfo info;
+    
     // just get the start and end time for now
-    public effort(String s, String e, String p, String d) {
-        this.startTime = s;
-        this.endTime = e;
-        this.projectType = p;
-        this.startDate = d;
-    }
+    public effort(List<String> startTime, List<String>  endTime, String projectType, List<String>  startDate, List<String>  lifeCycle,
+    		List<String>  effortCat,  quicklookInfo info) {
+		super();
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.projectType = projectType;
+		this.startDate = startDate;
+		this.lifeCycle = lifeCycle;
+		this.effortCat = effortCat;
+		this.info = info;
+	}
 
-    public String getStartTime() {
-        return startTime;
-    }
+	public List<String> getStartTime() {
+		return startTime;
+	}
 
-    public String getStartDate() {
-        return startDate;
-    }
+	public void setStartTime(List<String> startTime) {
+		this.startTime = startTime;
+	}
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
+	public List<String> getEndTime() {
+		return endTime;
+	}
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
+	public void setEndTime(List<String> endTime) {
+		this.endTime = endTime;
+	}
 
-    public String getEndTime() {
-        return endTime;
-    }
+	public List<String> getStartDate() {
+		return startDate;
+	}
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
+	public void setStartDate(List<String> startDate) {
+		this.startDate = startDate;
+	}
 
-    public String getProjectType() {
-        return projectType;
-    }
+	public List<String> getLifeCycle() {
+		return lifeCycle;
+	}
 
-    public void setProjectType(String projectType) {
-        this.projectType = projectType;
-    }
+	public void setLifeCycle(List<String> lifeCycle) {
+		this.lifeCycle = lifeCycle;
+	}
+
+	public List<String> getEffortCat() {
+		return effortCat;
+	}
+
+	public void setEffortCat(List<String> effortCat) {
+		this.effortCat = effortCat;
+	}
+
+	public List<String> getRanddrop() {
+		return randdrop;
+	}
+
+	public void setRanddrop(List<String> randdrop) {
+		this.randdrop = randdrop;
+	}
+
+	public String getProjectType() {
+		return projectType;
+	}
+
+	public void setProjectType(String projectType) {
+		this.projectType = projectType;
+	}
+
+	public quicklookInfo getInfo() {
+		return info;
+	}
+
+	public void setInfo(quicklookInfo info) {
+		this.info = info;
+	}
+
+ 
 }
