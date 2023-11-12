@@ -43,6 +43,7 @@ public class upcommingPane extends Application {
          startButton = new Button("Start Now");
          descTextArea = new TextArea();
          descTextArea.setMaxSize(546, 86);
+         descTextArea.setWrapText(true);
          ratingLabel = new Label("Rating");
          timeLabel = new Label("Starts in:");
       //settng contrainst for pain with  upcomming sprint

@@ -199,7 +199,7 @@ public class controller2 implements Initializable{
 
 		});
 		//creating rating label
-		Label rating = new Label("Rating: "+qlookinfo.getPastRating().get(0));
+		Label rating = new Label("Rating: "+qlookinfo.getPresentRating());
 		rating.setStyle("-fx-font-size: 12;");
 
 		//creating the title label
@@ -460,7 +460,7 @@ public class controller2 implements Initializable{
 
 		//modifying the upcomming pane
 
-		if(inProgress) //remember to place it back to t!inProgress
+		if(!inProgress) //remember to place it back to t!inProgress
 		{
 			upcommingPan.getSprintPane().toFront();
 			//changing the informaiont
