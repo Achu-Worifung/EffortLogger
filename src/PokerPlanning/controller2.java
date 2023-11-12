@@ -163,19 +163,20 @@ public class controller2 implements Initializable{
 
 
 
-
-				upcommingPan.getStartButton().setOnMouseClicked(event ->
-				{
-					try {
-						startNow(event);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				});
+				System.out.println(upcommingPan.getStartButton());
+				
 				upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
 				inProgress = true;
 			}
+			upcommingPan.getStartButton().setOnMouseClicked(event ->
+			{
+				try {
+					startNow(event);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			});
 			createSprint(displayFlow, qlookinfo, Integer.toString(i));
 		}
 
@@ -454,12 +455,14 @@ public class controller2 implements Initializable{
 
 		//modifying the upcomming pane
 		if(!inProgress) //remember to place it back to t!inProgress
+
 		{
 			upcommingPan.getSprintPane().toFront();
 			//changing the informaiont
 			infosample.setDesc(qdescriptionTextArea.getText());
 			infosample.setOtherInfo(qotherInfoTextArea.getText());	
 			infosample.setPresentRating(infosample.getPresentRating());
+			infosample.setUserRate(new Rate(infosample.getPresentRating(), "Achu")); ///change this to the appropirate user later on
 			upcommingPan.getTitleLabel().setText(infosample.getTitle());
 			upcommingPan.getDescTextArea().setText(infosample.getDesc());
 			upcommingPan.getRatingLabel().setText("Rating: "+infosample.getPresentRating());

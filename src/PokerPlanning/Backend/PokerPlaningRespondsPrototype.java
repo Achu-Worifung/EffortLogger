@@ -251,7 +251,7 @@ public class PokerPlaningRespondsPrototype {
 	    }
 
 	    // Update the last element in the "End Time" array
-	    collection.updateOne(eq("_id", doc.getObjectId("_id")), new Document("$set", new Document("Status","Completed")));
+	    collection.updateOne(eq("_id", doc.getObjectId("_id")), new Document("$set", new Document("Status", "Completed")));
 	    Bson filter = Filters.eq("_id", doc.getObjectId("_id"));
 	    List<String> endTimes = doc.getList("End Time", String.class);
 

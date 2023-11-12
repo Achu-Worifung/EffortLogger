@@ -25,12 +25,7 @@ public class quicklookInfo {
         this.presentRating = presentRating;
         this.id = id;
         this.presentRating = presentRating;
-        this.userRate  = userRate; //link usersname to rating so one user can't have different rating
-//        for(Integer rate: pastRating)
-//        {
-//        	presentRating += rate;
-//        }
-//        presentRating = presentRating/pastRating.size();
+        
     }
 
 
