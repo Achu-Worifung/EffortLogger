@@ -311,7 +311,7 @@ public class Controller implements Initializable{
 		//stopping an activity
 		//create a thread for faster performance java concurrency.
 		Thread pushEffort = new Thread(() -> {
-			new Query().endEffort(LocalTime.now());
+			new PokerPlaningRespondsPrototype().stopSprint();
 		});
 		pushEffort.setDaemon(true);//method will exit if only daemon thread is left leading to faster performance
 		pushEffort.start();

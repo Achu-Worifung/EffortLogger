@@ -466,7 +466,8 @@ public class controller2 implements Initializable{
 			//changing the informaiont
 
 			infosample.setDesc(qdescriptionTextArea.getText());
-			infosample.setOtherInfo(qotherInfoTextArea.getText());
+			infosample.setOtherInfo(qotherInfoTextArea.getText());	
+			infosample.setPresentRating(infosample.getPresentRating());
 			upcommingPan.getTitleLabel().setText(infosample.getTitle());
 			upcommingPan.getDescTextArea().setText(infosample.getDesc());
 			upcommingPan.getRatingLabel().setText("Rating: "+infosample.getPresentRating());

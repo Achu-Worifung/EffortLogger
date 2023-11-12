@@ -150,7 +150,7 @@ public class PokerPlaningRespondsPrototype {
 
 		// Creating the document with all fields and values
 		collection.insertOne( new Document()
-//				.append("_id", eff.getInfo().id)
+				//				.append("_id", eff.getInfo().id)
 				.append("Status", eff.getStatus())
 				.append("Title", eff.getInfo().getTitle())
 				.append("Project", eff.getProjectType())
@@ -235,7 +235,34 @@ public class PokerPlaningRespondsPrototype {
 	}
 
 
+	public boolean stopSprint() {
+	    close();
+	    reopen("Efforts");
 
+	    // Finding the document with an empty or null "End Time" field
+	    Document doc = collection.find(Filters.or(
+	            Filters.eq("End Time", ""),
+	            Filters.eq("End Time", null)
+	    )).first();
+
+	    if (doc == null) {
+	        close();
+	        return false;
+	    }
+
+	    // Update the last element in the "End Time" array
+	    Bson filter = Filters.eq("_id", doc.getObjectId("_id"));
+	    List<String> endTimes = doc.getList("End Time", String.class);
+
+	    if (endTimes != null && !endTimes.isEmpty()) {
+	        int lastIndex = endTimes.size() - 1;
+	        Bson update = Updates.set("End Time." + lastIndex, LocalTime.now().format(formatter));
+	        collection.updateOne(filter, update);
+	    }
+
+	    close();
+	    return true;
+	}
 
 	public boolean writeToquickLook(quicklookInfo qlook) {
 		close();
