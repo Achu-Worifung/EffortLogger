@@ -16,15 +16,15 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="599.0">
                      <children>
-                        <Label fx:id="title" alignment="CENTER" layoutX="287.0" layoutY="13.0" text="upcommingTitle">
+                        <Label fx:id="title" alignment="CENTER" layoutX="287.0" layoutY="13.0" text="upcommingTitle" AnchorPane.leftAnchor="287.0" AnchorPane.topAnchor="13.0">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Button fx:id="start" layoutX="433.0" layoutY="162.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="144.0" text="Start Now" />
-                        <TextArea fx:id="desc" editable="false" layoutX="31.0" layoutY="46.0" prefHeight="88.0" prefWidth="546.0" wrapText="true" />
-                        <Label fx:id="rating" layoutX="31.0" layoutY="166.0" text="Rating" />
-                        <Label fx:id="time" layoutX="255.0" layoutY="166.0" text="Starts in:" />
+                        <Button fx:id="start" layoutX="433.0" layoutY="162.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="144.0" text="Start Now" AnchorPane.leftAnchor="433.0" AnchorPane.topAnchor="162.0" />
+                        <TextArea fx:id="desc" editable="false" layoutX="31.0" layoutY="46.0" prefHeight="88.0" prefWidth="546.0" wrapText="true" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="46.0" />
+                        <Label fx:id="rating" layoutX="31.0" layoutY="166.0" text="Rating" AnchorPane.leftAnchor="31.0" AnchorPane.topAnchor="166.0" />
+                        <Label fx:id="time" layoutX="255.0" layoutY="166.0" text="Starts in:" AnchorPane.leftAnchor="255.0" AnchorPane.topAnchor="166.0" />
                         <Label layoutX="36.0" layoutY="30.0" text="Description" />
                      </children>
                   </AnchorPane>
@@ -32,18 +32,18 @@
             </ScrollPane>
          </children>
       </StackPane>
-      <StackPane fx:id="noSprintPane" layoutX="6.0" layoutY="7.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <StackPane fx:id="noSprintPane" layoutX="6.0" layoutY="7.0" prefHeight="150.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ScrollPane fx:id="noSprint" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="NEVER">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="599.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="173.0" layoutY="32.0" text="No Upcomming Sprint">
+                        <Label alignment="CENTER" layoutX="173.0" layoutY="32.0" text="No Upcomming Sprint" AnchorPane.leftAnchor="173.0" AnchorPane.topAnchor="32.0">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Button fx:id="newSprint" layoutX="217.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="144.0" text="Create New Sprint" />
+                        <Button fx:id="newSprint" layoutX="217.0" layoutY="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="144.0" text="Create New Sprint" AnchorPane.leftAnchor="217.0" AnchorPane.topAnchor="100.0" />
                      </children>
                   </AnchorPane>
                </content>

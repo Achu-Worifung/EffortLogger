@@ -2,6 +2,8 @@ package PokerPlanning;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
@@ -32,8 +34,11 @@ import javafx.scene.layout.StackPane;
 public class controller2 implements Initializable{
 
 	// Create a drop shadow effect for the glowing effect
+	upcommingPane upcommingPan;
+	AnchorPane effortConsole; //going back to the console
 	DropShadow glowEffect = new DropShadow();
 	Label dynamicLabel;
+	boolean inProgress;
 
 	@FXML
 	private Button back1;
@@ -95,47 +100,47 @@ public class controller2 implements Initializable{
 	private FlowPane displayFlow;
 	@FXML
 	private FlowPane resultFlow;
-	
+
 	//upcomming fxml components
-//    @FXML
-//    private StackPane SprintPane;
-//
-//    @FXML
-//    private TextArea desc;
-//
-//    @FXML
-//    private Button newSprint;
-//
-//    @FXML
-//    private ScrollPane noSprint;
-//
-//    @FXML
-//    private StackPane noSprintPane;
-//
-//    @FXML
-//    private Label rating;
-//
-//    @FXML
-//    private Button start;
-//
-//    @FXML
-//    private Label time;
-//
-//    @FXML
-//    private Label upcommingTitle;
-	
+	//    @FXML
+	//    private StackPane SprintPane;
+	//
+	//    @FXML
+	//    private TextArea desc;
+	//
+	//    @FXML
+	//    private Button newSprint;
+	//
+	//    @FXML
+	//    private ScrollPane noSprint;
+	//
+	//    @FXML
+	//    private StackPane noSprintPane;
+	//
+	//    @FXML
+	//    private Label rating;
+	//
+	//    @FXML
+	//    private Button start;
+	//
+	//    @FXML
+	//    private Label time;
+	//
+	//    @FXML
+	//    private Label upcommingTitle;
 
 
-	
 
-	
+
+
+
 
 
 	//	private Stage stage;
 	//	private Scene scene;
 	//	private Parent root;
 
-	
+
 
 	//	//this is for the preSprint fxml
 	//	@FXML
@@ -162,15 +167,63 @@ public class controller2 implements Initializable{
 	public void populate() throws IOException
 	{
 		//addint if there is a sprint of not
-		AnchorPane isSprint = FXMLLoader.load(getClass().getResource("upcomming.fxml"));
+		upcommingPan = new upcommingPane();
+		AnchorPane isSprint = upcommingPan.createUI();
 		displayFlow.getChildren().add(isSprint);
 		information = singletonInstance.getEffortList();
 		//		myList = new sample().getlist();
 		for(int i = 0; i < information.size();i++)
 		{
 			PokerPlanning.Backend.quicklookInfo qlookinfo = information.get(i).getInfo();
-			createSprint(displayFlow, qlookinfo, Integer.toString(i));
-		}
+			//check if any sprint is in progress
+			if(information.get(i).getStatus()!=null&&information.get(i).getStatus().equalsIgnoreCase("In Progress"))
+			{
+				upcommingPan.getSprintPane().toFront();
+				upcommingPan.getTitleLabel().setText(information.get(i).getInfo().getTitle());
+				upcommingPan.getRatingLabel().setText(qlookinfo.getPresentRating().toString());
+				
+//				------------------------IMPORTANT-----------------------------------------------
+				//UNCOMMENT LINE BELOW WHEN YOU FIX THE TIMES IN THE DATA BASE
+				
+				
+				
+				//getting the time it started
+//				List<String> startTimeList = information.get(i).getStartTime();
+//
+//				// Check if the startTimeList is not empty
+//				if (!startTimeList.isEmpty()) {
+//					// Get the last element from the startTimeList
+//					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
+//					// Convert the String to LocalTime
+//					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
+//					// Check if the current hour is after the target hour
+//					Duration duration = Duration.between(timeStarted, LocalTime.now());
+//					upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
+//					countDown(Math.toIntExact((60-duration.toHours())));
+				
+				//FOR NOW USE RANDOM TIME
+				countDown(10);
+				
+				
+				
+				
+				
+
+					upcommingPan.getStartButton().setOnMouseClicked(event ->
+					{
+						try {
+							startNow(event);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					});
+					upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
+					inProgress = true;
+				}
+				createSprint(displayFlow, qlookinfo, Integer.toString(i));
+			}
+		
 
 	}
 	//creating the sprint 
@@ -243,16 +296,15 @@ public class controller2 implements Initializable{
 
 		//adding onclick action to the change button
 		Button change = ql.getChangeButton();
-//		Button startSprint = ql.getStartSprintButton();
-//		startSprint.setOnMouseClicked(event -> {
-//			try {
-//				startSPrint(event);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//
-//		});
+		Button startSprint = ql.getStartSprintButton();
+		startSprint.setOnMouseClicked(event -> {
+			try {
+				startSPrint(event);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		});
 		dynamicLabel = ql.getAssignedWeightLabel();
 		change.setOnMouseClicked(event -> {
 			changeWeight();
@@ -272,13 +324,22 @@ public class controller2 implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
+
 		try {
 			populate();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Thread load = new Thread(() -> {
+				try {
+					effortConsole = FXMLLoader.load(getClass().getResource("Console.fxml"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+			load.setDaemon(true);
+			load.start();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		indisplay = true;
+		indisplay = true; //for the search textfield and button(you have 2)
 	}
 	public void back(ActionEvent e)
 	{
@@ -387,65 +448,71 @@ public class controller2 implements Initializable{
 
 	}
 
-	//	void countDown() {
-	//		Thread countDownThread = new Thread(() -> {
-	//			int timeLeft = 60; // Start from 60 minutes
-	//
-	//			// Loop until timeLeft becomes 0
-	//			while (timeLeft > 0) {
-	//				// Update the label on the JavaFX Application Thread
-	//				Platform.runLater(() -> {
-	//					countdownLabel.setText("Time Left: " + timeLeft + " minutes");
-	//				});
-	//
-	//				try {
-	//					// Sleep for 1 minute (60000 milliseconds)
-	//					Thread.sleep(60000);
-	//				} catch (InterruptedException e) {
-	//					e.printStackTrace();
-	//				}
-	//
-	//				// Decrement the timeLeft
-	//				timeLeft--;
-	//			}
-	//
-	//			// After the countdown is complete, you can perform additional actions if needed
-	//			Platform.runLater(() -> {
-	//				countdownLabel.setText("Time's up!");
-	//				// Additional actions after countdown completes
-	//			});
-	//		});
-	//
-	//		// Set the thread as a daemon thread
-	//		countDownThread.setDaemon(true);
-	//		// Start the countdown thread
-	//		countDownThread.start();
-	//		
-	//	}
-	public void startNow(ActionEvent event)throws IOException
+	void countDown(int startTime) {
+		// Using an array to make 'timeLeft' effectively final
+		int[] timeLeft = new int[1]; // Start from 60 minutes
+		timeLeft[0] = startTime;
+
+		Thread countDownThread = new Thread(() -> {
+			// Loop until timeLeft becomes 0
+			while (timeLeft[0] > 0) {
+				// Update the label on the JavaFX Application Thread
+				Platform.runLater(() -> {
+					upcommingPan.getTimeLabel().setText("Time Left: " + timeLeft[0] + " minutes");
+				});
+
+				try {
+					// Sleep for 1 minute (60000 milliseconds)
+					Thread.sleep(60000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				// Decrement the timeLeft
+				timeLeft[0]--;
+			}
+
+			// After the countdown is complete, you can perform additional actions if needed
+			Platform.runLater(() -> {
+				upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
+				// Additional actions after countdown completes
+			});
+		});
+
+		countDownThread.setDaemon(true);
+		// Start the countdown thread
+		countDownThread.start();
+
+	}
+	public void startNow(MouseEvent event)throws IOException
 	{
 		//go to the main console do something to load in in the initializer then just show it here for improved performance
-		AnchorPane root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml")); //connects to the effort console
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(effortConsole);
 		stage.setScene(scene);
 		stage.show();
 	}
 	public void startSPrint(MouseEvent event)throws IOException
 	{
 
-//		AnchorPane root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml")); //connects to the effort console
-//		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-//		Scene scene = new Scene(root);
-//		stage.setScene(scene);
-//		stage.show();
+
 		//		countDown(); // label that controls the time
-//		singletonInstance.setQuicklook(infosample);
-//		//modifying the upcomming pane
-//		noSprintPane.toBack();
-//		desc.setText(infosample.getDesc());
-//		upcommingTitle.setText(infosample.getTitle());
-//		rating.setText(infosample.getPresentRating().toString());
+		singletonInstance.setQuicklook(infosample);
+		//modifying the upcomming pane
+
+		if(inProgress) //remember to place it back to t!inProgress
+		{
+			upcommingPan.getSprintPane().toFront();
+			upcommingPan.getTitleLabel().setText(infosample.getTitle());
+			upcommingPan.getDescTextArea().setText(infosample.getDesc());
+			upcommingPan.getRatingLabel().setText("Rating: "+infosample.getPresentRating());
+			countDown(59);
+			inProgress = true;
+		}
+		//		noSprintPane.toBack();
+		//		desc.setText(infosample.getDesc());
+		//		upcommingTitle.setText(infosample.getTitle());
+		//		rating.setText(infosample.getPresentRating().toString());
 
 
 	}
