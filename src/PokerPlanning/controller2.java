@@ -100,57 +100,11 @@ public class controller2 implements Initializable{
 	private FlowPane displayFlow;
 	@FXML
 	private FlowPane resultFlow;
-
-	//upcomming fxml components
-	//    @FXML
-	//    private StackPane SprintPane;
-	//
-	//    @FXML
-	//    private TextArea desc;
-	//
-	//    @FXML
-	//    private Button newSprint;
-	//
-	//    @FXML
-	//    private ScrollPane noSprint;
-	//
-	//    @FXML
-	//    private StackPane noSprintPane;
-	//
-	//    @FXML
-	//    private Label rating;
-	//
-	//    @FXML
-	//    private Button start;
-	//
-	//    @FXML
-	//    private Label time;
-	//
-	//    @FXML
-	//    private Label upcommingTitle;
-
-
-
-
-
-
-
-
-	//	private Stage stage;
-	//	private Scene scene;
-	//	private Parent root;
-
-
-
-	//	//this is for the preSprint fxml
-	//	@FXML
-	//	private TextArea description;
-	//
-	//	@FXML
-	//	private Button qlookButton;
-	//
-	//	@FXML
-	//	private Label rating;
+	
+	qLook ql; //quick look object; returns quick look anchor pane
+	//quick look pane components
+	TextArea qdescriptionTextArea, qeffortsTextArea, qotherInfoTextArea; 
+	Label qassignedWeightLabel;
 	PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
 	@FXML
 	private Label title;
@@ -170,7 +124,7 @@ public class controller2 implements Initializable{
 		upcommingPan = new upcommingPane();
 		AnchorPane isSprint = upcommingPan.createUI();
 		displayFlow.getChildren().add(isSprint);
-		information = singletonInstance.getEffortList();
+		information = singletonInstance.getEffortList(); //getting all data stored in design pattern
 		//		myList = new sample().getlist();
 		for(int i = 0; i < information.size();i++)
 		{
@@ -180,7 +134,7 @@ public class controller2 implements Initializable{
 			{
 				upcommingPan.getSprintPane().toFront();
 				upcommingPan.getTitleLabel().setText(information.get(i).getInfo().getTitle());
-				upcommingPan.getRatingLabel().setText(qlookinfo.getPresentRating().toString());
+				upcommingPan.getRatingLabel().setText("Rating: "+qlookinfo.getPresentRating().toString());
 				
 //				------------------------IMPORTANT-----------------------------------------------
 				//UNCOMMENT LINE BELOW WHEN YOU FIX THE TIMES IN THE DATA BASE
@@ -244,7 +198,6 @@ public class controller2 implements Initializable{
 			quicklook(qlookinfo);
 
 		});
-
 		//creating rating label
 		Label rating = new Label("Rating: "+qlookinfo.getPastRating().get(0));
 		rating.setStyle("-fx-font-size: 12;");
@@ -290,13 +243,18 @@ public class controller2 implements Initializable{
 		//check if there is already something in the qlook panel
 		qlookPane.getChildren().clear();
 
-		qLook ql = new qLook();
+		 ql = new qLook();
 		root = ql.getAnchor(qlookinfo);
 		quicklooksample = qlookinfo;
 
 		//adding onclick action to the change button
 		Button change = ql.getChangeButton();
 		Button startSprint = ql.getStartSprintButton();
+		qdescriptionTextArea = ql.getDescriptionTextArea();
+		qeffortsTextArea = ql.getEffortsTextArea();
+		qotherInfoTextArea = ql.getOtherInfoTextArea();
+		qassignedWeightLabel = ql.getAssignedWeightLabel();
+
 		startSprint.setOnMouseClicked(event -> {
 			try {
 				startSPrint(event);
@@ -329,7 +287,7 @@ public class controller2 implements Initializable{
 			populate();
 			Thread load = new Thread(() -> {
 				try {
-					effortConsole = FXMLLoader.load(getClass().getResource("Console.fxml"));
+					effortConsole = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -487,6 +445,10 @@ public class controller2 implements Initializable{
 	public void startNow(MouseEvent event)throws IOException
 	{
 		//go to the main console do something to load in in the initializer then just show it here for improved performance
+		
+		
+//		infosample.setAssignedWeightLabel(new Label("Assigned Weight"))
+		singletonInstance.setQuicklook(infosample);
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
 		Scene scene = new Scene(effortConsole);
 		stage.setScene(scene);
@@ -496,13 +458,15 @@ public class controller2 implements Initializable{
 	{
 
 
-		//		countDown(); // label that controls the time
-		singletonInstance.setQuicklook(infosample);
 		//modifying the upcomming pane
 
 		if(inProgress) //remember to place it back to t!inProgress
 		{
 			upcommingPan.getSprintPane().toFront();
+			//changing the informaiont
+
+			infosample.setDesc(qdescriptionTextArea.getText());
+			infosample.setOtherInfo(qotherInfoTextArea.getText());
 			upcommingPan.getTitleLabel().setText(infosample.getTitle());
 			upcommingPan.getDescTextArea().setText(infosample.getDesc());
 			upcommingPan.getRatingLabel().setText("Rating: "+infosample.getPresentRating());

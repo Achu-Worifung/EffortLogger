@@ -150,7 +150,7 @@ public class PokerPlaningRespondsPrototype {
 
 		// Creating the document with all fields and values
 		collection.insertOne( new Document()
-				.append("_id", eff.getInfo().id)
+//				.append("_id", eff.getInfo().id)
 				.append("Status", eff.getStatus())
 				.append("Title", eff.getInfo().getTitle())
 				.append("Project", eff.getProjectType())

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,6 +30,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class Controller implements Initializable{
+	PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
 	@FXML
 	private ComboBox<String> chooseproject;
 
@@ -39,7 +41,7 @@ public class Controller implements Initializable{
 
 	@FXML
 	private Button defects;
-	
+
 	@FXML
 	private Button poker;
 
@@ -74,7 +76,9 @@ public class Controller implements Initializable{
 	private Parent root;
 	boolean ranbycode;
 	private boolean isOn;
-	 
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss"); //used to format
+    DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
 	//query object
 	Query q;
@@ -206,19 +210,19 @@ public class Controller implements Initializable{
 			return;
 		}
 		if (text.equals("Defects")) {
-		    Thread getDefect = new Thread(() -> {
-		        List<String> defect = new Query().getDefects(); // get defects from db
-		        Platform.runLater(() -> {
-		            for (String s : defect) {
-		                randdrop.getItems().add(s); // add all items in choice to the dropdown
-		            }
-		            randdrop.setValue(randdrop.getItems().get(0));
-		        });
-		    });
-		    getDefect.setDaemon(true);
-		    getDefect.start();
-		    return;
-		
+			Thread getDefect = new Thread(() -> {
+				List<String> defect = new Query().getDefects(); // get defects from db
+				Platform.runLater(() -> {
+					for (String s : defect) {
+						randdrop.getItems().add(s); // add all items in choice to the dropdown
+					}
+					randdrop.setValue(randdrop.getItems().get(0));
+				});
+			});
+			getDefect.setDaemon(true);
+			getDefect.start();
+			return;
+
 		}if(text == "Others") {
 			//set the hidden label visible
 			hide.setVisible(true);
@@ -226,17 +230,17 @@ public class Controller implements Initializable{
 		}
 	}
 
-    @FXML
-    void DynamicSwitchByRand(ActionEvent event) {
-    	hide.setVisible(false);
-    	hideText.setVisible(false);
-    	String text = randdrop.getValue();
-    	if(text == "Others")
-    	{
-    		hide.setVisible(true);
-    		hideText.setVisible(true);
-    	}
-    }
+	@FXML
+	void DynamicSwitchByRand(ActionEvent event) {
+		hide.setVisible(false);
+		hideText.setVisible(false);
+		String text = randdrop.getValue();
+		if(text == "Others")
+		{
+			hide.setVisible(true);
+			hideText.setVisible(true);
+		}
+	}
 	public void startActivity(ActionEvent event)
 	{
 		if(isOn) {
@@ -253,8 +257,8 @@ public class Controller implements Initializable{
 		clock.setStyle("-fx-background-color: GREEN;");
 		//getting all infor
 		String project = chooseproject.getValue();
-		String lifeCycle = lifecycle.getValue();
-		String effortCat = effortcat.getValue();
+//		String lifeCycle = lifecycle.getValue();
+//		String effortCat = effortcat.getValue();
 		String randdropdown;
 		if(randdrop.getValue() == null || randdrop.getValue().isEmpty()|| randdrop.getValue()=="Others")
 		{
@@ -264,7 +268,27 @@ public class Controller implements Initializable{
 
 		//create a thread for faster performance java concurrancy.
 		Thread pushEffort = new Thread(() -> {
-			new Query().StartEfforts(project, LocalDate.now(), LocalTime.now(), lifeCycle, effortCat, randdropdown);
+//			new Query().StartEfforts(project, LocalDate.now(), LocalTime.now(), lifeCycle, effortCat, randdropdown);
+			List<String> startTime = new ArrayList<>();
+			startTime.add(LocalTime.now().format(formatter));
+
+			List<String> endTime = new ArrayList<>();
+			endTime.add("");
+
+			List<String> startDate = new ArrayList<>();
+			startDate.add(LocalDate.now().format(dateformatter));
+			
+			List<String> lifeCycle = new ArrayList<>();
+			lifeCycle.add(lifecycle.getValue());
+			
+			List<String> effortCat = new ArrayList<>();
+			effortCat.add(effortcat.getValue());
+			//writing to the database
+			new PokerPlaningRespondsPrototype().writeTo(new effort("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
+					lifeCycle, effortCat, singletonInstance.getQuicklook()));
+			
+			
+			//			PokerPlanning.Backend.effort  effortObject = new effort("In Progress", new );
 		});
 		pushEffort.setDaemon(true);//method will exit if only daemon thread is left leading to faster performance
 		pushEffort.start();
@@ -295,16 +319,31 @@ public class Controller implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//thread to get all data from the database
-		 Thread getAllData = new Thread(() -> {
-		        List<effort> effortList = new PokerPlaningRespondsPrototype().retrieveAll(); //retrive all the data from the database
-		        
-		        PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
-		        singletonInstance.setEffortList(effortList);
-		        System.out.println("done");
-		    });
-		 getAllData.setDaemon(true);
-		 getAllData.start();
+		Thread getAllData = new Thread(() -> {
+			List<effort> effortList = new PokerPlaningRespondsPrototype().retrieveAll(); //retrive all the data from the database
+
+			
+			singletonInstance.setEffortList(effortList);
+			System.out.println("done");
+		});
+		getAllData.setDaemon(true);
+		getAllData.start();
 		//set the label color and text to the right one depending on the activity
+		
+//		-----------------IMPORTANT------------------------
+//		THIS WORKED EVENTHOUGH IT WAS IN AN ARRAY
+//		public boolean openEffort()
+//		{
+//			close();
+//			reopen("Efforts");
+//			if(collection.find(eq("End Time", "")).first() == null) {
+//				close();
+//				return false;
+//			}
+//			close();
+//			return true;
+//			
+//		}
 		if (new Query().openEffort())
 		{
 			clock.setText("Clock Is ON");
@@ -417,7 +456,7 @@ public class Controller implements Initializable{
 			{
 				randdrop.getItems().add(0, "Detailed Design Plan");
 				randdrop.setValue("Detailed Design Plan");
-				
+
 			}
 			return;
 		}

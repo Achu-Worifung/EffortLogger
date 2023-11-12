@@ -14,6 +14,7 @@ public class qLook {
 	Label descriptionLabel,assignedWeightLabel,titleLabel,otherInfoLabel,effortsLabel;
 	Button changeButton,createNewPrintButton,startSprintButton;
 	TextArea descriptionTextArea,effortsTextArea, otherInfoTextArea;
+	String presentRating;
 	public Label getDescriptionLabel() {
 		return descriptionLabel;
 	}
@@ -107,7 +108,8 @@ public class qLook {
 		descriptionTextArea.setPrefWidth(340.0);
 		descriptionTextArea.setPrefHeight(113.0);
 		//getting the current rating
-		assignedWeightLabel = new Label("Assigned weight: "+qlookinfo.getPresentRating());
+		presentRating = qlookinfo.getPresentRating().toString();
+		assignedWeightLabel = new Label("Assigned weight: "+presentRating);
 		AnchorPane.setLeftAnchor(assignedWeightLabel, 15.0);
 		AnchorPane.setTopAnchor(assignedWeightLabel, 262.0);
 		//change weight button
@@ -173,6 +175,12 @@ public class qLook {
 				createNewPrintButton, startSprintButton
 				);
 		return root;
+	}
+	public String getPresentRating() {
+		return presentRating;
+	}
+	public void setPresentRating(String presentRating) {
+		this.presentRating = presentRating;
 	}
 
 
