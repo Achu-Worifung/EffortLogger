@@ -2,7 +2,7 @@ package PokerPlanning;
 
 import java.util.List;
 
-import Backend.quicklookInfo;
+import PokerPlanning.Backend.quicklookInfo;
 import PokerPlanning.Backend.effort;
 
 public class Singleton {

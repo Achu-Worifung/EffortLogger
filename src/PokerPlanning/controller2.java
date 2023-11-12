@@ -13,18 +13,19 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 
 
-import Backend.pokerPlanningRequestPrototype;
-import Backend.quicklookInfo;
+import PokerPlanning.Backend.*;
 import PokerPlanning.Backend.effort;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -100,7 +101,7 @@ public class controller2 implements Initializable{
 	private FlowPane displayFlow;
 	@FXML
 	private FlowPane resultFlow;
-	
+
 	qLook ql; //quick look object; returns quick look anchor pane
 	//quick look pane components
 	TextArea qdescriptionTextArea, qeffortsTextArea, qotherInfoTextArea; 
@@ -135,49 +136,49 @@ public class controller2 implements Initializable{
 				upcommingPan.getSprintPane().toFront();
 				upcommingPan.getTitleLabel().setText(information.get(i).getInfo().getTitle());
 				upcommingPan.getRatingLabel().setText("Rating: "+qlookinfo.getPresentRating().toString());
-				
-//				------------------------IMPORTANT-----------------------------------------------
+
+				//				------------------------IMPORTANT-----------------------------------------------
 				//UNCOMMENT LINE BELOW WHEN YOU FIX THE TIMES IN THE DATA BASE
-				
-				
-				
+
+
+
 				//getting the time it started
-//				List<String> startTimeList = information.get(i).getStartTime();
-//
-//				// Check if the startTimeList is not empty
-//				if (!startTimeList.isEmpty()) {
-//					// Get the last element from the startTimeList
-//					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
-//					// Convert the String to LocalTime
-//					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
-//					// Check if the current hour is after the target hour
-//					Duration duration = Duration.between(timeStarted, LocalTime.now());
-//					upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
-//					countDown(Math.toIntExact((60-duration.toHours())));
-				
+				//				List<String> startTimeList = information.get(i).getStartTime();
+				//
+				//				// Check if the startTimeList is not empty
+				//				if (!startTimeList.isEmpty()) {
+				//					// Get the last element from the startTimeList
+				//					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
+				//					// Convert the String to LocalTime
+				//					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
+				//					// Check if the current hour is after the target hour
+				//					Duration duration = Duration.between(timeStarted, LocalTime.now());
+				//					upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
+				//					countDown(Math.toIntExact((60-duration.toHours())));
+
 				//FOR NOW USE RANDOM TIME
 				countDown(10);
-				
-				
-				
-				
-				
 
-					upcommingPan.getStartButton().setOnMouseClicked(event ->
-					{
-						try {
-							startNow(event);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					});
-					upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
-					inProgress = true;
-				}
-				createSprint(displayFlow, qlookinfo, Integer.toString(i));
+
+
+
+
+
+				upcommingPan.getStartButton().setOnMouseClicked(event ->
+				{
+					try {
+						startNow(event);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				});
+				upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
+				inProgress = true;
 			}
-		
+			createSprint(displayFlow, qlookinfo, Integer.toString(i));
+		}
+
 
 	}
 	//creating the sprint 
@@ -243,7 +244,7 @@ public class controller2 implements Initializable{
 		//check if there is already something in the qlook panel
 		qlookPane.getChildren().clear();
 
-		 ql = new qLook();
+		ql = new qLook();
 		root = ql.getAnchor(qlookinfo);
 		quicklooksample = qlookinfo;
 
@@ -335,11 +336,6 @@ public class controller2 implements Initializable{
 				createSprint(resultFlow, info, Integer.toString(i));
 			}
 		}
-		//		for(quicklookInfo info: information)
-		//		{
-		//			i++;
-		//			
-		//		}
 
 
 	}
@@ -445,9 +441,7 @@ public class controller2 implements Initializable{
 	public void startNow(MouseEvent event)throws IOException
 	{
 		//go to the main console do something to load in in the initializer then just show it here for improved performance
-		
-		
-//		infosample.setAssignedWeightLabel(new Label("Assigned Weight"))
+
 		singletonInstance.setQuicklook(infosample);
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
 		Scene scene = new Scene(effortConsole);
@@ -459,12 +453,10 @@ public class controller2 implements Initializable{
 
 
 		//modifying the upcomming pane
-
 		if(!inProgress) //remember to place it back to t!inProgress
 		{
 			upcommingPan.getSprintPane().toFront();
 			//changing the informaiont
-
 			infosample.setDesc(qdescriptionTextArea.getText());
 			infosample.setOtherInfo(qotherInfoTextArea.getText());	
 			infosample.setPresentRating(infosample.getPresentRating());
@@ -473,11 +465,17 @@ public class controller2 implements Initializable{
 			upcommingPan.getRatingLabel().setText("Rating: "+infosample.getPresentRating());
 			countDown(59);
 			inProgress = true;
+		}else 
+		{
+			//alert when trying to start a clock when one is already running
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Error Starting new Sprint");
+			alert.setHeaderText("Sprint in progress");
+			alert.show();
+
+			return;
 		}
-		//		noSprintPane.toBack();
-		//		desc.setText(infosample.getDesc());
-		//		upcommingTitle.setText(infosample.getTitle());
-		//		rating.setText(infosample.getPresentRating().toString());
+
 
 
 	}
