@@ -1,0 +1,83 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.gradient
+{
+	-fx-background-color: linear-gradient(to bottom, #434343, #000000);
+}
+
+.words
+{-fx-text-fill: #F55555
+	
+}
+.buttons
+{
+	-fx-background-color: linear-gradient(to top right, #F05F57, #360940);
+	-fx-border-radius: 6px;
+}
+.buttons:hover
+{
+	
+	-fx-background-color: linear-gradient(to top right, #ACB6E5, #86FDE8);
+}
+
+.loginLabel
+{
+	-fx-text-fill: #F55555;
+	-fx-border-width: 0 0 0 5px;
+	-fx-border-style: solid;
+	-fx-border-color: #F55555;
+	-fx-padding: 3px;
+	
+	
+}
+
+.textField
+{
+	-fx-background-color:transparent;
+	-fx-border-color:#F55555;
+	-fx-border-width: 1px;
+	-fx-border-radius: 6px;
+	-fx-text-fill:#EBEDEE;
+	-fx-text-fill:white;
+	
+	
+}
+.textField:focused
+{
+	-fx-border-width: 1.5px;
+	-fx-background-color:transparent;
+	-fx-text-fill:white;
+	
+}
+.role
+{-fx-background-color:transparent;
+	-fx-text-fill:#EBEDEE;
+}
+.switch
+{
+	-fx-background-color: #ffffff;
+}
+.combo-box .combo-box-popup .list-view, .combo-box .combo-box-popup .list-cell {
+  -fx-background-color: black;
+  -fx-text-fill: white;
+}
+
+
+.combo-box .combo-box-popup .list-cell:hover {
+  -fx-background-color: green;
+  -fx-text-fill: white;
+}
+
+.combo-box .combo-box-popup .list-cell:selected {
+  -fx-background-color: blue;
+  -fx-text-fill: white;
+}
+
+
+
+
+
+
+
+
+

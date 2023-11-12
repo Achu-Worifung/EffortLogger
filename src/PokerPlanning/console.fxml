@@ -45,7 +45,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller2">
+<VBox prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PokerPlanning.controller2">
   <children>
     <SplitPane dividerPositions="0.64" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
@@ -103,7 +103,7 @@
                            <children>
                               <ImageView fx:id="w0" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="20.0" onMouseClicked="#w0Clicked" onMouseEntered="#w0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="20.0">
                                  <image>
-                                    <Image url="@poker%20cards/p1.png" />
+                                    <Image url="@../poker%20cards/p1.png" />
                                  </image>
                                  <effect>
                                     <Glow />
@@ -111,7 +111,7 @@
                               </ImageView>
                               <ImageView fx:id="w1" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="219.0" onMouseClicked="#w1Clicked" onMouseEntered="#w1" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="220.0">
                                  <image>
-                                    <Image url="@poker%20cards/p2.png" />
+                                    <Image url="@../poker%20cards/p2.png" />
                                  </image>
                                  <effect>
                                     <Glow />
@@ -119,7 +119,7 @@
                               </ImageView>
                               <ImageView fx:id="w2" fitHeight="180.0" fitWidth="200.0" layoutX="87.0" layoutY="443.0" onMouseClicked="#w2Clicked" onMouseEntered="#w2" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="420.0">
                                  <image>
-                                    <Image url="@poker%20cards/p3.png" />
+                                    <Image url="@../poker%20cards/p3.png" />
                                  </image>
                                  <effect>
                                     <Glow />
@@ -127,7 +127,7 @@
                               </ImageView>
                               <ImageView fx:id="w3" fitHeight="180.0" fitWidth="200.0" layoutX="78.0" layoutY="685.0" onMouseClicked="#w3Clicked" onMouseEntered="#w3" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="78.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="620.0">
                                  <image>
-                                    <Image url="@poker%20cards/p4.png" />
+                                    <Image url="@../poker%20cards/p4.png" />
                                  </image>
                                  <effect>
                                     <Glow />

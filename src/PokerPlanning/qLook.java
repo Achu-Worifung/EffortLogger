@@ -1,3 +1,5 @@
+package PokerPlanning;
+
 import java.util.List;
 
 import Backend.*;
@@ -85,11 +87,11 @@ public class qLook {
 		this.root = root;
 	}
 	AnchorPane root;
-	public AnchorPane getAnchor(quicklookInfo qlook)
+	public AnchorPane getAnchor(PokerPlanning.Backend.quicklookInfo qlookinfo)
 	{
 		root = new AnchorPane();
 		root.setPrefSize(340, 895);
-		Label titleLabel = new Label(qlook.getTitle());
+		Label titleLabel = new Label(qlookinfo.getTitle());
 		AnchorPane.setLeftAnchor(titleLabel, 5.0);
 		AnchorPane.setTopAnchor(titleLabel, 7.0);
 
@@ -97,7 +99,7 @@ public class qLook {
 		AnchorPane.setLeftAnchor(descriptionLabel, 5.0);
 		AnchorPane.setTopAnchor(descriptionLabel, 64.0);
 		//description text area
-		descriptionTextArea = new TextArea(qlook.getDesc());
+		descriptionTextArea = new TextArea(qlookinfo.getDesc());
 		descriptionTextArea.setWrapText(true);
 		AnchorPane.setLeftAnchor(descriptionTextArea, 5.0);
 		AnchorPane.setRightAnchor(descriptionTextArea, 5.0);
@@ -105,7 +107,7 @@ public class qLook {
 		descriptionTextArea.setPrefWidth(340.0);
 		descriptionTextArea.setPrefHeight(113.0);
 		//getting the current rating
-		assignedWeightLabel = new Label("Assigned weight: "+qlook.getPresentRating());
+		assignedWeightLabel = new Label("Assigned weight: "+qlookinfo.getPresentRating());
 		AnchorPane.setLeftAnchor(assignedWeightLabel, 15.0);
 		AnchorPane.setTopAnchor(assignedWeightLabel, 262.0);
 		//change weight button
@@ -146,7 +148,7 @@ public class qLook {
 		AnchorPane.setLeftAnchor(otherInfoLabel, 11.0);
 		AnchorPane.setTopAnchor(otherInfoLabel, 654.0);
 		//other information text area
-		otherInfoTextArea = new TextArea(qlook.getOtherInfo());
+		otherInfoTextArea = new TextArea(qlookinfo.getOtherInfo());
 		otherInfoTextArea.setWrapText(true);
 		AnchorPane.setLeftAnchor(otherInfoTextArea, 5.0);
 		AnchorPane.setRightAnchor(otherInfoTextArea, 5.0);

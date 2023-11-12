@@ -1,3 +1,5 @@
+package PokerPlanning;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -11,6 +13,7 @@ import javafx.scene.Node;
 
 import Backend.pokerPlanningRequestPrototype;
 import Backend.quicklookInfo;
+import PokerPlanning.Backend.effort;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +32,6 @@ public class controller2 implements Initializable{
 
 	// Create a drop shadow effect for the glowing effect
 	DropShadow glowEffect = new DropShadow();
-	Singleton singleton = Singleton.getInstance(); //getting singleton instance
 	Label dynamicLabel;
 
 	@FXML
@@ -119,14 +121,14 @@ public class controller2 implements Initializable{
 	//
 	//	@FXML
 	//	private Label rating;
-
+	   PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
 	@FXML
 	private Label title;
 	boolean indisplay;
-	public quicklookInfo quicklooksample;
-	public quicklookInfo infosample;
+	public PokerPlanning.Backend.quicklookInfo quicklooksample;
+	public PokerPlanning.Backend.quicklookInfo infosample;
 	AnchorPane root; //for the quick loop 
-	List<quicklookInfo> information;//
+	List<effort> information;//
 
 	@FXML
 	void search(ActionEvent event) {
@@ -137,25 +139,29 @@ public class controller2 implements Initializable{
 		//addint if there is a sprint of not
 		AnchorPane isSprint = FXMLLoader.load(getClass().getResource("upcomming.fxml"));
 		displayFlow.getChildren().add(isSprint);
-		information = new pokerPlanningRequestPrototype().getQuicklook();
+		information = singletonInstance.getEffortList();
 		//		myList = new sample().getlist();
-		int i = -1;
-		for (quicklookInfo qlook : information)
+		for(int i = 0; i < information.size();i++)
 		{
-			i++;
-			//			//adding sample data
-			//			AnchorPane pastSprint = new preSprint().pane(sam, Integer.toString(i));
-			//			//    		title.setText(sam.title);
-			//			displayFlow.getChildren().add(pastSprint);
-
-			//creating prev sprint anchor
-			createSprint(displayFlow, qlook, Integer.toString(i));
-
-
+			PokerPlanning.Backend.quicklookInfo qlookinfo = information.get(i).getInfo();
+			createSprint(displayFlow, qlookinfo, Integer.toString(i));
 		}
+//		for (effort qlook : information)
+//		{
+//			i++;
+//			//			//adding sample data
+//			//			AnchorPane pastSprint = new preSprint().pane(sam, Integer.toString(i));
+//			//			//    		title.setText(sam.title);
+//			//			displayFlow.getChildren().add(pastSprint);
+//
+//			//creating prev sprint anchor
+//			
+//
+//
+//		}
 	}
 	//creating the sprint 
-	public void createSprint(FlowPane pane, quicklookInfo qlook, String i)
+	public void createSprint(FlowPane pane, PokerPlanning.Backend.quicklookInfo qlookinfo, String i)
 	{
 		AnchorPane preSprint = new AnchorPane();
 		preSprint.setPrefSize(300, 230);
@@ -168,23 +174,23 @@ public class controller2 implements Initializable{
 
 		//actionevent for quicklook button
 		qbutton.setOnMouseClicked(event -> {
-			infosample = qlook;
-			quicklook(qlook);
+			infosample = qlookinfo;
+			quicklook(qlookinfo);
 
 		});
 
 		//creating rating label
-		Label rating = new Label("Rating: "+qlook.getPastRating().get(0));
+		Label rating = new Label("Rating: "+qlookinfo.getPastRating().get(0));
 		rating.setStyle("-fx-font-size: 12;");
 
 		//creating the title label
-		Label titleLabel = new Label(qlook.getTitle());
+		Label titleLabel = new Label(qlookinfo.getTitle());
 		titleLabel.setStyle("-fx-font-size: 14;");
 		//creating description label
 		Label des = new Label("Description:");
 		des.setStyle("-fx-font-size: 12;");
 		//creating decription area
-		TextArea desText = new TextArea(qlook.getDesc());
+		TextArea desText = new TextArea(qlookinfo.getDesc());
 		desText.setWrapText(true);
 		desText.setEditable(true);
 		//positioning the elements
@@ -213,14 +219,14 @@ public class controller2 implements Initializable{
 		pane.getChildren().add(preSprint);
 	}
 	//qlookbutton on action
-	public void quicklook(quicklookInfo qlook)
+	public void quicklook(PokerPlanning.Backend.quicklookInfo qlookinfo)
 	{
 		//check if there is already something in the qlook panel
 		qlookPane.getChildren().clear();
 
 		qLook ql = new qLook();
-		root = ql.getAnchor(qlook);
-		quicklooksample = qlook;
+		root = ql.getAnchor(qlookinfo);
+		quicklooksample = qlookinfo;
 
 		//adding onclick action to the change button
 		Button change = ql.getChangeButton();
@@ -237,6 +243,7 @@ public class controller2 implements Initializable{
 	private void changeWeight() {
 		// TODO Auto-generated method stub
 		scrollpoker.toFront();
+		System.out.println("to the front");
 
 	}
 	@Override
@@ -280,7 +287,7 @@ public class controller2 implements Initializable{
 		//		int i = -1;
 		for(int i = 0; i < information.size(); i++)
 		{
-			quicklookInfo info = information.get(i);
+			PokerPlanning.Backend.quicklookInfo info = information.get(i).getInfo();
 			if(info.title.contains(search) || info.getDesc().contains(search)||info.getOtherInfo().contains(search))
 			{
 				createSprint(resultFlow, info, Integer.toString(i));
@@ -431,7 +438,8 @@ public class controller2 implements Initializable{
 		stage.setScene(scene);
 		stage.show();
 //		countDown(); // label that controls the time
-		singleton.setQuicklook(infosample); //passing qlook object to singlenton class
+		singletonInstance.setQuicklook(infosample);
+//		setQuicklook(infosample); //passing qlook object to singlenton class
 
 	}
 
