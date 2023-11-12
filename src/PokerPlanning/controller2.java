@@ -27,6 +27,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 
 public class controller2 implements Initializable{
 
@@ -91,26 +92,50 @@ public class controller2 implements Initializable{
 	//	private List<sample> myList;
 
 	@FXML
-	private AnchorPane Sprint;
-
-	@FXML
-	private TextArea descrip;
-
-	@FXML
-	private Button newSprint;
-
-	@FXML
 	private FlowPane displayFlow;
 	@FXML
 	private FlowPane resultFlow;
+	
+	//upcomming fxml components
+//    @FXML
+//    private StackPane SprintPane;
+//
+//    @FXML
+//    private TextArea desc;
+//
+//    @FXML
+//    private Button newSprint;
+//
+//    @FXML
+//    private ScrollPane noSprint;
+//
+//    @FXML
+//    private StackPane noSprintPane;
+//
+//    @FXML
+//    private Label rating;
+//
+//    @FXML
+//    private Button start;
+//
+//    @FXML
+//    private Label time;
+//
+//    @FXML
+//    private Label upcommingTitle;
+	
+
+
+	
+
+	
+
+
 	//	private Stage stage;
 	//	private Scene scene;
 	//	private Parent root;
-	//	@FXML
-	//	private AnchorPane noSprint;
 
-	@FXML
-	private Label titleLabel;
+	
 
 	//	//this is for the preSprint fxml
 	//	@FXML
@@ -121,7 +146,7 @@ public class controller2 implements Initializable{
 	//
 	//	@FXML
 	//	private Label rating;
-	   PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
+	PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
 	@FXML
 	private Label title;
 	boolean indisplay;
@@ -146,19 +171,7 @@ public class controller2 implements Initializable{
 			PokerPlanning.Backend.quicklookInfo qlookinfo = information.get(i).getInfo();
 			createSprint(displayFlow, qlookinfo, Integer.toString(i));
 		}
-//		for (effort qlook : information)
-//		{
-//			i++;
-//			//			//adding sample data
-//			//			AnchorPane pastSprint = new preSprint().pane(sam, Integer.toString(i));
-//			//			//    		title.setText(sam.title);
-//			//			displayFlow.getChildren().add(pastSprint);
-//
-//			//creating prev sprint anchor
-//			
-//
-//
-//		}
+
 	}
 	//creating the sprint 
 	public void createSprint(FlowPane pane, PokerPlanning.Backend.quicklookInfo qlookinfo, String i)
@@ -230,6 +243,16 @@ public class controller2 implements Initializable{
 
 		//adding onclick action to the change button
 		Button change = ql.getChangeButton();
+//		Button startSprint = ql.getStartSprintButton();
+//		startSprint.setOnMouseClicked(event -> {
+//			try {
+//				startSPrint(event);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//		});
 		dynamicLabel = ql.getAssignedWeightLabel();
 		change.setOnMouseClicked(event -> {
 			changeWeight();
@@ -363,63 +386,42 @@ public class controller2 implements Initializable{
 		qlookScroll.toFront();
 
 	}
-	//	public void makeNewSprint(ActionEvent e)
-	//	{
-	//		//check if there is already something in the qlook panel
-	//		qlookPane.getChildren().clear();
+
+	//	void countDown() {
+	//		Thread countDownThread = new Thread(() -> {
+	//			int timeLeft = 60; // Start from 60 minutes
 	//
-	//		qLook ql = new qLook();
-	//		AnchorPane root = ql.getAnchor(new sample("","",0));
-	//		//adding onclick action to the change button
-	//		Button change = ql.getChangeButton();
-	//		change.setOnMouseClicked(event -> {
-	//			changeWeight();
+	//			// Loop until timeLeft becomes 0
+	//			while (timeLeft > 0) {
+	//				// Update the label on the JavaFX Application Thread
+	//				Platform.runLater(() -> {
+	//					countdownLabel.setText("Time Left: " + timeLeft + " minutes");
+	//				});
 	//
+	//				try {
+	//					// Sleep for 1 minute (60000 milliseconds)
+	//					Thread.sleep(60000);
+	//				} catch (InterruptedException e) {
+	//					e.printStackTrace();
+	//				}
+	//
+	//				// Decrement the timeLeft
+	//				timeLeft--;
+	//			}
+	//
+	//			// After the countdown is complete, you can perform additional actions if needed
+	//			Platform.runLater(() -> {
+	//				countdownLabel.setText("Time's up!");
+	//				// Additional actions after countdown completes
+	//			});
 	//		});
 	//
-	//		//adding to the quicklook scroll
-	//		qlookPane.getChildren().add(root);
+	//		// Set the thread as a daemon thread
+	//		countDownThread.setDaemon(true);
+	//		// Start the countdown thread
+	//		countDownThread.start();
+	//		
 	//	}
-	//	@FXML
-
-
-
-
-//	void countDown() {
-//		Thread countDownThread = new Thread(() -> {
-//			int timeLeft = 60; // Start from 60 minutes
-//
-//			// Loop until timeLeft becomes 0
-//			while (timeLeft > 0) {
-//				// Update the label on the JavaFX Application Thread
-//				Platform.runLater(() -> {
-//					countdownLabel.setText("Time Left: " + timeLeft + " minutes");
-//				});
-//
-//				try {
-//					// Sleep for 1 minute (60000 milliseconds)
-//					Thread.sleep(60000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//
-//				// Decrement the timeLeft
-//				timeLeft--;
-//			}
-//
-//			// After the countdown is complete, you can perform additional actions if needed
-//			Platform.runLater(() -> {
-//				countdownLabel.setText("Time's up!");
-//				// Additional actions after countdown completes
-//			});
-//		});
-//
-//		// Set the thread as a daemon thread
-//		countDownThread.setDaemon(true);
-//		// Start the countdown thread
-//		countDownThread.start();
-//		
-//	}
 	public void startNow(ActionEvent event)throws IOException
 	{
 		//go to the main console do something to load in in the initializer then just show it here for improved performance
@@ -429,17 +431,22 @@ public class controller2 implements Initializable{
 		stage.setScene(scene);
 		stage.show();
 	}
-	public void startSPrint(ActionEvent event)throws IOException
+	public void startSPrint(MouseEvent event)throws IOException
 	{
 
-		AnchorPane root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml")); //connects to the effort console
-		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
-//		countDown(); // label that controls the time
-		singletonInstance.setQuicklook(infosample);
-//		setQuicklook(infosample); //passing qlook object to singlenton class
+//		AnchorPane root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml")); //connects to the effort console
+//		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
+//		Scene scene = new Scene(root);
+//		stage.setScene(scene);
+//		stage.show();
+		//		countDown(); // label that controls the time
+//		singletonInstance.setQuicklook(infosample);
+//		//modifying the upcomming pane
+//		noSprintPane.toBack();
+//		desc.setText(infosample.getDesc());
+//		upcommingTitle.setText(infosample.getTitle());
+//		rating.setText(infosample.getPresentRating().toString());
+
 
 	}
 

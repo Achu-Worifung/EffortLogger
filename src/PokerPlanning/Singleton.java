@@ -39,7 +39,7 @@ public EffortConsole.Controller getControl() {
     private static Singleton instance;
 
     
-    public quicklookInfo getQuicklook() {
+    public PokerPlanning.Backend.quicklookInfo getQuicklook() {
 		return quicklook;
 	}
 
