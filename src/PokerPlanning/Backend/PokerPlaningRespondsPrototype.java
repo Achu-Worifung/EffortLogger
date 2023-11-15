@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bson.Document;
@@ -49,6 +50,32 @@ public class PokerPlaningRespondsPrototype {
 			System.out.println("connection failed");
 		}
 
+	}
+	public HashMap<String, String> getTimes(ObjectId id)
+	{
+		reopen("Efforts"); // Reopen the collection
+		Document doc = collection.find(eq("_id", id)).first();
+		
+		// Retrieve all documents from the collection
+		HashMap<String, String> startEnd = new HashMap<String, String>();
+
+		try {
+			
+				if(doc != null)
+				{
+					List<String> start = doc.getList("Start Time", String.class);
+					List<String> end = doc.getList("End Time", String.class);
+					for(int i = 0; i < end.size(); i++)
+					{
+						startEnd.put(start.get(i), end.get(i));
+					}
+				}
+				
+		}catch(MongoException me)
+		{
+			me.printStackTrace();
+		}
+		return startEnd;
 	}
 	//retrive all info from the collection
 	public List<effort> retrieveAll() {

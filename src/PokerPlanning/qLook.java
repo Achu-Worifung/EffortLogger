@@ -1,7 +1,18 @@
 package PokerPlanning;
 
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
+import PokerPlanning.Backend.PokerPlaningRespondsPrototype;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -9,11 +20,30 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 
+ class WeightHistory {
+    private String pastWeight;
+    private String defects;
+
+    public WeightHistory(String pastWeight, String defects) {
+        this.pastWeight = pastWeight;
+        this.defects = defects;
+    }
+
+    public String getPastWeight() {
+        return pastWeight;
+    }
+
+    public String getDefects() {
+        return defects;
+    }
+}
+
 public class qLook {
 	Label descriptionLabel,assignedWeightLabel,titleLabel,otherInfoLabel,effortsLabel;
 	Button changeButton,createNewPrintButton,startSprintButton;
 	TextArea descriptionTextArea,effortsTextArea, otherInfoTextArea;
 	String presentRating;
+	HashMap<String, String>  startEnd;
 	public Label getDescriptionLabel() {
 		return descriptionLabel;
 	}
@@ -89,11 +119,13 @@ public class qLook {
 	AnchorPane root;
 	public AnchorPane getAnchor(PokerPlanning.Backend.quicklookInfo qlookinfo)
 	{
+//		pastRating = new SimpleStringProperty(qlookinfo.getPresentRating().toString());
+//		defects = new SimpleStringProperty("--Effort has no Defects--");
 		root = new AnchorPane();
 		root.setPrefSize(340, 895);
 		Label titleLabel = new Label(qlookinfo.getTitle());
 		AnchorPane.setLeftAnchor(titleLabel, 5.0);
-		AnchorPane.setTopAnchor(titleLabel, 7.0);
+		AnchorPane.setTopAnchor(titleLabel, 7.0); 
 
 		descriptionLabel = new Label("description:");
 		AnchorPane.setLeftAnchor(descriptionLabel, 5.0);
@@ -127,6 +159,11 @@ public class qLook {
 		TableColumn<String, String> defectsColumn = new TableColumn<>("defects");
 		defectsColumn.setPrefWidth(254.0);
 		tableView.getColumns().addAll(pastWeightColumn, defectsColumn);
+		// Create an ObservableList to hold your data
+        ObservableList<String> data = FXCollections.observableArrayList();
+        data.add(presentRating);
+        // Set the data to the TableView
+        tableView.setItems(data);
 		AnchorPane.setLeftAnchor(tableView, 5.0);
 		AnchorPane.setRightAnchor(tableView, 5.0);
 		AnchorPane.setTopAnchor(tableView, 336.0);
@@ -138,12 +175,48 @@ public class qLook {
 		AnchorPane.setLeftAnchor(effortsLabel, 12.0);
 		AnchorPane.setTopAnchor(effortsLabel, 499.0);
 		//effort text area
+		ObjectId id = qlookinfo.getId();
+		Thread getTimes = new Thread(()->
+		{
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+			startEnd = new PokerPlaningRespondsPrototype().getTimes(id);
+			// Clear existing text in the text area
+			effortsTextArea.clear();
+
+			// Use StringBuilder for concatenating strings
+			StringBuilder resultBuilder = new StringBuilder();
+
+			for (String startTime : startEnd.keySet()) {
+			    try {
+			        LocalTime startLocalTime = LocalTime.parse(startTime, formatter);
+			        LocalTime endLocalTime = LocalTime.parse(startEnd.get(startTime), formatter);
+			        Duration duration = Duration.between(startLocalTime, endLocalTime);
+
+			        resultBuilder.append(String.format("From: %s - To: %s : %s%n", startTime, startEnd.get(startTime), duration.toMinutes()+" Minutes"));
+			    } catch (DateTimeParseException e) {
+			        // Handle the exception (e.g., log it, show an error message)
+			        System.err.println("Error parsing time: " + e.getMessage());
+			    }
+			}
+
+			// Set the text to the text area
+			effortsTextArea.setText(resultBuilder.toString());
+		});
+		getTimes.setDaemon(true);
+		getTimes.start();
+
+		
 		effortsTextArea = new TextArea();
+
+		
+
+		// Setting the effort String
 		AnchorPane.setLeftAnchor(effortsTextArea, 1.0);
 		AnchorPane.setRightAnchor(effortsTextArea, 9.0);
 		AnchorPane.setTopAnchor(effortsTextArea, 531.0);
 		effortsTextArea.setPrefWidth(354.0);
 		effortsTextArea.setPrefHeight(113.0);
+
 		//other information label
 		otherInfoLabel = new Label("Other info");
 		AnchorPane.setLeftAnchor(otherInfoLabel, 11.0);

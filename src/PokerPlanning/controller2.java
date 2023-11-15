@@ -126,7 +126,6 @@ public class controller2 implements Initializable{
 		AnchorPane isSprint = upcommingPan.createUI();
 		displayFlow.getChildren().add(isSprint);
 		information = singletonInstance.getEffortList(); //getting all data stored in design pattern
-		//		myList = new sample().getlist();
 		for(int i = 0; i < information.size();i++)
 		{
 			PokerPlanning.Backend.quicklookInfo qlookinfo = information.get(i).getInfo();
@@ -139,48 +138,40 @@ public class controller2 implements Initializable{
 
 				//				------------------------IMPORTANT-----------------------------------------------
 				//UNCOMMENT LINE BELOW WHEN YOU FIX THE TIMES IN THE DATA BASE
+				//				getting the time it started
+				List<String> startTimeList = information.get(i).getStartTime();
 
+				// Check if the startTimeList is not empty
+				if (!startTimeList.isEmpty()) {
+					// Get the last element from the startTimeList
+					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
+					// Convert the String to LocalTime
+					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
+					// Check if the current hour is after the target hour
+					Duration duration = Duration.between(timeStarted, LocalTime.now());
+					if(duration.toMinutes() > 10) upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
+					else countDown(Math.toIntExact((10-duration.toMinutes())));
 
+//					System.out.println(upcommingPan.getStartButton());
 
-				//getting the time it started
-				//				List<String> startTimeList = information.get(i).getStartTime();
-				//
-				//				// Check if the startTimeList is not empty
-				//				if (!startTimeList.isEmpty()) {
-				//					// Get the last element from the startTimeList
-				//					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
-				//					// Convert the String to LocalTime
-				//					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
-				//					// Check if the current hour is after the target hour
-				//					Duration duration = Duration.between(timeStarted, LocalTime.now());
-				//					upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
-				//					countDown(Math.toIntExact((60-duration.toHours())));
-
-				//FOR NOW USE RANDOM TIME
-				countDown(10);
-
-
-
-
-
-				System.out.println(upcommingPan.getStartButton());
-				
-				upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
-				inProgress = true;
-			}
-			upcommingPan.getStartButton().setOnMouseClicked(event ->
-			{
-				try {
-					startNow(event);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
+					inProgress = true;
 				}
-			});
+				upcommingPan.getStartButton().setOnMouseClicked(event ->
+				{
+					try {
+						startNow(event);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+				
+				continue;
+			}
 			createSprint(displayFlow, qlookinfo, Integer.toString(i));
+
+
 		}
-
-
 	}
 	//creating the sprint 
 	public void createSprint(FlowPane pane, PokerPlanning.Backend.quicklookInfo qlookinfo, String i)
@@ -329,14 +320,16 @@ public class controller2 implements Initializable{
 			searchBar11.setText(search);
 		}
 		//		int i = -1;
-		for(int i = 0; i < information.size(); i++)
-		{
-			PokerPlanning.Backend.quicklookInfo info = information.get(i).getInfo();
-			if(info.title.contains(search) || info.getDesc().contains(search)||info.getOtherInfo().contains(search))
-			{
+		for (int i = 0; i < information.size(); i++) {
+			quicklookInfo info = information.get(i).getInfo();
+			if (info.title.toLowerCase().contains(search.toLowerCase()) ||
+					info.getDesc().toLowerCase().contains(search.toLowerCase()) ||
+					info.getOtherInfo().toLowerCase().contains(search.toLowerCase()) ||
+					info.getPresentRating().toString().toLowerCase().contains(search.toLowerCase())) {
 				createSprint(resultFlow, info, Integer.toString(i));
 			}
 		}
+
 
 
 	}
@@ -361,7 +354,7 @@ public class controller2 implements Initializable{
 	public void letItGlow(ImageView imageView)
 	{
 
-		glowEffect.setColor(javafx.scene.paint.Color.GREEN); // Set the color of the glow
+		glowEffect.setColor(javafx.scene.paint.Color.RED); // Set the color of the glow
 		// Add event handlers for hover effect
 		imageView.setOnMouseEntered(e -> imageView.setEffect(glowEffect));
 		imageView.setOnMouseExited(e -> imageView.setEffect(null));
@@ -466,7 +459,7 @@ public class controller2 implements Initializable{
 			upcommingPan.getTitleLabel().setText(infosample.getTitle());
 			upcommingPan.getDescTextArea().setText(infosample.getDesc());
 			upcommingPan.getRatingLabel().setText("Rating: "+infosample.getPresentRating());
-			countDown(59);
+			countDown(10);
 			inProgress = true;
 		}else 
 		{

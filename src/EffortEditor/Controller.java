@@ -89,7 +89,12 @@ public class Controller implements Initializable{
 	private Scene scene;
 	private Parent root;
 	private List<Document> efforts;
-	private String effortDate, start, end, lifeCycle,effort, rand;
+	List<String> effortDate;
+	List<String> lifeCycle;
+	private String rand;
+	List<String> effort;
+	List<String> end;
+	List<String> start;
 	boolean canUpdate;
 
 	@FXML
@@ -163,17 +168,16 @@ public class Controller implements Initializable{
 				
 				Document doc = efforts.get(i);
 				//get all info for doc at i
-				effortDate = doc.getString("Date");
-				start = doc.getString("Start Time");
-				end = doc.getString("End Time");
-				effort = doc.getString("Effort Category");
-				lifeCycle = doc.getString("Life Cyle Step");
-				rand = doc.getString(effort);
+				effortDate = doc.getList("Start Dates", String.class);
+				start = doc.getList("Start Time", String.class);
+				end = doc.getList("End Time", String.class);
+				effort = doc.getList("Effort Category", String.class);
+				lifeCycle = doc.getList("Life Cycle Step", String.class);
 				//skip over any effort with a null value
-				String[] item = {effortDate,start,end,effort,lifeCycle,rand};
+				String[] item = {effortDate.get(effortDate.size()-1),start.get(start.size()-1),end.get(end.size()-1),effort.get(effort.size()-1),lifeCycle.get(lifeCycle.size()-1)};
 				for(String s: item) if(s == null) continue a; //skip the current document
 				//set the effortentry drop down options
-				effortentry.getItems().add(count+". "+effortDate+"("+start+"-"+end+")"+lifeCycle+effort+rand);
+				effortentry.getItems().add(count+" . "+effortDate+" ( "+start+ " - "+end+" ) "+lifeCycle+effort);
 				count++;
 			}
 		});

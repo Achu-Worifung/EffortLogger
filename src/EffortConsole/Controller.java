@@ -252,6 +252,15 @@ public class Controller implements Initializable{
 
 			return; //is the clock is already on do nothing
 		}
+		if(singletonInstance.getQuicklook() == null) {
+			//alert when trying to start a clock when one is already running
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Start A new  Activity");
+			alert.setHeaderText("Please first select or Create a new Sprint");
+			alert.show();
+			System.out.println("terminated");
+			return; //is the clock is already on do nothing
+		}
 		isOn = true;
 		clock.setText("Clock Is ON");
 		clock.setStyle("-fx-background-color: GREEN;");
@@ -283,6 +292,16 @@ public class Controller implements Initializable{
 			
 			List<String> effortCat = new ArrayList<>();
 			effortCat.add(effortcat.getValue());
+			System.out.println(singletonInstance.getQuicklook());
+			if(singletonInstance.getQuicklook() == null) {
+				//alert when trying to start a clock when one is already running
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Start A new  Activity");
+				alert.setHeaderText("Please first select or Create a new Sprint");
+				alert.show();
+
+				return; //is the clock is already on do nothing
+			}
 			//writing to the database
 			new PokerPlaningRespondsPrototype().writeTo(new effort("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
 					lifeCycle, effortCat, singletonInstance.getQuicklook()));
