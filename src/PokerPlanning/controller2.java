@@ -130,44 +130,55 @@ public class controller2 implements Initializable{
 		{
 			PokerPlanning.Backend.quicklookInfo qlookinfo = information.get(i).getInfo();
 			//check if any sprint is in progress
-			if(information.get(i).getStatus()!=null&&information.get(i).getStatus().equalsIgnoreCase("In Progress"))
-			{
-				upcommingPan.getSprintPane().toFront();
-				upcommingPan.getTitleLabel().setText(information.get(i).getInfo().getTitle());
-				upcommingPan.getRatingLabel().setText("Rating: "+qlookinfo.getPresentRating().toString());
-
-				//				------------------------IMPORTANT-----------------------------------------------
-				//UNCOMMENT LINE BELOW WHEN YOU FIX THE TIMES IN THE DATA BASE
-				//				getting the time it started
-				List<String> startTimeList = information.get(i).getStartTime();
-
-				// Check if the startTimeList is not empty
-				if (!startTimeList.isEmpty()) {
-					// Get the last element from the startTimeList
-					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
-					// Convert the String to LocalTime
-					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
-					// Check if the current hour is after the target hour
-					Duration duration = Duration.between(timeStarted, LocalTime.now());
-					if(duration.toMinutes() > 10) upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
-					else countDown(Math.toIntExact((10-duration.toMinutes())));
-
-//					System.out.println(upcommingPan.getStartButton());
-
-					upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
-					inProgress = true;
-				}
-				upcommingPan.getStartButton().setOnMouseClicked(event ->
-				{
-					try {
-						startNow(event);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				});
-				
-				continue;
-			}
+//			if(information.get(i).getStatus()!=null&&information.get(i).getStatus().equalsIgnoreCase("In Progress"))
+//			{
+//				upcommingPan.getSprintPane().toFront();
+//				upcommingPan.getTitleLabel().setText(information.get(i).getInfo().getTitle());
+//				upcommingPan.getRatingLabel().setText("Rating: "+qlookinfo.getPresentRating().toString());
+//
+//				//				------------------------IMPORTANT-----------------------------------------------
+//				//UNCOMMENT LINE BELOW WHEN YOU FIX THE TIMES IN THE DATA BASE
+//				//				getting the time it started
+//				List<String> startTimeList = information.get(i).getStartTime();
+//
+//				// Check if the startTimeList is not empty
+//				if (!startTimeList.isEmpty()) {
+//					// Get the last element from the startTimeList
+//					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
+//					// Convert the String to LocalTime
+//					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
+//					// Check if the current hour is after the target hour
+//					Duration duration = Duration.between(timeStarted, LocalTime.now());
+//					if(duration.toMinutes() > 10) upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
+//					else countDown(Math.toIntExact((10-duration.toMinutes())));
+//
+////					System.out.println(upcommingPan.getStartButton());
+//
+//					upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
+//					inProgress = true;
+//				}
+//				upcommingPan.getStartButton().setOnMouseClicked(event ->
+//				{
+//					try {
+//						startNow(event);
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				});
+//				upcommingPan.getVote().setOnMouseClicked(event ->
+//				{
+//					try
+//					{
+////						quicklooksample = information.get(index).getInfo();
+////						changeWeight();
+//					}catch(Exception e)
+//					{
+//						e.printStackTrace();
+//					}
+//				});
+//				
+//				continue;
+//			}
 			createSprint(displayFlow, qlookinfo, Integer.toString(i));
 
 
@@ -435,7 +446,7 @@ public class controller2 implements Initializable{
 	public void startNow(MouseEvent event)throws IOException
 	{
 		//go to the main console do something to load in in the initializer then just show it here for improved performance
-
+		System.out.println("HERE AM I ");
 		singletonInstance.setQuicklook(infosample);
 		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow(); 
 		Scene scene = new Scene(effortConsole);
@@ -459,6 +470,15 @@ public class controller2 implements Initializable{
 			upcommingPan.getTitleLabel().setText(infosample.getTitle());
 			upcommingPan.getDescTextArea().setText(infosample.getDesc());
 			upcommingPan.getRatingLabel().setText("Rating: "+infosample.getPresentRating());
+			upcommingPan.getStartButton().setOnMouseClicked((MouseEvent mouseEvent) -> {
+			    try {
+			        startNow(mouseEvent);
+			    } catch (IOException e) {
+			        // Handle the exception, e.g., log it or display an error message
+			        e.printStackTrace();
+			    }
+			});
+
 			countDown(10);
 			inProgress = true;
 		}else 

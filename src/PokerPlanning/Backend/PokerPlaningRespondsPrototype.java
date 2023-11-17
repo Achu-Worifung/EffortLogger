@@ -205,7 +205,7 @@ public class PokerPlaningRespondsPrototype {
 		return true;
 	}
 
-	boolean updatenew(effort eff)
+	public boolean updatenew(effort eff)
 	{
 		close();
 		reopen("Efforts");
