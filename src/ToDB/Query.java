@@ -190,7 +190,7 @@ public class Query {
 	    close();
 		return null;
 	}
-	public List<String> getDefects()
+	public List<String> getDefects(String projectType)
 	{
 		System.out.println("ran");
 		close();

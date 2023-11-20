@@ -86,6 +86,15 @@ public class Controller implements Initializable{
 	@FXML
 	void switchForm(ActionEvent event) throws IOException 
 	{
+//		if(event.getSource() == defects)
+//		{
+//			Parent root = FXMLLoader.load(getClass().getResource("/effortAndDefectLogs/console.fxml"));
+//			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//			scene = new Scene(root);
+//			stage.setScene(scene);
+//			stage.show();
+//			
+//		}
 		if(event.getSource() == defects)
 		{
 			root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml"));
@@ -118,14 +127,7 @@ public class Controller implements Initializable{
 			stage.setScene(scene);
 			stage.show();
 		}
-		else 
-		{
-			Parent root = FXMLLoader.load(getClass().getResource("/effortAndDefectLogs/console.fxml"));
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		}
+		
 	}
 	@FXML
 	void DynamicSwitchByProject(ActionEvent event) {
@@ -212,7 +214,7 @@ public class Controller implements Initializable{
 		}
 		if (text.equals("Defects")) {
 			Thread getDefect = new Thread(() -> {
-				List<String> defect = new Query().getDefects(); // get defects from db
+				List<String> defect = new Query().getDefects(chooseproject.getValue()); // get defects from db
 				Platform.runLater(() -> {
 					for (String s : defect) {
 						randdrop.getItems().add(s); // add all items in choice to the dropdown

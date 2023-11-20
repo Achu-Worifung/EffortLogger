@@ -297,7 +297,7 @@ public class Controller implements Initializable{
 		}
 		if (text.equals("Defects")) {
 		    Thread getDefect = new Thread(() -> {
-		        List<String> defect = new Query().getDefects(); // get defects from db
+		        List<String> defect = new Query().getDefects(projects.getValue()); // get defects from db
 		        Platform.runLater(() -> {
 		            for (String s : defect) {
 		            	random.getItems().add(s); // add all items in choice to the dropdown
