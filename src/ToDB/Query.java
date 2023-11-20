@@ -21,6 +21,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
@@ -93,19 +94,39 @@ public class Query {
 
 	    try {
 	    	//find doc with the same id and update it
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Date", date)));
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Start Time", startTime)));
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("End Time", end)));
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Life Cyle Step", lifeCycleStep)));
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Effort Category", effortCategory)));
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document(effortCategory, randomdrop)));
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Time Spend", timespent)));
+//	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Date", date)));
+//	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Start Time", startTime)));
+//	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("End Time", end)));
+//	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Life Cyle Step", lifeCycleStep)));
+//	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Effort Category", effortCategory)));
+//	    	collection.updateOne(eq("_id", id), new Document("$set", new Document(effortCategory, randomdrop)));
+//	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Time Spend", timespent)));
+	    	
+	    	
+	    	int index = collection.find(eq("_id", id)).first().getList("Start Time", String.class).size()-1; //getting the size of the string list
+	    	
+	    	Bson filter = Filters.eq("_id", id); // Assuming you're using '_id' as the
+			// unique identifier
+			//Define the update operation to push a new item to the array
+	    	Bson update = Updates.set("Start Dates." + index, date);
+	    	// Update the document
+	    	collection.updateOne(filter, update);
+	    	update = Updates.set("Start Time." + index, startTime);
+	    	collection.updateOne(filter, update);
+	    	update = Updates.set("End Time." + index, end);
+	    	collection.updateOne(filter, update);
+	    	 update = Updates.set("Life Cycle Step." + index, lifeCycleStep);
+	    	collection.updateOne(filter, update);
+	    	update = Updates.set("Effort Category." + index, effortCategory);
+	    	collection.updateOne(filter, update);
+	    	update = Updates.set("Random Value." + index, randomdrop);
+	    	collection.updateOne(filter, update);
 	    	
 	    	//getting entries number
-	    	Integer entries = collection.find(eq("_id", id)).first().getInteger("Number of Entries");
+	    	Integer entries = collection.find(eq("_id", id)).first().getInteger("Number Of Entries");
 	    	
 	    	entries++;
-	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Number of Entries", entries)));
+	    	collection.updateOne(eq("_id", id), new Document("$set", new Document("Number Of Entries", entries)));
 	    	return true;
 	    } catch (MongoException e) {
 	        System.out.println("Failed to update Effort");

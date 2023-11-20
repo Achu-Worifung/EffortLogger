@@ -91,6 +91,7 @@ public class Controller implements Initializable{
 	private List<Document> efforts;
 	List<String> effortDate;
 	List<String> lifeCycle;
+	List<String> randVal;
 	private String rand;
 	List<String> effort;
 	List<String> end;
@@ -173,11 +174,21 @@ public class Controller implements Initializable{
 				end = doc.getList("End Time", String.class);
 				effort = doc.getList("Effort Category", String.class);
 				lifeCycle = doc.getList("Life Cycle Step", String.class);
+				randVal = doc.getList("Random Value", String.class);
+				
+				//get the last effort info(can only edit the last one
+				String lastEffortDate = effortDate.get(effortDate.size()-1);
+				String lastStartTime = start.get(start.size()-1);
+				String lastEnd = end.get(end.size()-1);
+				String lastEffortCat = effort.get(effort.size()-1);
+				String lastLifeCycle = lifeCycle.get(lifeCycle.size()-1);
+				String lastRandVal = randVal.get(randVal.size()-1);
 				//skip over any effort with a null value
-				String[] item = {effortDate.get(effortDate.size()-1),start.get(start.size()-1),end.get(end.size()-1),effort.get(effort.size()-1),lifeCycle.get(lifeCycle.size()-1)};
-				for(String s: item) if(s == null) continue a; //skip the current document
+//				String[] item = {effortDate.get(effortDate.size()-1),start.get(start.size()-1),end.get(end.size()-1),effort.get(effort.size()-1),lifeCycle.get(lifeCycle.size()-1),randVal.get(randVal.size()-1)};
+//				for(String s: item) if(s == null) continue a; //skip the current document
 				//set the effortentry drop down options
-				effortentry.getItems().add(count+" . "+effortDate+" ( "+start+ " - "+end+" ) "+lifeCycle+effort);
+//				effortentry.getItems().add(count+" . "+effortDate+" ( "+start+ " - "+end+" ) "+lifeCycle+effort+ "  "+ randVal);
+				effortentry.getItems().add(count+" . "+lastEffortDate+" ( "+lastStartTime+ " - "+lastEnd+" ) "+lastLifeCycle+lastEffortCat+ "  "+ lastRandVal);
 				count++;
 			}
 		});
@@ -225,12 +236,22 @@ public class Controller implements Initializable{
 		//getting the selected doc
 		Document doc = efforts.get(selectedIndex);
 		id = doc.getObjectId("_id"); //set id to the selected doc id
-		date.setText(doc.getString("Date"));
-		startTime.setText(doc.getString("Start Time"));
-		endTime.setText(doc.getString("End Time"));
-		effortCat.setValue(doc.getString("Effort Category"));
-		labelrand.setText(effortCat.getValue());
-		random.setValue(doc.getString(effortCat.getValue()));
+		
+		String lastEffortDate = doc.getList("Start Dates", String.class).get(doc.getList("Start Dates", String.class).size()-1);
+		String lastStartTime = doc.getList("Start Time", String.class).get(doc.getList("Start Time", String.class).size()-1);
+		String lastEndTime = doc.getList("End Time", String.class).get(doc.getList("End Time", String.class).size()-1);
+		String lastEffortCat = doc.getList("Effort Category", String.class).get(doc.getList("Effort Category", String.class).size()-1);
+		String lastLifeCycle = doc.getList("Life Cycle Step", String.class).get(doc.getList("Life Cycle Step", String.class).size()-1);
+		String lastRandVal = doc.getList("Random Value", String.class).get(doc.getList("Random Value", String.class).size()-1);
+		
+		
+		
+		date.setText(lastEffortDate);
+		startTime.setText(lastStartTime);
+		endTime.setText(lastEndTime);
+		effortCat.setValue(lastEffortCat);
+		labelrand.setText(lastEffortCat);
+		random.setValue(lastRandVal);
 		
 		canUpdate = true;
 	}
@@ -306,20 +327,31 @@ public class Controller implements Initializable{
 	public void update(ActionEvent event)
 	{
 		//continue here validate the update to ensure no conflicting info
-		String he = date.getText();
-		LocalDate date = LocalDate.parse( he);
-		String st = startTime.getText();
-		LocalTime start = LocalTime.parse(st);
-		String et = endTime.getText();
-		LocalTime end = LocalTime.parse(et);
-		String cat = effortCat.getValue(); 
-		String life = cycleStep.getValue(); 
-		String rand = random.getValue();
+		String newDate = date.getText();
+		LocalDate date = LocalDate.parse(newDate);
+		String sTime =startTime.getText();
+		LocalTime start = LocalTime.parse(sTime);
+		String eTime = endTime.getText();
+		LocalTime end =LocalTime.parse(eTime);
+		String category = effortCat.getValue();
+		String lifeCycle = cycleStep.getValue();
+		String rand =random.getValue();
+		
+		
+//		String he = date.getText();
+//		LocalDate date = LocalDate.parse( he);
+//		String st = startTime.getText();
+//		LocalTime start = LocalTime.parse(st);
+//		String et = endTime.getText();
+//		LocalTime end = LocalTime.parse(et);
+//		String cat = effortCat.getValue(); 
+//		String life = cycleStep.getValue(); 
+//		String rand = random.getValue();
 		if(rand.isEmpty() || rand == null)
 		{
 			rand = hide.getText();
 		}
-		String valid = new ValidateUpdate().valide(he, start, end);
+		String valid = new ValidateUpdate().valide(newDate, start, end);
 		if(!valid.equals("success"))
 		{
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -333,12 +365,18 @@ public class Controller implements Initializable{
 		Duration time = Duration.between(start, end);
 		long timeSpent = time.toSeconds();
 		
-		boolean succ =new Query().updateEffort(id, timeSpent, he, st, et, life, cat, rand);
+		boolean succ =new Query().updateEffort(id, timeSpent, newDate, sTime, eTime, lifeCycle, category, rand);
 		if(succ)
 		{
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Effort Log Editor");
 			alert.setHeaderText("Effort Edited Successfully");
+			alert.show();
+		}else 
+		{
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Effort Log Editor");
+			alert.setHeaderText("Effort Edited Failee");
 			alert.show();
 		}
 		
@@ -365,13 +403,14 @@ public class Controller implements Initializable{
 		}
 		if(id == null)
 		{
-			 alert = new Alert(AlertType.CONFIRMATION);
+			alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Delete Error");
 			alert.setHeaderText("You must first select a log before you can delete it.");
 			alert.show();
 			return;
 		}
 		new Query().deleteEntry(id);
+		//clear things after deletion
 	}
 
 

@@ -3,13 +3,13 @@ package PokerPlanning.Backend;
 import java.util.List;
 
 public class effort {
-    List<String> startTime, endTime, startDate, lifeCycle, effortCat, randdrop;
+    List<String> startTime, endTime, startDate, lifeCycle, effortCat, randdrop, rand;
     String projectType, status;
     quicklookInfo info;
     
     // just get the start and end time for now
     public effort(String status,List<String> startTime, List<String>  endTime, String projectType, List<String>  startDate, List<String>  lifeCycle,
-    		List<String>  effortCat,  quicklookInfo info) {
+    		List<String>  effortCat, List<String> rand,  quicklookInfo info) {
 		super();
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -19,6 +19,15 @@ public class effort {
 		this.effortCat = effortCat;
 		this.info = info;
 		this.status = status;
+		this.rand = rand;
+	}
+
+	public List<String> getRand() {
+		return rand;
+	}
+
+	public void setRand(List<String> rand) {
+		this.rand = rand;
 	}
 
 	public String getStatus() {

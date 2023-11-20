@@ -104,7 +104,7 @@ public class PokerPlaningRespondsPrototype {
 				//effort object
 				//start and end times are list not strings
 				effortList.add(new effort(doc.getString("Status")  ,doc.getList("Start Time", String.class), doc.getList("End Time", String.class), doc.getString("Project"),doc.getList("Start Date", String.class)
-						, doc.getList("Life Cycle Step", String.class), doc.getList("Effort Category", String.class), quickInfo));
+						, doc.getList("Life Cycle Step", String.class), doc.getList("Effort Category", String.class), doc.getList("Random Value", String.class), quickInfo));
 			}
 		} catch(MongoException e) {
 			System.err.println("Error retrieving documents: " + e.getMessage());
@@ -235,6 +235,9 @@ public class PokerPlaningRespondsPrototype {
 		update = Updates.push("Life Cycle Step", eff.getLifeCycle().get(0));
 		collection.updateOne(filter, update);
 		update = Updates.push("Prev Rating", eff.getInfo().getPresentRating());
+		collection.updateOne(filter, update);
+		
+		update = Updates.push("Random Value", eff.rand);
 		collection.updateOne(filter, update);
 
 		Document document = collection.find(eq("_id", docId)).first();

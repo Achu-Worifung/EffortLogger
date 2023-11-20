@@ -22,7 +22,7 @@ public class Controller {
     private Button close;
 
     @FXML
-    private ListView<?> defectCategory;
+    private ListView<String> defectCategory;
 
     @FXML
     private Button delDefect;

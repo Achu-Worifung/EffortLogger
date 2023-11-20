@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import PokerPlanning.Singleton;
 import PokerPlanning.Backend.PokerPlaningRespondsPrototype;
 import PokerPlanning.Backend.effort;
+import PokerPlanning.Backend.quicklookInfo;
 import ToDB.Query;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -292,6 +293,8 @@ public class Controller implements Initializable{
 			
 			List<String> effortCat = new ArrayList<>();
 			effortCat.add(effortcat.getValue());
+			List<String> randVal = new ArrayList<>();
+			randVal.add(randdropdown);
 			System.out.println(singletonInstance.getQuicklook());
 //			if(singletonInstance.getQuicklook() == null) {
 //				//alert when trying to start a clock when one is already running
@@ -303,8 +306,11 @@ public class Controller implements Initializable{
 //				return; //is the clock is already on do nothing
 //			}
 			//writing to the database
+//			(String status,List<String> startTime, List<String>  endTime, String projectType, List<String>  startDate, List<String>  lifeCycle,
+//		    		List<String>  effortCat,List<String> rand,  quicklookInfo info)
+			
 			new PokerPlaningRespondsPrototype().updatenew(new effort("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
-					lifeCycle, effortCat, singletonInstance.getQuicklook()));
+					lifeCycle, effortCat, randVal, singletonInstance.getQuicklook()));
 //			new PokerPlaningRespondsPrototype().writeTo(new effort("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
 //					lifeCycle, effortCat, singletonInstance.getQuicklook()));
 			
