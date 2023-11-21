@@ -176,26 +176,33 @@ public class Controller implements Initializable{
 	public void selectDefect(ActionEvent event)
 	{
 		if(newDefect) return;
-		//getting the selected defect
+		//getting the selected defect index
 		String getSelectedvalue = selectDefect.getValue();
 		char index = getSelectedvalue.charAt(0);
 		selectedDefect = (index-'0')-1;
 
 		//getting the selected document
 		Document doc = defects.get(selectedDefect);
+		
 		String injectionValueToSelect = doc.getString("Injection Step");
 		String removedValueToSelect = doc.getString("Removed Step");
 		String catValueToSelect = doc.getString("Defect Category");
 		//getting the index of each list view
 		
-		int indexWhenInjected = stepWhenInjected.indexOf(injectionValueToSelect);
-		stepInj.getSelectionModel().select(indexWhenInjected);
+//		int indexWhenInjected = stepWhenInjected.indexOf(injectionValueToSelect);
+//		stepInj.getSelectionModel().select(indexWhenInjected);
+//		
+//		int indexWhenRemoved = stepWhenRemoved.indexOf(removedValueToSelect);
+//		stepRem.getSelectionModel().select(indexWhenRemoved);
+//		
+//		int indexcat = defectCat.indexOf(catValueToSelect);
+//		defectCategory.getSelectionModel().select(indexcat);
+		System.out.println(removedValueToSelect);
+		System.out.println(catValueToSelect);
+		defectCategory.getSelectionModel().select(removedValueToSelect);
+		stepInj.getSelectionModel().select(injectionValueToSelect);
+		stepRem.getSelectionModel().select(catValueToSelect);
 		
-		int indexWhenRemoved = stepWhenRemoved.indexOf(removedValueToSelect);
-		stepRem.getSelectionModel().select(indexWhenRemoved);
-		
-		int indexcat = defectCat.indexOf(catValueToSelect);
-		defectCategory.getSelectionModel().select(indexcat);
 
 		//Populating all things
 		defectName.setText(doc.getString("Name"));
@@ -312,8 +319,8 @@ public class Controller implements Initializable{
 	{
 		// Assuming your ListView contains String items
 		injection = (String) stepInj.getSelectionModel().getSelectedItem();
-		removed = (String) defectCategory.getSelectionModel().getSelectedItem();
-		cat  = (String) stepRem.getSelectionModel().getSelectedItem();
+		removed = (String) stepRem.getSelectionModel().getSelectedItem();
+		cat  = (String) defectCategory.getSelectionModel().getSelectedItem();
 		change = true;
 		change(); //changes were made
 
