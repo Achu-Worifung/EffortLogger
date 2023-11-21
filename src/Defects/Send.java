@@ -1,6 +1,8 @@
 package Defects;
 
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bson.Document;
 
@@ -10,7 +12,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-public class Responds {
+public class Send {
 	String uri = "mongodb+srv://achuworifung:QqgHwlf9hnQl53fW@cluster0.fodlvul.mongodb.net/";
 	MongoClient mongoClient;
 	MongoDatabase database;
@@ -36,5 +38,19 @@ public class Responds {
 			System.out.println("connection failed");
 		}
 
+	}
+	public void newDefect(HashMap<String, String> map )
+	{
+		reopen("Defects");
+		try {
+			Document document = new Document();
+			 for (Map.Entry<String, String> entry : map.entrySet()) {
+	                document.append(entry.getKey(), entry.getValue());
+	            }
+			 collection.insertOne(document);
+		}catch(MongoException me)
+		{
+			me.printStackTrace();
+		}
 	}
 }

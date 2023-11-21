@@ -57,7 +57,7 @@ public class Request {
             while (cursor.hasNext())
             {
             	Document doc = cursor.next();
-            	if(doc.getString("Project Type").equals(ProjectType))
+            	if(doc != null && doc.getString("Project Type").equals(ProjectType))
             	{
             		defects.add(doc);
             	}

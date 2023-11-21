@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -81,7 +84,7 @@ public class Controller implements Initializable{
 	private Button updateDefect;
 	List<Document> defects;
 	List<String> defectCat;
-	boolean change;
+	boolean change, newDefect;
 	int selectedDefect; //keep track of which specific defect currently working on
 
 	//--------------------------------THESE ARE TEMP VALUE ARRAY------------------------------------------
@@ -96,7 +99,8 @@ public class Controller implements Initializable{
 			"Team Meeting", "Stakeholder Meeting"
 			);
 
-
+	//-----------------------FOR LIST VIEW------------------------------------
+	String injection, removed, cat;
 
 
 
@@ -126,11 +130,13 @@ public class Controller implements Initializable{
 			defectCategory.getItems().add(s);
 		}
 		change = false;
+		newDefect = false;
 
 	}
 	public void seletedProject(ActionEvent event) {
 		//clear everything out
-
+		System.out.println(newDefect);
+		if(newDefect) return;
 		String selectedProject = selectProject.getValue();
 
 		selectDefect.getItems().clear();
@@ -146,6 +152,7 @@ public class Controller implements Initializable{
 				final int index = i;
 				Platform.runLater(() -> {
 					selectDefect.getItems().add(index + "." + doc.getString("Name"));
+					fix.getItems().add(index + "." + doc.getString("Name"));
 				});
 			}
 
@@ -168,6 +175,7 @@ public class Controller implements Initializable{
 
 	public void selectDefect(ActionEvent event)
 	{
+		if(newDefect) return;
 		//getting the selected defect
 		String getSelectedvalue = selectDefect.getValue();
 		char index = getSelectedvalue.charAt(0);
@@ -175,22 +183,31 @@ public class Controller implements Initializable{
 
 		//getting the selected document
 		Document doc = defects.get(selectedDefect);
-		String injectionValueToSelect = doc.getString("Step When Injected");
-		String removedValueToSelect = doc.getString("Step When Removed");
+		String injectionValueToSelect = doc.getString("Injection Step");
+		String removedValueToSelect = doc.getString("Removed Step");
+		String catValueToSelect = doc.getString("Defect Category");
+		//getting the index of each list view
+		
 		int indexWhenInjected = stepWhenInjected.indexOf(injectionValueToSelect);
-		int indexWhenRemoved = stepWhenRemoved.indexOf(removedValueToSelect);
-
-		//pupulating all things
-		defectName.setText(doc.getString("Name"));
-		defectSymptop.setText(doc.getString("Symptoms"));
-
 		stepInj.getSelectionModel().select(indexWhenInjected);
+		
+		int indexWhenRemoved = stepWhenRemoved.indexOf(removedValueToSelect);
 		stepRem.getSelectionModel().select(indexWhenRemoved);
+		
+		int indexcat = defectCat.indexOf(catValueToSelect);
+		defectCategory.getSelectionModel().select(indexcat);
+
+		//Populating all things
+		defectName.setText(doc.getString("Name"));
+		defectSymptop.setText(doc.getString("Symptom"));
+		status.setText(doc.getString("Status"));
+
 		change = true; //will let user know that they've made changes
+		newDefect = false;
 	}
 	public void change()
 	{
-		if(!change) return;
+//		if(!change) return;
 		saved.setStyle("-fx-background-color: RED;");
 	}
 
@@ -278,5 +295,58 @@ public class Controller implements Initializable{
 			alert.show();
 
 		}
+	}
+	public void createNewDefect(ActionEvent e)
+	{
+		newDefect = true;
+		selectDefect.setValue("-new defect-");
+		defectName.setText("-new defect-");
+		stepInj.getItems().clear();
+		for(String s: stepWhenInjected)
+		{
+			stepInj.getItems().add(s);
+			stepRem.getItems().add(s);
+		}
+	}
+	public void select()
+	{
+		// Assuming your ListView contains String items
+		injection = (String) stepInj.getSelectionModel().getSelectedItem();
+		removed = (String) defectCategory.getSelectionModel().getSelectedItem();
+		cat  = (String) stepRem.getSelectionModel().getSelectedItem();
+		change = true;
+		change(); //changes were made
+
+	}
+
+
+
+	public void updateDefect(ActionEvent event)
+	{
+		//getting all the data
+		HashMap<String, String> updateDefects = new HashMap<>();
+		updateDefects.put("Project Type", selectProject.getValue());
+		updateDefects.put("Previous Name", selectDefect.getValue());
+		updateDefects.put("Name", defectName.getText());
+		updateDefects.put("Symptom",defectSymptop.getText());
+		updateDefects.put("Status", status.getText());
+		updateDefects.put("Injection Step", injection);
+		updateDefects.put("Removed Step", removed);
+		updateDefects.put("Defect Category", cat);
+		for (Entry<String, String> entry : updateDefects.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if(value == null)
+            {
+            	Alert alert = new Alert(AlertType.WARNING);
+    			alert.setTitle("Updating Effort");
+    			alert.setHeaderText("Please Ensure that "+ key+ " is not Null.");
+    			alert.show();
+            	return;
+            }
+        }
+		new Send().newDefect(updateDefects);
+		
+//		String injection = stepInj.sel
 	}
 }
