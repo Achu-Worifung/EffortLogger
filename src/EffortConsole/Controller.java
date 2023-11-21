@@ -113,7 +113,7 @@ public class Controller implements Initializable{
 		}
 		if(event.getSource() == defination)
 		{
-			Parent root = FXMLLoader.load(getClass().getResource("/definitions/console.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/definitions/console2.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			stage.setScene(scene);

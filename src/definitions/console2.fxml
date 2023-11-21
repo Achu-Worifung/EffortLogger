@@ -8,13 +8,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="definitions.DefController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="definitions.DefController">
   <content>
     <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="2000.0" prefWidth="1300.0">
          <children>
             <TableView fx:id="tableView" layoutX="3.0" layoutY="14.0" prefHeight="289.0" prefWidth="1294.0" AnchorPane.bottomAnchor="1697.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="14.0">
                <columns>
-                  <TableColumn fx:id="projectId" prefWidth="42.0" text="projectId" />
+                  <TableColumn fx:id="projectId" prefWidth="42.0" text="id" />
                   <TableColumn fx:id="projectNameColumn" onEditCommit="#changeProjectNameCellEvent" prefWidth="188.0" text="Project Name" />
                   <TableColumn fx:id="columnOne" onEditCommit="#changeColumn1CellEvent" prefWidth="42.0" text="1" />
                   <TableColumn fx:id="columnTwo" onEditCommit="#changeColumn2CellEvent" prefWidth="42.0" text="2" />
