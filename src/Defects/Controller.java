@@ -73,6 +73,8 @@ public class Controller implements Initializable{
 	@FXML
 	private Label saved;
 	@FXML
+	private Label status;
+	@FXML
 	private TextArea defectSymptop;
 
 	@FXML
@@ -80,6 +82,7 @@ public class Controller implements Initializable{
 	List<Document> defects;
 	List<String> defectCat;
 	boolean change;
+	int selectedDefect; //keep track of which specific defect currently working on
 
 	//--------------------------------THESE ARE TEMP VALUE ARRAY------------------------------------------
 	List<String> stepWhenInjected = Arrays.asList(
@@ -126,11 +129,15 @@ public class Controller implements Initializable{
 
 	}
 	public void seletedProject(ActionEvent event) {
-		String selectedProject = selectDefect.getValue();
-		Thread getDefects = new Thread(() -> {
+		//clear everything out
 
+		String selectedProject = selectProject.getValue();
+
+		selectDefect.getItems().clear();
+		Thread getDefects = new Thread(() -> {
 			// Getting the defects for the selected value
 			defects = new Request().getDefects(selectedProject);
+
 
 			// Adding defects to the defect dropdown
 			int i = 0;
@@ -164,7 +171,7 @@ public class Controller implements Initializable{
 		//getting the selected defect
 		String getSelectedvalue = selectDefect.getValue();
 		char index = getSelectedvalue.charAt(0);
-		int selectedDefect = (index-'0')-1;
+		selectedDefect = (index-'0')-1;
 
 		//getting the selected document
 		Document doc = defects.get(selectedDefect);
@@ -172,7 +179,6 @@ public class Controller implements Initializable{
 		String removedValueToSelect = doc.getString("Step When Removed");
 		int indexWhenInjected = stepWhenInjected.indexOf(injectionValueToSelect);
 		int indexWhenRemoved = stepWhenRemoved.indexOf(removedValueToSelect);
-		System.out.println(doc.toString());
 
 		//pupulating all things
 		defectName.setText(doc.getString("Name"));
@@ -187,20 +193,20 @@ public class Controller implements Initializable{
 		if(!change) return;
 		saved.setStyle("-fx-background-color: RED;");
 	}
-	
+
 	//tackling buttons
 	public void clearDefectLog(ActionEvent e)
 	{
-		System.out.println("here");
+		Alert alert;
 		if(selectDefect.getValue() == null)
 		{
-			Alert alert = new Alert(AlertType.WARNING);
+			alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Clear Defect Log");
 			alert.setHeaderText("Please first select a project type.");
 			alert.show();
 			return;
 		}
-		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Clear Defect Log");
 		alert.setHeaderText("Are you sure you would like to clear this Defect Log. Warning! "
 				+ "THIS CANNOT BE UNDONE");
@@ -208,6 +214,69 @@ public class Controller implements Initializable{
 		if(result.isPresent() && result.get() == ButtonType.OK)
 		{
 			new Request().clearEffortLog(selectDefect.getValue());
+		}
+	}
+	public void status(ActionEvent e)
+	{
+		if(e.getSource() == close && !(status.getText().equals("Closed")))
+		{
+			status.setText("Closed");
+			change=true;
+			change();
+		}else if(e.getSource() == reopen && !(status.getText().equals("Open")))
+		{
+			status.setText("Open");
+			change=true;
+			change();
+		}
+	}
+	public void deleteCurrentDefect(ActionEvent e)
+	{
+		Alert alert;
+		boolean deleted;
+		if(selectDefect.getValue() == null )
+		{
+			alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Delete Current Defect");
+			alert.setHeaderText("Please first select a project type.");
+			alert.show();
+			return;
+		}else if(selectDefect.getValue() == null)
+		{
+			alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Clear Defect Log");
+			alert.setHeaderText("Please first select a Defect.");
+			alert.show();
+			return;
+		}
+		alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Delete Current Defect");
+		alert.setHeaderText("Are you sure you would like to Delete this defect. Warning! "
+				+ "THIS CANNOT BE UNDONE");
+		Optional<ButtonType> result = alert.showAndWait(); //show and wait for response
+		if(result.isPresent() && result.get() == ButtonType.OK)
+		{
+			//getting the current defect
+			Document doc = defects.get(selectedDefect);
+			deleted = new Request().deleteDefect(doc.getObjectId("_id"));
+		}else 
+		{
+			return;
+		}
+
+		if(deleted)
+		{
+			alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Delete Current Defect");
+			alert.setContentText(" Defect was deleted successfully");
+			alert.show();
+		}else 
+		{
+			alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Delete Current Defect");
+			alert.setContentText("ERROR! Defect was NOT deleted");
+			alert.show();
+
 		}
 	}
 }

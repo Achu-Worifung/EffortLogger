@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
@@ -51,14 +52,22 @@ public class Request {
 		reopen("Defects");
 		List<Document> defects = new ArrayList<>();
 		try {
-	    	FindIterable<Document> results = collection.find(eq("Project", ProjectType)); //come here if it ever stops working
-	    	results.into(defects);
-	    	System.out.println(defects.toString());
+			MongoCollection<Document> collection = database.getCollection("Defects");
+            MongoCursor<Document> cursor = collection.find().iterator();
+            while (cursor.hasNext())
+            {
+            	Document doc = cursor.next();
+            	if(doc.getString("Project Type").equals(ProjectType))
+            	{
+            		defects.add(doc);
+            	}
+            }
+//			defects = collection.find(eq("Project Type", ProjectType));
+	    	
 	       return defects;
 	    } catch (MongoException e) {
 	        // Handle the exception
 	    }
-		System.out.println(defects.toString());
 		return defects;
 	}
 	public List<String> getDefectCategory()
@@ -71,7 +80,6 @@ public class Request {
 	            try {
 	                while (cursor.hasNext()) {
 	                    Document document = cursor.next();
-	                    System.out.println(document.getString("Defect Category"));
 	                    if(document.getString("Defect Category").isEmpty()) continue;
 	                    defectCat.add(document.getString("Defect Category"));
 	                }
@@ -88,7 +96,7 @@ public class Request {
 		 return defectCat;
 	}
 	//for defect log: clear defect log button
-		public boolean clearEffortLog(String ProjectType)
+		public boolean clearDefectLog(String ProjectType)
 		{
 			close();
 			reopen("Efforts");
@@ -96,6 +104,14 @@ public class Request {
 
 
 			if(result != null) return true;
+			return false;
+		}
+		public boolean deleteDefect(ObjectId id)
+		{
+			reopen("Defects");
+			System.out.println(id);
+			DeleteResult result = collection.deleteOne(eq("_id", id));
+			if (result != null) return true;
 			return false;
 		}
 	
