@@ -99,7 +99,7 @@ public class Request {
 		public boolean clearDefectLog(String ProjectType)
 		{
 			close();
-			reopen("Efforts");
+			reopen("Defects");
 			DeleteResult result = collection.deleteMany(eq("Project", ProjectType));
 
 

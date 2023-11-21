@@ -198,7 +198,7 @@ public class Controller implements Initializable{
 	public void clearDefectLog(ActionEvent e)
 	{
 		Alert alert;
-		if(selectDefect.getValue() == null)
+		if(selectProject.getValue() == null)
 		{
 			alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Clear Defect Log");
@@ -213,7 +213,7 @@ public class Controller implements Initializable{
 		Optional<ButtonType> result = alert.showAndWait(); //show and wait for response
 		if(result.isPresent() && result.get() == ButtonType.OK)
 		{
-			new Request().clearEffortLog(selectDefect.getValue());
+			new Request().clearDefectLog(selectDefect.getValue());
 		}
 	}
 	public void status(ActionEvent e)
