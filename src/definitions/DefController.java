@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import ToDB.Query;
+import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,55 +25,55 @@ public class DefController implements Initializable{
     @FXML
     private TableView<Category> categoryTableView;
     @FXML
-    private TableColumn<User, Integer> column11;
+    private TableColumn<User, String> column11;
     @FXML
-    private TableColumn<User, Integer> column12;
+    private TableColumn<User, String> column12;
     @FXML
-    private TableColumn<User, Integer> column13;
+    private TableColumn<User, String> column13;
     @FXML
-    private TableColumn<User, Integer> column14;
+    private TableColumn<User, String> column14;
     @FXML
-    private TableColumn<User, Integer> column15;
+    private TableColumn<User, String> column15;
     @FXML
-    private TableColumn<User, Integer> column16;
+    private TableColumn<User, String> column16;
     @FXML
-    private TableColumn<User, Integer> column17;
+    private TableColumn<User, String> column17;
     @FXML
-    private TableColumn<User, Integer> column18;
+    private TableColumn<User, String> column18;
     @FXML
-    private TableColumn<User, Integer> column19;
+    private TableColumn<User, String> column19;
     @FXML
-    private TableColumn<User, Integer> column20;
+    private TableColumn<User, String> column20;
     @FXML
-    private TableColumn<User, Integer> column21;
+    private TableColumn<User, String> column21;
     @FXML
-    private TableColumn<User, Integer> column22;
+    private TableColumn<User, String> column22;
     @FXML
-    private TableColumn<User, Integer> column23;
+    private TableColumn<User, String> column23;
     @FXML
-    private TableColumn<User, Integer> column24;
+    private TableColumn<User, String> column24;
     @FXML
-    private TableColumn<User, Integer> column25;
+    private TableColumn<User, String> column25;
     @FXML
-    private TableColumn<User, Integer> columnEight;
+    private TableColumn<User, String> columnEight;
     @FXML
-    private TableColumn<User, Integer> columnFive;
+    private TableColumn<User, String> columnFive;
     @FXML
-    private TableColumn<User, Integer> columnFour;
+    private TableColumn<User, String> columnFour;
     @FXML
-    private TableColumn<User, Integer> columnNine;
+    private TableColumn<User, String> columnNine;
     @FXML
-    private TableColumn<User, Integer> columnOne;
+    private TableColumn<User, String> columnOne;
     @FXML
-    private TableColumn<User, Integer> columnSeven;
+    private TableColumn<User, String> columnSeven;
     @FXML
-    private TableColumn<User, Integer> columnSix;
+    private TableColumn<User, String> columnSix;
     @FXML
-    private TableColumn<User, Integer> columnTen;
+    private TableColumn<User, String> columnTen;
     @FXML
-    private TableColumn<User, Integer> columnThree;
+    private TableColumn<User, String> columnThree;
     @FXML
-    private TableColumn<User, Integer> columnTwo;
+    private TableColumn<User, String> columnTwo;
     @FXML
     private TableColumn<Life, Integer> defaultDColumn;
     @FXML
@@ -126,102 +127,102 @@ public class DefController implements Initializable{
     }
     public void changeColumnThreeCellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setColThree((Integer) edittedCell.getNewValue());
+    	userSelected.setColThree((String) edittedCell.getNewValue());
     }
     public void changeColumn1CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol1((Integer) edittedCell.getNewValue());
+    	userSelected.setCol1((String) edittedCell.getNewValue());
     }
     public void changeColumn2CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol2((Integer) edittedCell.getNewValue());
+    	userSelected.setCol2((String) edittedCell.getNewValue());
     }
     public void changeColumn4CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol4((Integer) edittedCell.getNewValue());
+    	userSelected.setCol4((String) edittedCell.getNewValue());
     }
     public void changeColumn5CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol5((Integer) edittedCell.getNewValue());
+    	userSelected.setCol5((String) edittedCell.getNewValue());
     }
     public void changeColumn6CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol6((Integer) edittedCell.getNewValue());
+    	userSelected.setCol6((String) edittedCell.getNewValue());
     }public void changeColumn7CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol7((Integer) edittedCell.getNewValue());
+    	userSelected.setCol7((String) edittedCell.getNewValue());
     }
     public void changeColumn8CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol8((Integer) edittedCell.getNewValue());
+    	userSelected.setCol8((String) edittedCell.getNewValue());
     }
     public void changeColumn9CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol9((Integer) edittedCell.getNewValue());
+    	userSelected.setCol9((String) edittedCell.getNewValue());
     }
     public void changeColumn10CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol10((Integer) edittedCell.getNewValue());
+    	userSelected.setCol10((String) edittedCell.getNewValue());
     }
     public void changeColumn11CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol11((Integer) edittedCell.getNewValue());
+    	userSelected.setCol11((String) edittedCell.getNewValue());
     }
     public void changeColumn12CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol12((Integer) edittedCell.getNewValue());
+    	userSelected.setCol12((String) edittedCell.getNewValue());
     }
     public void changeColumn13CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol13((Integer) edittedCell.getNewValue());
+    	userSelected.setCol13((String) edittedCell.getNewValue());
     }
     public void changeColumn14CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol14((Integer) edittedCell.getNewValue());
+    	userSelected.setCol14((String) edittedCell.getNewValue());
     }
     public void changeColumn15CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol15((Integer) edittedCell.getNewValue());
+    	userSelected.setCol15((String) edittedCell.getNewValue());
     }
     public void changeColumn16CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol16((Integer) edittedCell.getNewValue());
+    	userSelected.setCol16((String) edittedCell.getNewValue());
     }
     public void changeColumn17CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol17((Integer) edittedCell.getNewValue());
+    	userSelected.setCol17((String) edittedCell.getNewValue());
     }
     public void changeColumn18CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol18((Integer) edittedCell.getNewValue());
+    	userSelected.setCol18((String) edittedCell.getNewValue());
     }
     public void changeColumn19CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol19((Integer) edittedCell.getNewValue());
+    	userSelected.setCol19((String) edittedCell.getNewValue());
     }
     public void changeColumn20CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol20((Integer) edittedCell.getNewValue());
+    	userSelected.setCol20((String) edittedCell.getNewValue());
     }
     public void changeColumn21CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol21((Integer) edittedCell.getNewValue());
+    	userSelected.setCol21((String) edittedCell.getNewValue());
     }
     public void changeColumn22CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol22((Integer) edittedCell.getNewValue());
+    	userSelected.setCol22((String) edittedCell.getNewValue());
     }
     public void changeColumn23CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol23((Integer) edittedCell.getNewValue());
+    	userSelected.setCol23((String) edittedCell.getNewValue());
     }
     public void changeColumn24CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol24((Integer) edittedCell.getNewValue());
+    	userSelected.setCol24((String) edittedCell.getNewValue());
     }
     public void changeColumn25CellEvent(CellEditEvent edittedCell) {
     	User userSelected = tableView.getSelectionModel().getSelectedItem();
-    	userSelected.setCol25((Integer) edittedCell.getNewValue());
+    	userSelected.setCol25((String) edittedCell.getNewValue());
     }
     public void changeCategoryNameCellEvent(CellEditEvent edittedCell) {
     	Category categorySelected = categoryTableView.getSelectionModel().getSelectedItem();
@@ -290,31 +291,31 @@ public class DefController implements Initializable{
     defaultDColumn.setCellValueFactory(new PropertyValueFactory<Life, Integer>("defaultDefect"));
     
     //You can delete everything after this line
-    columnOne.setCellValueFactory(new PropertyValueFactory<User, Integer>("col1"));
-    columnTwo.setCellValueFactory(new PropertyValueFactory<User, Integer>("col2"));
-    columnThree.setCellValueFactory(new PropertyValueFactory<User, Integer>("colThree"));
-    columnFour.setCellValueFactory(new PropertyValueFactory<User, Integer>("col4"));
-    columnFive.setCellValueFactory(new PropertyValueFactory<User, Integer>("col5"));
-    columnSix.setCellValueFactory(new PropertyValueFactory<User, Integer>("col6"));
-    columnSeven.setCellValueFactory(new PropertyValueFactory<User, Integer>("col7"));
-    columnEight.setCellValueFactory(new PropertyValueFactory<User, Integer>("col8"));
-    columnNine.setCellValueFactory(new PropertyValueFactory<User, Integer>("col9"));
-    columnTen.setCellValueFactory(new PropertyValueFactory<User, Integer>("col10"));
-    column11.setCellValueFactory(new PropertyValueFactory<User, Integer>("col11"));
-    column12.setCellValueFactory(new PropertyValueFactory<User, Integer>("col12"));
-    column13.setCellValueFactory(new PropertyValueFactory<User, Integer>("col13"));
-    column14.setCellValueFactory(new PropertyValueFactory<User, Integer>("col14"));
-    column15.setCellValueFactory(new PropertyValueFactory<User, Integer>("col15"));
-    column16.setCellValueFactory(new PropertyValueFactory<User, Integer>("col16"));
-    column17.setCellValueFactory(new PropertyValueFactory<User, Integer>("col17"));
-    column18.setCellValueFactory(new PropertyValueFactory<User, Integer>("col18"));
-    column19.setCellValueFactory(new PropertyValueFactory<User, Integer>("col19"));
-    column20.setCellValueFactory(new PropertyValueFactory<User, Integer>("col20"));
-    column21.setCellValueFactory(new PropertyValueFactory<User, Integer>("col21"));
-    column22.setCellValueFactory(new PropertyValueFactory<User, Integer>("col22"));
-    column23.setCellValueFactory(new PropertyValueFactory<User, Integer>("col23"));
-    column24.setCellValueFactory(new PropertyValueFactory<User, Integer>("col24"));
-    column25.setCellValueFactory(new PropertyValueFactory<User, Integer>("col25"));
+    columnOne.setCellValueFactory(new PropertyValueFactory<User, String>("col1"));
+    columnTwo.setCellValueFactory(new PropertyValueFactory<User, String>("col2"));
+    columnThree.setCellValueFactory(new PropertyValueFactory<User, String>("colThree"));
+    columnFour.setCellValueFactory(new PropertyValueFactory<User, String>("col4"));
+    columnFive.setCellValueFactory(new PropertyValueFactory<User, String>("col5"));
+    columnSix.setCellValueFactory(new PropertyValueFactory<User, String>("col6"));
+    columnSeven.setCellValueFactory(new PropertyValueFactory<User, String>("col7"));
+    columnEight.setCellValueFactory(new PropertyValueFactory<User, String>("col8"));
+    columnNine.setCellValueFactory(new PropertyValueFactory<User, String>("col9"));
+    columnTen.setCellValueFactory(new PropertyValueFactory<User, String>("col10"));
+    column11.setCellValueFactory(new PropertyValueFactory<User, String>("col11"));
+    column12.setCellValueFactory(new PropertyValueFactory<User, String>("col12"));
+    column13.setCellValueFactory(new PropertyValueFactory<User, String>("col13"));
+    column14.setCellValueFactory(new PropertyValueFactory<User, String>("col14"));
+    column15.setCellValueFactory(new PropertyValueFactory<User, String>("col15"));
+    column16.setCellValueFactory(new PropertyValueFactory<User, String>("col16"));
+    column17.setCellValueFactory(new PropertyValueFactory<User, String>("col17"));
+    column18.setCellValueFactory(new PropertyValueFactory<User, String>("col18"));
+    column19.setCellValueFactory(new PropertyValueFactory<User, String>("col19"));
+    column20.setCellValueFactory(new PropertyValueFactory<User, String>("col20"));
+    column21.setCellValueFactory(new PropertyValueFactory<User, String>("col21"));
+    column22.setCellValueFactory(new PropertyValueFactory<User, String>("col22"));
+    column23.setCellValueFactory(new PropertyValueFactory<User, String>("col23"));
+    column24.setCellValueFactory(new PropertyValueFactory<User, String>("col24"));
+    column25.setCellValueFactory(new PropertyValueFactory<User, String>("col25"));
     //To this Line
     //Load data into tables
     tableView.setItems(getPeople());
@@ -342,32 +343,32 @@ public class DefController implements Initializable{
     effortCategoryColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
     lifeCycleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     plansColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-    columnThree.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnOne.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnTwo.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnThree.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnFour.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnFive.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnSix.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnSeven.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnEight.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnNine.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    columnTen.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column11.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column12.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column13.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column14.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column15.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column16.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column17.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column18.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column19.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column20.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column21.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column22.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column23.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column24.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-    column25.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+    columnThree.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnOne.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnTwo.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnThree.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnFour.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnFive.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnSix.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnSeven.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnEight.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnNine.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    columnTen.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column11.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column12.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column13.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column14.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column15.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column16.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column17.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column18.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column19.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column20.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column21.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column22.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column23.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column24.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+    column25.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
     }
     //Dummy Data
     public ObservableList<User> getPeople(){

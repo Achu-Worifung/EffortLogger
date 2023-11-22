@@ -334,12 +334,14 @@ public class Query {
         try {
             MongoCollection<Document> collection = database.getCollection(Collection);
             MongoCursor<Document> cursor = collection.find().iterator();
+            List<Integer> colm = new ArrayList<>();
             try {
                 while (cursor.hasNext()) {
                     Document document = cursor.next();
                     //String prject = document.getString(field); //get the field value from the document
                     //get the plan id and string and add that to the arraylist of plans
-                    user.add(new User(document.getInteger("Id"), document.getString("Project"),1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1));
+                    System.out.println(document.getList("ProjectStep", Integer.class).toString());
+                    user.add(new User(document.getInteger("Id"), document.getString("Project"), document.getList("ProjectStep", Integer.class)));
                 }
             } finally {
                 cursor.close();
