@@ -29,9 +29,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import poker2.Efforts;
+import poker2.QuickLook;
+import poker2.RetrieveAll;
+import poker2.SingleTon;
 
 public class Controller implements Initializable{
-	PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
+	SingleTon singletonInstance = SingleTon.getInstance();
 	@FXML
 	private ComboBox<String> chooseproject;
 
@@ -121,7 +125,7 @@ public class Controller implements Initializable{
 		}
 		if(event.getSource() == poker)
 		{
-			Parent root = FXMLLoader.load(getClass().getResource("/PokerPlanning/console.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/poker2/console.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(root);
 			stage.setScene(scene);
@@ -255,7 +259,7 @@ public class Controller implements Initializable{
 
 			return; //is the clock is already on do nothing
 		}
-		if(singletonInstance.getQuicklook() == null) {
+		if(singletonInstance.getInfo() == null) {
 			//alert when trying to start a clock when one is already running
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Start A new  Activity");
@@ -297,7 +301,6 @@ public class Controller implements Initializable{
 			effortCat.add(effortcat.getValue());
 			List<String> randVal = new ArrayList<>();
 			randVal.add(randdropdown);
-			System.out.println(singletonInstance.getQuicklook());
 //			if(singletonInstance.getQuicklook() == null) {
 //				//alert when trying to start a clock when one is already running
 //				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -311,8 +314,11 @@ public class Controller implements Initializable{
 //			(String status,List<String> startTime, List<String>  endTime, String projectType, List<String>  startDate, List<String>  lifeCycle,
 //		    		List<String>  effortCat,List<String> rand,  quicklookInfo info)
 			
-			new PokerPlaningRespondsPrototype().updatenew(new effort("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
-					lifeCycle, effortCat, randVal, singletonInstance.getQuicklook()));
+			Efforts effort = new Efforts(project,startTime,endTime,startDate,	lifeCycle, effortCat, randVal);
+			QuickLook info = singletonInstance.getInfo();
+			new PokerPlaningRespondsPrototype().writeTo(new RetrieveAll(effort, info));
+//			new PokerPlaningRespondsPrototype().updatenew(new Efforts("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
+//					lifeCycle, effortCat, randVal, singletonInstance.getQuicklook()));
 //			new PokerPlaningRespondsPrototype().writeTo(new effort("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
 //					lifeCycle, effortCat, singletonInstance.getQuicklook()));
 			
@@ -349,10 +355,10 @@ public class Controller implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//thread to get all data from the database
 		Thread getAllData = new Thread(() -> {
-			List<effort> effortList = new PokerPlaningRespondsPrototype().retrieveAll(); //retrive all the data from the database
+			List<RetrieveAll> allInformation = new PokerPlaningRespondsPrototype().retrieveAll(); //retrive all the data from the database
 
 			
-			singletonInstance.setEffortList(effortList);
+			singletonInstance.setAllInformation(allInformation);
 			System.out.println("done");
 		});
 		getAllData.setDaemon(true);

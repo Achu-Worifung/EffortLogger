@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
  class WeightHistory {
@@ -43,6 +44,13 @@ public class qLook {
 	Button changeButton,createNewPrintButton,startSprintButton;
 	TextArea descriptionTextArea,effortsTextArea, otherInfoTextArea;
 	String presentRating;
+	TextField title;
+	public TextField getTitle() {
+		return title;
+	}
+	public void setTitle(TextField title) {
+		this.title = title;
+	}
 	HashMap<String, String>  startEnd;
 	public Label getDescriptionLabel() {
 		return descriptionLabel;
@@ -123,9 +131,15 @@ public class qLook {
 //		defects = new SimpleStringProperty("--Effort has no Defects--");
 		root = new AnchorPane();
 		root.setPrefSize(340, 895);
-		Label titleLabel = new Label(qlookinfo.getTitle());
+		
+		Label titleLabel = new Label("Title");
 		AnchorPane.setLeftAnchor(titleLabel, 5.0);
 		AnchorPane.setTopAnchor(titleLabel, 7.0); 
+		
+		title = new TextField(qlookinfo.getTitle());
+		AnchorPane.setLeftAnchor(title, 5.0);
+		AnchorPane.setRightAnchor(title, 5.0);
+		AnchorPane.setTopAnchor(title, 39.0); 
 
 		descriptionLabel = new Label("description:");
 		AnchorPane.setLeftAnchor(descriptionLabel, 5.0);
@@ -216,6 +230,7 @@ public class qLook {
 		AnchorPane.setTopAnchor(effortsTextArea, 531.0);
 		effortsTextArea.setPrefWidth(354.0);
 		effortsTextArea.setPrefHeight(113.0);
+		effortsTextArea.setEditable(false);
 
 		//other information label
 		otherInfoLabel = new Label("Other info");
@@ -229,6 +244,7 @@ public class qLook {
 		AnchorPane.setTopAnchor(otherInfoTextArea, 686.0);
 		otherInfoTextArea.setPrefWidth(344.0);
 		otherInfoTextArea.setPrefHeight(113.0);
+		otherInfoTextArea.setEditable(false);
 		//create new sprint button
 		createNewPrintButton = new Button("create new sprint");
 		AnchorPane.setLeftAnchor(createNewPrintButton, 5.0);
@@ -244,7 +260,7 @@ public class qLook {
 		root.getChildren().addAll(
 				titleLabel, descriptionLabel, descriptionTextArea, assignedWeightLabel, changeButton,
 				tableView, effortsLabel, effortsTextArea, otherInfoLabel, otherInfoTextArea,
-				createNewPrintButton, startSprintButton
+				createNewPrintButton, startSprintButton,title
 				);
 		return root;
 	}

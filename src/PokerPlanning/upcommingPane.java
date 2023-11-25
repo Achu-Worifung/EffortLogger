@@ -75,7 +75,7 @@ public class upcommingPane extends Application {
         ScrollPane noSprintScrollPane = new ScrollPane();
          noSprintLabel = new Label("No Upcoming Sprint");
         noSprintLabel.setFont(new Font("System Bold", 24.0));
-        Button newSprintButton = new Button("Create New Sprint");
+        newSprintButton = new Button("Create New Sprint");
         
         //settng contrainst for pain with no upcomming sprint
         AnchorPane.setLeftAnchor(noSprintLabel, 173.0);

@@ -3,9 +3,16 @@ package PokerPlanning;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import org.bson.types.ObjectId;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -14,7 +21,6 @@ import javafx.scene.Node;
 
 
 import PokerPlanning.Backend.*;
-import PokerPlanning.Backend.effort;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -103,8 +109,11 @@ public class controller2 implements Initializable{
 	private FlowPane resultFlow;
 
 	qLook ql; //quick look object; returns quick look anchor pane
-	//quick look pane components
+	//--------------------------------------------------QUICKLOOK PANEL COMPONENTS---------------------------------------------------------
 	TextArea qdescriptionTextArea, qeffortsTextArea, qotherInfoTextArea; 
+	Button change, startSprint, createSprint;
+	TextField qlooktitle;
+	
 	Label qassignedWeightLabel;
 	PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
 	@FXML
@@ -114,7 +123,12 @@ public class controller2 implements Initializable{
 	public PokerPlanning.Backend.quicklookInfo infosample;
 	AnchorPane root; //for the quick loop 
 	List<effort> information;//
+	
+//	 FORMATTER------------
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss"); //used to format
+	DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+	
 	@FXML
 	void search(ActionEvent event) {
 
@@ -126,59 +140,65 @@ public class controller2 implements Initializable{
 		AnchorPane isSprint = upcommingPan.createUI();
 		displayFlow.getChildren().add(isSprint);
 		information = singletonInstance.getEffortList(); //getting all data stored in design pattern
+		//giving the creat button an actionlisterner
+		Button createSprint =upcommingPan.getNewSprintButton();
+		createSprint.setOnMouseClicked(event -> {
+			//an empty quick look pane
+			quicklook(new quicklookInfo(new ObjectId(),"", "", "", 0, new Rate(0, "")));
+		});
 		for(int i = 0; i < information.size();i++)
 		{
 			PokerPlanning.Backend.quicklookInfo qlookinfo = information.get(i).getInfo();
 			//check if any sprint is in progress
-//			if(information.get(i).getStatus()!=null&&information.get(i).getStatus().equalsIgnoreCase("In Progress"))
-//			{
-//				upcommingPan.getSprintPane().toFront();
-//				upcommingPan.getTitleLabel().setText(information.get(i).getInfo().getTitle());
-//				upcommingPan.getRatingLabel().setText("Rating: "+qlookinfo.getPresentRating().toString());
-//
-//				//				------------------------IMPORTANT-----------------------------------------------
-//				//UNCOMMENT LINE BELOW WHEN YOU FIX THE TIMES IN THE DATA BASE
-//				//				getting the time it started
-//				List<String> startTimeList = information.get(i).getStartTime();
-//
-//				// Check if the startTimeList is not empty
-//				if (!startTimeList.isEmpty()) {
-//					// Get the last element from the startTimeList
-//					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
-//					// Convert the String to LocalTime
-//					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
-//					// Check if the current hour is after the target hour
-//					Duration duration = Duration.between(timeStarted, LocalTime.now());
-//					if(duration.toMinutes() > 10) upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
-//					else countDown(Math.toIntExact((10-duration.toMinutes())));
-//
-////					System.out.println(upcommingPan.getStartButton());
-//
-//					upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
-//					inProgress = true;
-//				}
-//				upcommingPan.getStartButton().setOnMouseClicked(event ->
-//				{
-//					try {
-//						startNow(event);
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				});
-//				upcommingPan.getVote().setOnMouseClicked(event ->
-//				{
-//					try
-//					{
-////						quicklooksample = information.get(index).getInfo();
-////						changeWeight();
-//					}catch(Exception e)
-//					{
-//						e.printStackTrace();
-//					}
-//				});
-//				
-//				continue;
-//			}
+			//			if(information.get(i).getStatus()!=null&&information.get(i).getStatus().equalsIgnoreCase("In Progress"))
+			//			{
+			//				upcommingPan.getSprintPane().toFront();
+			//				upcommingPan.getTitleLabel().setText(information.get(i).getInfo().getTitle());
+			//				upcommingPan.getRatingLabel().setText("Rating: "+qlookinfo.getPresentRating().toString());
+			//
+			//				//				------------------------IMPORTANT-----------------------------------------------
+			//				//UNCOMMENT LINE BELOW WHEN YOU FIX THE TIMES IN THE DATA BASE
+			//				//				getting the time it started
+			//				List<String> startTimeList = information.get(i).getStartTime();
+			//
+			//				// Check if the startTimeList is not empty
+			//				if (!startTimeList.isEmpty()) {
+			//					// Get the last element from the startTimeList
+			//					String lastStartTimeString = startTimeList.get(startTimeList.size() - 1);
+			//					// Convert the String to LocalTime
+			//					LocalTime timeStarted = LocalTime.parse(lastStartTimeString);
+			//					// Check if the current hour is after the target hour
+			//					Duration duration = Duration.between(timeStarted, LocalTime.now());
+			//					if(duration.toMinutes() > 10) upcommingPan.getTimeLabel().setText("All votes accounted start Effort");
+			//					else countDown(Math.toIntExact((10-duration.toMinutes())));
+			//
+			////					System.out.println(upcommingPan.getStartButton());
+			//
+			//					upcommingPan.getDescTextArea().setText(qlookinfo.getDesc());
+			//					inProgress = true;
+			//				}
+			//				upcommingPan.getStartButton().setOnMouseClicked(event ->
+			//				{
+			//					try {
+			//						startNow(event);
+			//					} catch (IOException e) {
+			//						e.printStackTrace();
+			//					}
+			//				});
+			//				upcommingPan.getVote().setOnMouseClicked(event ->
+			//				{
+			//					try
+			//					{
+			////						quicklooksample = information.get(index).getInfo();
+			////						changeWeight();
+			//					}catch(Exception e)
+			//					{
+			//						e.printStackTrace();
+			//					}
+			//				});
+			//				
+			//				continue;
+			//			}
 			createSprint(displayFlow, qlookinfo, Integer.toString(i));
 
 
@@ -252,12 +272,14 @@ public class controller2 implements Initializable{
 		quicklooksample = qlookinfo;
 
 		//adding onclick action to the change button
-		Button change = ql.getChangeButton();
-		Button startSprint = ql.getStartSprintButton();
+		 change = ql.getChangeButton();
+		 startSprint = ql.getStartSprintButton();
+		 createSprint = ql.getCreateNewPrintButton();
 		qdescriptionTextArea = ql.getDescriptionTextArea();
 		qeffortsTextArea = ql.getEffortsTextArea();
 		qotherInfoTextArea = ql.getOtherInfoTextArea();
 		qassignedWeightLabel = ql.getAssignedWeightLabel();
+		qlooktitle = ql.getTitle();
 
 		startSprint.setOnMouseClicked(event -> {
 			try {
@@ -266,6 +288,14 @@ public class controller2 implements Initializable{
 				e.printStackTrace();
 			}
 
+		});
+		createSprint.setOnMouseClicked(event -> {
+			
+			try {
+				startSPrint(event);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		});
 		dynamicLabel = ql.getAssignedWeightLabel();
 		change.setOnMouseClicked(event -> {
@@ -463,24 +493,43 @@ public class controller2 implements Initializable{
 		{
 			upcommingPan.getSprintPane().toFront();
 			//changing the informaiont
-			infosample.setDesc(qdescriptionTextArea.getText());
-			infosample.setOtherInfo(qotherInfoTextArea.getText());	
+			infosample.setDesc(ql.getDescriptionLabel().getText());
+			infosample.setTitle(ql.getTitle().getText());
+			infosample.setOtherInfo(ql.getOtherInfoLabel().getText());	
 			infosample.setPresentRating(infosample.getPresentRating());
-			infosample.setUserRate(new Rate(infosample.getPresentRating(), "Achu")); ///change this to the appropirate user later on
+			infosample.setUserRate(new Rate(infosample.getPresentRating(), "Achu")); //in due time replace 'achu' with singletonInstance.user
 			upcommingPan.getTitleLabel().setText(infosample.getTitle());
 			upcommingPan.getDescTextArea().setText(infosample.getDesc());
 			upcommingPan.getRatingLabel().setText("Rating: "+infosample.getPresentRating());
 			upcommingPan.getStartButton().setOnMouseClicked((MouseEvent mouseEvent) -> {
-			    try {
-			        startNow(mouseEvent);
-			    } catch (IOException e) {
-			        // Handle the exception, e.g., log it or display an error message
-			        e.printStackTrace();
-			    }
+				try {
+					startNow(mouseEvent);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+			upcommingPan.getVote().setOnMouseClicked((MouseEvent mouseEvent) -> {
+				try {
+					//bring out the poker cards
+					startNow(mouseEvent);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			});
 
 			countDown(10);
 			inProgress = true;
+//			-------------WRITING TO THE DATABASE:-STARTING THE CLOCK -------------
+			if(event.getSource() == createSprint) infosample.setId(new ObjectId());
+			List<String> startTime = new ArrayList<>(Arrays.asList(LocalTime.now().plusMinutes((long) 10.0).format(formatter)));
+			List<String> startDate = new ArrayList<>(Arrays.asList(LocalDate.now().format(dateformatter)));
+			List<String>endTime = new ArrayList<>(Arrays.asList(""));
+			List<String>lifeCycle = new ArrayList<>(Arrays.asList(""));
+			List<String>effortCat = new ArrayList<>(Arrays.asList(""));
+			List<String>rand = new ArrayList<>(Arrays.asList(""));
+			String project = "";
+			new PokerPlaningRespondsPrototype().writeTo(new effort("In Progress", startTime, endTime,
+					project, startDate,lifeCycle,effortCat,rand,infosample));
 		}else 
 		{
 			//alert when trying to start a clock when one is already running

@@ -10,6 +10,17 @@ public class Singleton {
     PokerPlanning.Backend.quicklookInfo quicklook; //object for quicklook
     EffortConsole.Controller control;
     List<effort> effortList;
+    String user;
+public String getUser() {
+		return user;
+	}
+
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+
 public List<effort> getEffortList() {
 		return effortList;
 	}

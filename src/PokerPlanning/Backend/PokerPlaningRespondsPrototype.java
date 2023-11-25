@@ -21,6 +21,11 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 
+import poker2.Efforts;
+import poker2.QuickLook;
+import poker2.RetrieveAll;
+import poker2.Rate;
+
 public class PokerPlaningRespondsPrototype {
 	// writes to the database
 	String uri = "mongodb+srv://achuworifung:QqgHwlf9hnQl53fW@cluster0.fodlvul.mongodb.net/";
@@ -78,33 +83,42 @@ public class PokerPlaningRespondsPrototype {
 		return startEnd;
 	}
 	//retrive all info from the collection
-	public List<effort> retrieveAll() {
+	public List<RetrieveAll> retrieveAll() {
 		reopen("Efforts"); // Reopen the collection
 
 		// Retrieve all documents from the collection
 		MongoCursor<Document> cursor = collection.find().iterator();
-		List<effort> effortList = new ArrayList<>();
-		Rate userRate = new Rate();
-		quicklookInfo quickInfo;
+		List<RetrieveAll> allInformation = new ArrayList<>();
+		Efforts effort;
+		Rate userRate = null;
+		QuickLook info;
 
 		try {
 			while (cursor.hasNext()) {
 				Document doc = cursor.next();
 				List<Document> ratings = (List<Document>) doc.get("Ratings");
+				List<Rate> userRates = new ArrayList<>();
 				if(ratings != null) {
 					for (Document rating : ratings) {
 						String user = rating.getString("user");
 						Integer userRating = rating.getInteger("rating");
-						userRate = new Rate(userRating, user); //rate object
+						userRates.add(new Rate(user, userRating)); //rate object
 					}
 				}
 				//quickinfo object
-				quickInfo = new quicklookInfo(doc.getObjectId("_id"),doc.getString("Title"),doc.getString("Other Information"),
-						doc.getString("User Story"), doc.getList("Prev Rating", Integer.class),doc.getInteger("Rating"), userRate);
+				info = new QuickLook(doc.getObjectId("_id"),doc.getString("Status"),doc.getString("Title"),doc.getString("Other Information")
+						,doc.getString("User Story"),doc.getInteger("Rating"),userRates);
+//				(String status, String projectType,List<String> startTime, List<String>  endTime, List<String>  startDate, List<String>  lifeCycle,
+//			    		List<String>  effortCat, List<String> rand) 
+				effort = new Efforts(doc.getString("Project"),doc.getList("Start Time", String.class)
+						,doc.getList("End Time", String.class),doc.getList("Start Dates", String.class),
+						doc.getList("Life Cycle Step", String.class), doc.getList("Effort Category", String.class)
+						, doc.getList("Random Value", String.class));
+//				quickInfo = new quicklookInfo(doc.getObjectId("_id"),doc.getString("Title"),doc.getString("Other Information"),
+//						doc.getString("User Story"),doc.getInteger("Rating"), userRate);
 				//effort object
 				//start and end times are list not strings
-				effortList.add(new effort(doc.getString("Status")  ,doc.getList("Start Time", String.class), doc.getList("End Time", String.class), doc.getString("Project"),doc.getList("Start Date", String.class)
-						, doc.getList("Life Cycle Step", String.class), doc.getList("Effort Category", String.class), doc.getList("Random Value", String.class), quickInfo));
+				allInformation.add(new RetrieveAll(effort, info));
 			}
 		} catch(MongoException e) {
 			System.err.println("Error retrieving documents: " + e.getMessage());
@@ -113,18 +127,18 @@ public class PokerPlaningRespondsPrototype {
 			cursor.close();
 		}
 
-		return effortList;
+		return allInformation;
 	}
-	public void printAllEfforts() {
-		List<effort> effortList = retrieveAll();
-		if (effortList != null) {
-			for (effort eff : effortList) {
-				System.out.println(eff.toString());
-			}
-		} else {
-			System.out.println("No efforts found or an error occurred.");
-		}
-	}
+//	public void printAllEfforts() {
+//		List<effort> effortList = retrieveAll();
+//		if (effortList != null) {
+//			for (effort eff : effortList) {
+//				System.out.println(eff.toString());
+//			}
+//		} else {
+//			System.out.println("No efforts found or an error occurred.");
+//		}
+//	}
 
 
 
@@ -171,29 +185,32 @@ public class PokerPlaningRespondsPrototype {
 
 	// create a new quick look
 	// creates new quickloo;
-	public boolean writeTo(effort eff) {
+	public boolean writeTo(RetrieveAll info) {
 		close();
 		reopen("Efforts");
+		List<Document> ratings = new ArrayList<>();
+
+		for(int i= 0; i < info.getqLook().getUserRates().size();i++)
+		{
+			Rate currentRating = info.getqLook().getUserRates().get(i);
+			ratings.add(new Document("user", currentRating.getUser()).append("rating", currentRating.getRate()));
+		}
 
 		// Creating the document with all fields and values
 		collection.insertOne( new Document()
 				//				.append("_id", eff.getInfo().id)
-				.append("Status", eff.getStatus())
-				.append("Title", eff.getInfo().getTitle())
-				.append("Project", eff.getProjectType())
-				.append("User Story", eff.getInfo().desc)
-				.append("Other Information", eff.getInfo().getOtherInfo())
-				.append("Rating", eff.getInfo().getPresentRating())
-				.append("Start Dates",eff.getStartDate())
-				.append("Prev Rating", eff.getInfo().getPastRating()) //you dont need this
-				.append("Start Time", eff.getStartTime())
-				.append("End Time", eff.getEndTime())
-				.append("Life Cycle Step", eff.getLifeCycle())
+				.append("Status", info.getqLook().getStatus())
+				.append("Title", info.getqLook().getTitle())
+				.append("Project", info.getEffort().getProjectType())
+				.append("User Story", info.getqLook().getUserStory())
+				.append("Other Information", info.getqLook().getOtherInfo())
+				.append("Rating", info.getqLook().getRating())
+				.append("Start Dates",info.getEffort().getStartDate())
+				.append("Start Time",info.getEffort().getStartTime())
+				.append("End Time", info.getEffort().getEndTime())
+				.append("Life Cycle Step", info.getEffort().getLifeCycle())
 				.append("Number Of Entries", 0)
-				.append("User", Arrays.asList(eff.getInfo().getUserRate().getUser()))
-				.append("Ratings", Arrays.asList(
-						new Document("user", eff.getInfo().getUserRate().getUser()).append("rating", eff.getInfo().getUserRate().getRating())
-						)));
+				.append("Ratings", ratings));
 
 		//	        .append("User", Arrays.asList(eff.getInfo().getUserRate().getUser())) // assuming getUserRate returns a Rate object
 		//	        .append("Rate", Arrays.asList(eff.getInfo().getUserRate().getRating())));
@@ -204,62 +221,182 @@ public class PokerPlaningRespondsPrototype {
 
 		return true;
 	}
+	public boolean updateRate(Rate userRate)
+	{
+		
+		reopen("UserRating");
+		collection.updateOne(eq("User", userRate.getUser()), new Document("$set", new Document("Rate",userRate.getRate())));
+		return true;
+		
+	}
+	public boolean toUserRate(Rate userRate)
+	{
+		reopen("UserRating");
+		Document doc = new Document();
+		doc.append("User", userRate.getUser())
+		.append("Rate", userRate.getRate());
+		collection.insertOne(doc);
+		return true;
+	}
+	public List<Rate> getAllUserRates()
+	{
+		reopen("UserRating");
+		MongoCursor<Document> cursor = collection.find().iterator();
+		List<Rate> userRate = new ArrayList<>();
 
-	public boolean updatenew(effort eff)
+		try {
+			while (cursor.hasNext()) {
+				Document doc = cursor.next();
+				userRate.add(new Rate(doc.getString("User"), doc.getInteger("Rate", 0)));
+			}
+		}catch(MongoException me)
+		{
+			
+		}
+		return userRate;
+	}
+	public Efforts getEffortOnHold()
+	{
+		reopen("EffortOnHold");
+		Document first = collection.find().first();
+		if(first != null)
+		{
+			return new Efforts(first.getString("Project"), first.getList("Start Time", String.class), first.getList("End Time", String.class),
+					first.getList("Start Date", String.class), first.getList("Life Cycle", String.class), first.getList("effort Cat", String.class),
+					first.getList("rand Time", String.class));
+		}
+		return null;
+	}
+	public QuickLook getQuick()
+	{
+		reopen("Quicklook");
+		Document first = collection.find().first();
+		if(first != null) {
+		return new QuickLook(first.getObjectId("_id"),first.getString("Status"), first.getString("Title"), first.getString("OtherInfo"), first.getString("User Story")
+				,first.getInteger("Rating"), first.getString("Start Time"), first.getString("Start Date"), first.getBoolean("New Sprint", false));
+		}else 
+		{
+			return null;
+		}
+	}
+	public boolean writeEffortInfo(Efforts effort)
+	{
+		reopen("EffortsOnHold");
+		Document doc = new Document();
+		doc.append("Project", effort.getProjectType())
+		.append("Start TIme", effort.getStartTime())
+		.append("Start Date", effort.getStartDate())
+		.append("End Time", effort.getEndTime())
+		.append("Life Cycle", effort.getLifeCycle())
+		.append("effort Cat", effort.getEffortCat())
+		.append("rand", effort.getRand());
+		collection.insertOne(doc);
+		return true;
+	}
+//-----------------------------------WRITE JUST THE QUICKLOOK INFO INTO THE DATABASE----------------------------
+	public boolean writeQuickLookInfo(QuickLook info)
+	{
+		reopen("Quicklook");
+		Document document = new Document();
+//		if(newSprint) {
+		document.append("Status", info.getStatus())
+				.append("Title", info.getTitle())
+				.append("User Story", info.getUserStory())
+				.append("Other Information", info.getOtherInfo())
+				.append("Rating", info.getRating())
+				.append("Start Time", LocalTime.now().format(formatter).toString())
+				.append("Start Date", info.getDate())
+				.append("New Sprint", info.isNewSprint())
+				;
+//		}else 
+//		{
+//			ObjectId docId = info.getId();
+//			collection.updateOne(eq("_id", docId), new Document("$set", new Document("Status", info.getStatus())));
+//			collection.updateOne(eq("_id", docId), new Document("$set", new Document("User Story", info.getUserStory())));
+//			collection.updateOne(eq("_id", docId), new Document("$set", new Document("Other Information",info.getOtherInfo())));
+//			collection.updateOne(eq("_id", docId), new Document("$set", new Document("Rating", info.getRating())));
+//			--------------------WILL DO THIS WHEN VOTING-------------------------------------
+//			Document doc = collection.find(eq("_id", docId)).first();
+//			List<String> users = doc.getList("User", String.class);
+//			Bson update;
+//			Bson filter = Filters.eq("_id", docId);
+////			--------------UPDATING VOTE FOR THOSE WHO HAVE ALREADY VOTED-------------------------
+//			for (int i = 0; i < users.size(); i++) {
+//				if (users.get(i).equals( info.getUserRate().getUser())) {
+//					filter = Filters.and(
+//							Filters.eq("_id", docId),
+//							Filters.eq("Ratings.user",  info.getUserRate().getRate())
+//							);
+//					update = Updates.set("Ratings.$.rating",  info.getUserRate().getRate());
+//					collection.updateOne(filter, update);
+//					return true;
+//				}
+//			}
+//
+////			------------------------ADDING VOTE FOR NEW USERS----------------------
+//			update = Updates.push("User",  info.getUserRate().getRate());
+//			collection.updateOne(filter, update);
+//			update = Updates.push("Rating",  info.getUserRate().getRate());
+//			collection.updateOne(filter, update);
+//		}
+		collection.insertOne(document);
+		return true;
+	}
+	public boolean updatenew(RetrieveAll info)
 	{
 		close();
 		reopen("Efforts");
-		ObjectId docId = eff.getInfo().getId();
-		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Title", eff.getInfo().getTitle())));
-		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Status", eff.getStatus())));
-		collection.updateOne(eq("_id", docId), new Document("$set", new Document("User Story", eff.getInfo().desc)));
-		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Other Information", eff.getInfo().getOtherInfo())));
-		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Rating", eff.getInfo().getPresentRating())));
-		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Project", eff.getProjectType())));
+		ObjectId docId = info.getqLook().getId();
+//		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Title", eff.getInfo().getTitle())));
+//		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Status", eff.getStatus())));
+//		collection.updateOne(eq("_id", docId), new Document("$set", new Document("User Story", eff.getInfo().desc)));
+		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Other Information", info.getqLook().otherInfo)));
+//		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Rating", eff.getInfo().getPresentRating())));
+		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Project",info.getEffort().getProjectType())));
 		//updating the arrays
 		Bson filter = Filters.eq("_id", docId); // Assuming you're using '_id' as the
 		// unique identifier
 		//Define the update operation to push a new item to the array
 		//mistake you are pushing in the array not the value
-		Bson update = Updates.push("Past Rating", eff.getInfo().getPastRating().get(0));
+		Bson update;
+//		collection.updateOne(filter, update);
+		update = Updates.push("Start Dates", info.getEffort().getStartDate().get(0));
 		collection.updateOne(filter, update);
-		update = Updates.push("Start Dates", eff.getStartDate().get(0));
+		update = Updates.push("Start Time",info.getEffort().getStartTime().get(0));
 		collection.updateOne(filter, update);
-		update = Updates.push("Start Time", eff.getStartTime().get(0));
-		collection.updateOne(filter, update);
-		update = Updates.push("End Time", eff.getEndTime().get(0));
+		update = Updates.push("End Time", info.getEffort().getEndTime().get(0));
 		collection.updateOne(filter, update);
 
-		update = Updates.push("Effort Category", eff.getEffortCat().get(0));
+		update = Updates.push("Effort Category", info.getEffort().getEffortCat().get(0));
 		collection.updateOne(filter, update);
-		update = Updates.push("Life Cycle Step", eff.getLifeCycle().get(0));
+		update = Updates.push("Life Cycle Step", info.getEffort().getEffortCat().get(0));
 		collection.updateOne(filter, update);
-		update = Updates.push("Prev Rating", eff.getInfo().getPresentRating());
-		collection.updateOne(filter, update);
+//		update = Updates.push("Prev Rating", eff.getInfo().getPresentRating());
+//		collection.updateOne(filter, update);
 		
-		update = Updates.push("Random Value", eff.rand);
+		update = Updates.push("Random Value", info.getEffort().getRand().get(0));
 		collection.updateOne(filter, update);
 
 		Document document = collection.find(eq("_id", docId)).first();
 		List<String> users = document.getList("User", String.class);
 
-		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).equals(eff.getInfo().getUserRate().getUser())) {
-				filter = Filters.and(
-						Filters.eq("_id", docId),
-						Filters.eq("Ratings.user", eff.getInfo().getUserRate().getUser())
-						);
-				update = Updates.set("Ratings.$.rating", eff.getInfo().getUserRate().getRating());
-				collection.updateOne(filter, update);
-				return true;
-			}
-		}
-
-		//else push the new user and his rating
-		update = Updates.push("User", eff.getInfo().getUserRate().getUser());
-		collection.updateOne(filter, update);
-		update = Updates.push("Rating", eff.getInfo().getUserRate().getRating());
-		collection.updateOne(filter, update);
+//		for (int i = 0; i < users.size(); i++) {
+//			if (users.get(i).equals(eff.getInfo().getUserRate().getUser())) {
+//				filter = Filters.and(
+//						Filters.eq("_id", docId),
+//						Filters.eq("Ratings.user", eff.getInfo().getUserRate().getUser())
+//						);
+//				update = Updates.set("Ratings.$.rating", eff.getInfo().getUserRate().getRating());
+//				collection.updateOne(filter, update);
+//				return true;
+//			}
+//		}
+//
+//		//else push the new user and his rating
+//		update = Updates.push("User", eff.getInfo().getUserRate().getUser());
+//		collection.updateOne(filter, update);
+//		update = Updates.push("Rating", eff.getInfo().getUserRate().getRating());
+//		collection.updateOne(filter, update);
 
 		return true;
 	}

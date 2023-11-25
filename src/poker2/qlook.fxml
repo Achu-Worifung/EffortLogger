@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="895.0" prefWidth="354.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poker2.QuickLookController">
+   <children>
+      <Label layoutX="3.0" layoutY="29.0" prefHeight="32.0" prefWidth="158.0" text="Title" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="29.0">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
+      <Label layoutX="12.0" layoutY="97.0" prefHeight="32.0" prefWidth="158.0" text="DESCRIPTION" AnchorPane.leftAnchor="12.0">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <TextArea fx:id="quicklookDescription" layoutX="4.0" layoutY="129.0" prefHeight="113.0" prefWidth="340.0" wrapText="true" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="6.0" />
+      <Label layoutX="12.0" layoutY="255.0" prefHeight="32.0" prefWidth="158.0" text="CURRENT WEIGHT" AnchorPane.leftAnchor="12.0">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <TableView fx:id="quicklookTable" layoutX="16.0" layoutY="336.0" prefHeight="151.0" prefWidth="344.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+        <columns>
+            <TableColumn fx:id="defectCol" prefWidth="343.0" text="DEFECTS" />
+        </columns>
+      </TableView>
+      <Label layoutX="12.0" layoutY="499.0" prefHeight="32.0" prefWidth="158.0" text="EFFORTS">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <TextArea fx:id="quicklookEfforts" editable="false" layoutX="1.0" layoutY="531.0" prefHeight="113.0" prefWidth="354.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="9.0" />
+      <Label layoutX="11.0" layoutY="654.0" prefHeight="32.0" prefWidth="180.0" text="OTHER INFORMATION">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Label>
+      <TextArea fx:id="quicklookOtherInfo" layoutY="686.0" prefHeight="113.0" prefWidth="354.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+      <Button fx:id="newSprint" layoutX="7.0" layoutY="817.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="150.0" text="create new print" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="7.0" />
+      <Button fx:id="startSprint" layoutX="177.0" layoutY="817.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="150.0" text="start sprint" AnchorPane.bottomAnchor="46.0" />
+      <TextField fx:id="quicklookTitle" layoutX="5.0" layoutY="61.0" prefHeight="25.0" prefWidth="344.0" />
+      <Label fx:id="quickLookCurrentWeight" layoutX="173.0" layoutY="255.0" prefHeight="32.0" prefWidth="158.0" />
+      <Label layoutX="12.0" layoutY="296.0" prefHeight="32.0" prefWidth="158.0" text="DEFECTS">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
