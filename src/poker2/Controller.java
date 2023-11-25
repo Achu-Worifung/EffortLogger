@@ -255,28 +255,31 @@ public class Controller implements Initializable{
 		workingOn = info.getqLook();
 		System.out.println(info.getEffort().getStartDate());
 		List<String> startDates = info.getEffort().getStartDate();
-		System.out.println(startDates.toString());
+		List<String> startTimes = info.getEffort().getStartTime();
+		List<String> endTimes = info.getEffort().getEndTime();
+//		System.out.println(startDates.toString());
 		workingOn.setDate(startDates.get(startDates.size()-1));
+		workingOn.setStart(startTimes.get(startTimes.size()-1));
 		quicklookTitle.setText(workingOn.getTitle());
 		quicklookDescription.setText(workingOn.getUserStory());
 		quicklookOtherInfo.setText(workingOn.getOtherInfo());
 
-		Thread getTimes = new Thread(()->
-		{
-			startEnd = new PokerPlaningRespondsPrototype().getTimes(workingOn.getId());
+//		Thread getTimes = new Thread(()->
+//		{
+//			startEnd = new PokerPlaningRespondsPrototype().getTimes(workingOn.getId());
 			// Clear existing text in the text area
 			quicklookEfforts.clear();
 
 			// Use StringBuilder for concatenating strings
 			StringBuilder resultBuilder = new StringBuilder();
 
-			for (String startTime : startEnd.keySet()) {
+			for (int i =0;i < startTimes.size();i++) {
 				try {
-					LocalTime startLocalTime = LocalTime.parse(startTime, formatter);
-					LocalTime endLocalTime = LocalTime.parse(startEnd.get(startTime), formatter);
+					LocalTime startLocalTime = LocalTime.parse(startTimes.get(i), formatter);
+					LocalTime endLocalTime = LocalTime.parse(endTimes.get(i), formatter);
 					Duration duration = Duration.between(startLocalTime, endLocalTime);
 
-					resultBuilder.append(String.format("From: %s - To: %s : %s%n", startTime, startEnd.get(startTime), duration.toMinutes()+" Minutes"));
+					resultBuilder.append(String.format("From: %s - To: %s : %s%n", startTimes.get(i), endTimes.get(i), duration.toMinutes()+" Minutes"));
 				} catch (DateTimeParseException e) {
 					// Handle the exception (e.g., log it, show an error message)
 					System.err.println("Error parsing time: " + e.getMessage());
@@ -285,9 +288,9 @@ public class Controller implements Initializable{
 
 			// Set the text to the text area
 			quicklookEfforts.setText(resultBuilder.toString());
-		});
-		getTimes.setDaemon(true);
-		getTimes.start();
+//		});
+//		getTimes.setDaemon(true);
+//		getTimes.start();
 
 	}
 
@@ -318,6 +321,8 @@ public class Controller implements Initializable{
 			workingOn.setUserRates(userRates);
 			workingOn.setNewSprint(false);
 			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
+			System.out.println(workingOn);
+			System.out.println(workingOn.getStart());
 			setUpcommingsprint(workingOn.getStart(),workingOn);
 			
 		}
