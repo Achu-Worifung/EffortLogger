@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import PokerPlanning.Singleton;
 import PokerPlanning.Backend.PokerPlaningRespondsPrototype;
-import PokerPlanning.Backend.effort;
-import PokerPlanning.Backend.quicklookInfo;
 import ToDB.Query;
+import Universal.FxmlPreLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,6 +82,7 @@ public class Controller implements Initializable{
 	private boolean isOn;
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss"); //used to format
     DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	FxmlPreLoader loadInstance; //fxmlpreloader instance
 
 
 	//query object
@@ -102,33 +101,33 @@ public class Controller implements Initializable{
 //		}
 		if(event.getSource() == defects)
 		{
-			root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml"));
+//			root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
+			scene = new Scene(loadInstance.getDefectConsole());
 			stage.setScene(scene);
 			stage.show();
 		}
-		if(event.getSource() == editor)
+		else if(event.getSource() == editor)
 		{
-			Parent root = FXMLLoader.load(getClass().getResource("/EffortEditor/EditorConsole.fxml"));
+//			Parent root = FXMLLoader.load(getClass().getResource("/EffortEditor/EditorConsole.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
+			scene = new Scene(loadInstance.getEditorConsole());
 			stage.setScene(scene);
 			stage.show();
 		}
-		if(event.getSource() == defination)
+		else if(event.getSource() == defination)
 		{
-			Parent root = FXMLLoader.load(getClass().getResource("/definitions/console2.fxml"));
+//			Parent root = FXMLLoader.load(getClass().getResource("/definitions/console2.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
+			scene = new Scene(loadInstance.getDefinitionConsole());
 			stage.setScene(scene);
 			stage.show();
 		}
-		if(event.getSource() == poker)
+		else if(event.getSource() == poker)
 		{
-			Parent root = FXMLLoader.load(getClass().getResource("/poker2/console.fxml"));
+//			Parent root = FXMLLoader.load(getClass().getResource("/poker2/console.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
+			scene = new Scene(loadInstance.getPokerConsole());
 			stage.setScene(scene);
 			stage.show();
 		}
@@ -317,7 +316,7 @@ public class Controller implements Initializable{
 //			(String status,List<String> startTime, List<String>  endTime, String projectType, List<String>  startDate, List<String>  lifeCycle,
 //		    		List<String>  effortCat,List<String> rand,  quicklookInfo info)
 			
-			Efforts effort = new Efforts(project,startTime,endTime,startDate,	lifeCycle, effortCat, randVal);
+			Efforts effort = new Efforts(project,startTime,endTime,startDate,lifeCycle, effortCat, randVal);
 //			QuickLook info = singletonInstance.getInfo();
 			new PokerPlaningRespondsPrototype().writeEffortInfo(effort);
 //			new PokerPlaningRespondsPrototype().writeTo(new RetrieveAll(effort, info));
@@ -402,6 +401,12 @@ public class Controller implements Initializable{
 //			return true;
 //			
 //		
+		try {
+			loadInstance = FxmlPreLoader.getInstance();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Efforts effort = singletonInstance.getEffort();
 		if (effort != null)
 		{

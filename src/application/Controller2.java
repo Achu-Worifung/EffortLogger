@@ -123,16 +123,26 @@ public class Controller2 implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-//		Thread preLoad = new Thread(()-> {
-//			System.out.println("thread started");
-//			try {
-//				loadInstance= FxmlPreLoader.getInstance();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		});
-////		preLoad.setDaemon(true);
-//		preLoad.start();
+		Thread preLoad = new Thread(()-> {
+			System.out.println("thread started");
+			try {
+				PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
+				List<RetrieveAll> allInformation = pokerPlanning.retrieveAll(); 
+				singletonInstance.setAllInformation(allInformation);
+//				----------------CHECK FOR ONGOING EFFORT-------------------
+				Efforts effort = pokerPlanning.getEffortOnHold();
+				if(effort != null) singletonInstance.setEffort(effort);
+//				-----------------CHECK FOR ONGOING QUICKLOOK---------------
+				QuickLook ql = pokerPlanning.getQuick();
+				if(ql != null)singletonInstance.setInfo(ql);
+				System.out.println("done");
+				loadInstance= FxmlPreLoader.getInstance();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+		preLoad.setDaemon(true);
+		preLoad.start();
 		 try {
 			root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
 		} catch (IOException e) {
@@ -244,22 +254,14 @@ public class Controller2 implements Initializable{
 			//performance insane:- might have a problem with memory though
 //			---------------------SETTING ALL THE DATA---------------------
 			Thread getAllData = new Thread(() -> {
-				PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
 				singletonInstance.setUser(username);
-				List<RetrieveAll> allInformation = pokerPlanning.retrieveAll(); 
-				singletonInstance.setAllInformation(allInformation);
-//				----------------CHECK FOR ONGOING EFFORT-------------------
-				Efforts effort = pokerPlanning.getEffortOnHold();
-				if(effort != null) singletonInstance.setEffort(effort);
-//				-----------------CHECK FOR ONGOING QUICKLOOK---------------
-				QuickLook ql = pokerPlanning.getQuick();
-				if(ql != null)singletonInstance.setInfo(ql);
-				System.out.println("done");
+
+				
 			});
 			getAllData.setDaemon(true);
 			getAllData.start();
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(root);
+			scene = new Scene(loadInstance.getEffortConsole());
 			stage.setScene(scene);
 			stage.show();
 			return;

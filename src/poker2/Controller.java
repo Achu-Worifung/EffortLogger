@@ -182,10 +182,10 @@ public class Controller implements Initializable{
 		upcommingStartNow.setDisable(true);
 		upcommingStartNow.setOnMouseClicked((event)->
 		{
-			//			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			//			scene = new Scene(loadInstance.getEffortConsole());
-			//			stage.setScene(scene);
-			//			stage.show();
+						stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+						scene = new Scene(loadInstance.getEffortConsole());
+						stage.setScene(scene);
+						stage.show();
 
 			Parent root;
 			try {
@@ -205,7 +205,7 @@ public class Controller implements Initializable{
 			choseWeightPanel.toFront();
 		});
 		//		--------------------CHECK FOR ONGOING SPRINT--------------------
-		QuickLook tempLook = new PokerPlaningRespondsPrototype().getQuick();
+		QuickLook tempLook = singletonInstance.getInfo();
 		String startTime = null;
 		if(tempLook != null) 
 		{

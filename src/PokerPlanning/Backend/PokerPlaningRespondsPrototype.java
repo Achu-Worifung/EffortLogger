@@ -118,6 +118,7 @@ public class PokerPlaningRespondsPrototype {
 //						doc.getString("User Story"),doc.getInteger("Rating"), userRate);
 				//effort object
 				//start and end times are list not strings
+				System.out.println(effort.getRand());
 				allInformation.add(new RetrieveAll(effort, info));
 			}
 		} catch(MongoException e) {
@@ -187,7 +188,7 @@ public class PokerPlaningRespondsPrototype {
 	// creates new quickloo;
 	public boolean writeTo(RetrieveAll info) {
 		close();
-		reopen("Efforts");
+		reopen("EffortsOnHold");
 		List<Document> ratings = new ArrayList<>();
 
 		for(int i= 0; i < info.getqLook().getUserRates().size();i++)
@@ -209,6 +210,8 @@ public class PokerPlaningRespondsPrototype {
 				.append("Start Time",info.getEffort().getStartTime())
 				.append("End Time", info.getEffort().getEndTime())
 				.append("Life Cycle Step", info.getEffort().getLifeCycle())
+				.append("Random Value", info.getEffort().getRand())
+				.append("Effort Category", info.getEffort().getEffortCat())
 				.append("Number Of Entries", 0)
 				.append("Ratings", ratings));
 

@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import org.bson.Document;
 
+import Universal.FxmlPreLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -86,6 +87,8 @@ public class Controller implements Initializable{
 	List<String> defectCat;
 	boolean change, newDefect;
 	int selectedDefect; //keep track of which specific defect currently working on
+	
+	FxmlPreLoader loadInstance;
 
 	//--------------------------------THESE ARE TEMP VALUE ARRAY------------------------------------------
 	List<String> stepWhenInjected = Arrays.asList(
@@ -103,23 +106,29 @@ public class Controller implements Initializable{
 	String injection, removed, cat;
 
 
-
+//defect console
 
 	private Stage stage;
 	private Scene scene;
-	private Parent root;
+//	private Parent root;
 
 	@FXML
 	void toConsole(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
+//		root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(root);
+		scene = new Scene(loadInstance.getDefectConsole());
 		stage.setScene(scene);
 		stage.show();
 	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		try {
+			loadInstance = FxmlPreLoader.getInstance();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		selectProject.getItems().add("Business Project");
 		selectProject.getItems().add("Development Project");
 
