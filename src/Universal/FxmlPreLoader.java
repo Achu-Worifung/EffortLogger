@@ -77,7 +77,7 @@ public class FxmlPreLoader {
 			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/definitions/console2.fxml"));
 			    definitionConsole = loader.load();
 
-			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/PokerPlanning/console.fxml"));
+			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/poker2/console.fxml"));
 			    pokerConsole = loader.load();
 			    
 //			    -----SETTING THE PANELS-----

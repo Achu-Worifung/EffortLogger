@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -32,6 +33,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -152,9 +154,9 @@ public class Controller implements Initializable{
 	boolean newSprint;
 	//	-------------------------BACK TO CONSOLE OR HISTORICAL DATA---------------------------
 	boolean toConsole;
-	
-//	--------------------------WILL STORE EVERY EFFORT START DATES--------------------
-	
+
+	//	--------------------------WILL STORE EVERY EFFORT START DATES--------------------
+
 
 
 	@Override
@@ -253,57 +255,60 @@ public class Controller implements Initializable{
 		RetrieveAll info = allInformation.get(Integer.parseInt(index));
 		System.out.println(info);
 		workingOn = info.getqLook();
-		System.out.println(info.getEffort().getStartDate());
+		//		System.out.println(info.getEffort().getStartDate());
 		List<String> startDates = info.getEffort().getStartDate();
 		List<String> startTimes = info.getEffort().getStartTime();
 		List<String> endTimes = info.getEffort().getEndTime();
-//		System.out.println(startDates.toString());
+		//		System.out.println(startDates.toString());
 		workingOn.setDate(startDates.get(startDates.size()-1));
 		workingOn.setStart(startTimes.get(startTimes.size()-1));
 		quicklookTitle.setText(workingOn.getTitle());
 		quicklookDescription.setText(workingOn.getUserStory());
 		quicklookOtherInfo.setText(workingOn.getOtherInfo());
 
-//		Thread getTimes = new Thread(()->
-//		{
-//			startEnd = new PokerPlaningRespondsPrototype().getTimes(workingOn.getId());
-			// Clear existing text in the text area
-			quicklookEfforts.clear();
+		//		Thread getTimes = new Thread(()->
+		//		{
+		//			startEnd = new PokerPlaningRespondsPrototype().getTimes(workingOn.getId());
+		// Clear existing text in the text area
+		quicklookEfforts.clear();
 
-			// Use StringBuilder for concatenating strings
-			StringBuilder resultBuilder = new StringBuilder();
+		// Use StringBuilder for concatenating strings
+		StringBuilder resultBuilder = new StringBuilder();
 
-			for (int i =0;i < startTimes.size();i++) {
-				try {
-					LocalTime startLocalTime = LocalTime.parse(startTimes.get(i), formatter);
-					LocalTime endLocalTime = LocalTime.parse(endTimes.get(i), formatter);
-					Duration duration = Duration.between(startLocalTime, endLocalTime);
+		for (int i =0;i < startTimes.size();i++) {
+			try {
+				LocalTime startLocalTime = LocalTime.parse(startTimes.get(i), formatter);
+				LocalTime endLocalTime = LocalTime.parse(endTimes.get(i), formatter);
+				Duration duration = Duration.between(startLocalTime, endLocalTime);
 
-					resultBuilder.append(String.format("From: %s - To: %s : %s%n", startTimes.get(i), endTimes.get(i), duration.toMinutes()+" Minutes"));
-				} catch (DateTimeParseException e) {
-					// Handle the exception (e.g., log it, show an error message)
-					System.err.println("Error parsing time: " + e.getMessage());
-				}
+				resultBuilder.append(String.format("From: %s - To: %s : %s%n", startTimes.get(i), endTimes.get(i), duration.toMinutes()+" Minutes"));
+			} catch (DateTimeParseException e) {
+				// Handle the exception (e.g., log it, show an error message)
+				System.err.println("Error parsing time: " + e.getMessage());
 			}
+		}
 
-			// Set the text to the text area
-			quicklookEfforts.setText(resultBuilder.toString());
-//		});
-//		getTimes.setDaemon(true);
-//		getTimes.start();
+		// Set the text to the text area
+		quicklookEfforts.setText(resultBuilder.toString());
+		//		});
+		//		getTimes.setDaemon(true);
+		//		getTimes.start();
 
 	}
 
 	private void StartTheSprint(MouseEvent event) {
 		if(!upcommingUserStory.getText().isBlank())
 		{
-			//another sprint has been started
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Start A new sprint");
+			alert.setContentText("A sprint has already been planned");
+			alert.show();
 			return;
 		}
 		String userStory = quicklookDescription.getText();
 		String otherInfo = quicklookOtherInfo.getText();
 		String user = singletonInstance.getUser();
-		workingOn.setDate(LocalDate.now().toString());
+		//		workingOn.setDate(LocalDate.now().toString());
 
 		if (workingOn == null)
 		{
@@ -311,7 +316,7 @@ public class Controller implements Initializable{
 					,0, userRates);
 		}
 		//		workingOn.setStatus("In Progress");
-		//		------------------IF TITLE IS THE SAME: WORKING ON THE SAME SPRINT--------------------
+		//		------------------IF TITLE IS THE SAME: WORKING ON AN OLD SPRINT--------------------
 		newSprint = false;
 		if( workingOn.getTitle().equals(quicklookTitle.getText()) || workingOn.getUserStory().equalsIgnoreCase(quicklookDescription.getText()))
 		{
@@ -320,11 +325,12 @@ public class Controller implements Initializable{
 			userRates.add(userRate);
 			workingOn.setUserRates(userRates);
 			workingOn.setNewSprint(false);
-			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
 			System.out.println(workingOn);
 			System.out.println(workingOn.getStart());
 			setUpcommingsprint(workingOn.getStart(),workingOn);
-			
+			workingOn.setDate(LocalDate.now().toString());
+			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
+
 		}
 
 		//		--------------------TITLE IS DIFF: CREATE A NEW SPRINT-------------------------
@@ -339,16 +345,17 @@ public class Controller implements Initializable{
 			userRates.add(userRate);
 			workingOn.setUserRates(userRates);
 			workingOn.setRating(0);
+			singletonInstance.setInfo(workingOn);
+			workingOn.setDate(LocalDate.now().toString());
 			setUpcommingsprint(workingOn.start,workingOn);
+			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
 
 		}
-		if(newSprint) {
-			VOTE.setDisable(false);
-			upcommingStartNow.setDisable(false);
-			singletonInstance.setInfo(workingOn);
-			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
-			setUpcommingsprint(LocalTime.now().toString(),workingOn);
-		}
+//		if(newSprint) {
+//			VOTE.setDisable(false);
+//			upcommingStartNow.setDisable(false);
+//			setUpcommingsprint(LocalTime.now().toString(),workingOn)/;
+//		}
 	}
 
 	//	----------------------THIS IS FOR UPCOMMING ANCHORPANE------------------

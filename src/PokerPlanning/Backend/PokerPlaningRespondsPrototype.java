@@ -342,6 +342,31 @@ public class PokerPlaningRespondsPrototype {
 		collection.insertOne(document);
 		return true;
 	}
+	public void deleteEffortOnHold()
+	{
+		reopen("EffortsOnHold");
+		Document doc = collection.find().first();
+		if(doc == null ) return;
+		collection.deleteOne(doc);
+	}
+	public void delQuickLookOnHold()
+	{
+		reopen("Quicklook");
+		Document doc = collection.find().first();
+		if(doc == null ) return;
+		collection.deleteOne(doc);
+	}
+	public void delAllUserRates()
+	{
+		reopen("UserRating");
+		Document doc;
+		MongoCursor<Document> cursor = collection.find().iterator();
+		while(cursor.hasNext())
+		{
+			doc = cursor.next();
+			collection.deleteOne(doc);
+		}
+	}
 	public boolean updatenew(RetrieveAll info)
 	{
 		close();
@@ -377,8 +402,8 @@ public class PokerPlaningRespondsPrototype {
 		update = Updates.push("Random Value", info.getEffort().getRand().get(0));
 		collection.updateOne(filter, update);
 
-		Document document = collection.find(eq("_id", docId)).first();
-		List<String> users = document.getList("User", String.class);
+//		Document document = collection.find(eq("_id", docId)).first();
+//		List<String> users = document.getList("User", String.class);
 
 //		for (int i = 0; i < users.size(); i++) {
 //			if (users.get(i).equals(eff.getInfo().getUserRate().getUser())) {

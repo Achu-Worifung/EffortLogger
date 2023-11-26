@@ -1,16 +1,20 @@
 package application;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import PokerPlanning.Singleton;
+import PokerPlanning.Backend.PokerPlaningRespondsPrototype;
 import Universal.FxmlPreLoader;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -20,6 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import poker2.Efforts;
+import poker2.QuickLook;
+import poker2.RetrieveAll;
+import poker2.SingleTon;
 public class Controller2 implements Initializable{
 
 
@@ -71,10 +79,11 @@ public class Controller2 implements Initializable{
 	private Label lWarning;
 
 	AddUserToDb adduser;
-	PokerPlanning.Singleton singletonInstance = Singleton.getInstance(); //getting the singleton instance from poker planning
+	SingleTon singletonInstance = SingleTon.getInstance(); //getting the singleton instance from poker planning
 	FxmlPreLoader loadInstance; //fxmlpreloader instance
 	private Stage stage;
 	private Scene scene;
+	private Parent root;
 
 
 
@@ -114,16 +123,23 @@ public class Controller2 implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Thread preLoad = new Thread(()-> {
-			System.out.println("thread started");
-			try {
-				loadInstance= FxmlPreLoader.getInstance();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-//		preLoad.setDaemon(true);
-		preLoad.start();
+//		Thread preLoad = new Thread(()-> {
+//			System.out.println("thread started");
+//			try {
+//				loadInstance= FxmlPreLoader.getInstance();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		});
+////		preLoad.setDaemon(true);
+//		preLoad.start();
+		 try {
+			root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		box_role.getItems().add("User");
 		box_role.getItems().add("Employee");
 		box_role.getItems().add("Supervisor");
@@ -219,16 +235,31 @@ public class Controller2 implements Initializable{
 		}
 
 	}
-	public void LogIn(ActionEvent event)
+	public void LogIn(ActionEvent event) throws IOException
 	{
 		String username = txt_luname1.getText();
 		if(adduser.authen(txt_luname1.getText(), txt_lpass1.getText()))
 		{
 			//going to the main console
 			//performance insane:- might have a problem with memory though
-			singletonInstance.setUser(username);
+//			---------------------SETTING ALL THE DATA---------------------
+			Thread getAllData = new Thread(() -> {
+				PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
+				singletonInstance.setUser(username);
+				List<RetrieveAll> allInformation = pokerPlanning.retrieveAll(); 
+				singletonInstance.setAllInformation(allInformation);
+//				----------------CHECK FOR ONGOING EFFORT-------------------
+				Efforts effort = pokerPlanning.getEffortOnHold();
+				if(effort != null) singletonInstance.setEffort(effort);
+//				-----------------CHECK FOR ONGOING QUICKLOOK---------------
+				QuickLook ql = pokerPlanning.getQuick();
+				if(ql != null)singletonInstance.setInfo(ql);
+				System.out.println("done");
+			});
+			getAllData.setDaemon(true);
+			getAllData.start();
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(loadInstance.getEffortConsole());
+			scene = new Scene(root);
 			stage.setScene(scene);
 			stage.show();
 			return;

@@ -31,6 +31,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import poker2.Efforts;
 import poker2.QuickLook;
+import poker2.Rate;
 import poker2.RetrieveAll;
 import poker2.SingleTon;
 
@@ -250,6 +251,7 @@ public class Controller implements Initializable{
 	}
 	public void startActivity(ActionEvent event)
 	{
+		
 		if(isOn) {
 			//alert when trying to start a clock when one is already running
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -259,7 +261,8 @@ public class Controller implements Initializable{
 
 			return; //is the clock is already on do nothing
 		}
-		if(singletonInstance.getInfo() == null) {
+		QuickLook info = new PokerPlaningRespondsPrototype().getQuick();
+		if(info == null) {
 			//alert when trying to start a clock when one is already running
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Start A new  Activity");
@@ -315,8 +318,9 @@ public class Controller implements Initializable{
 //		    		List<String>  effortCat,List<String> rand,  quicklookInfo info)
 			
 			Efforts effort = new Efforts(project,startTime,endTime,startDate,	lifeCycle, effortCat, randVal);
-			QuickLook info = singletonInstance.getInfo();
-			new PokerPlaningRespondsPrototype().writeTo(new RetrieveAll(effort, info));
+//			QuickLook info = singletonInstance.getInfo();
+			new PokerPlaningRespondsPrototype().writeEffortInfo(effort);
+//			new PokerPlaningRespondsPrototype().writeTo(new RetrieveAll(effort, info));
 //			new PokerPlaningRespondsPrototype().updatenew(new Efforts("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
 //					lifeCycle, effortCat, randVal, singletonInstance.getQuicklook()));
 //			new PokerPlaningRespondsPrototype().writeTo(new effort("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
@@ -343,26 +347,45 @@ public class Controller implements Initializable{
 		isOn = false;
 		clock.setText("Clock Is OFF");
 		clock.setStyle("-fx-background-color: RED;");
+		PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
+		Efforts eff = pokerPlanning.getEffortOnHold();
+		QuickLook ql = pokerPlanning.getQuick();
+//		---------------------IF IT IS A NEW SPRINT--------------------
+		if(ql.isNewSprint())
+		{
+//			--------------KEETING ALL THE PEOPLE WHO VOTED AND THEIR VOTES-----------
+			List<Rate> userRates = pokerPlanning.getAllUserRates();
+			ql.setUserRates(userRates);
+			pokerPlanning.writeTo(new RetrieveAll(eff, ql));
+		}else 
+		{
+			pokerPlanning.updatenew(new RetrieveAll(eff, ql));
+		}
+//		---------------------DELETE INFO IN THE TEMP TABLES--------------
+		pokerPlanning.delAllUserRates();
+		pokerPlanning.deleteEffortOnHold();
+		pokerPlanning.delQuickLookOnHold();
+		
 		//stopping an activity
 		//create a thread for faster performance java concurrency.
-		Thread pushEffort = new Thread(() -> {
-			new PokerPlaningRespondsPrototype().stopSprint();
-		});
-		pushEffort.setDaemon(true);//method will exit if only daemon thread is left leading to faster performance
-		pushEffort.start();
+//		Thread pushEffort = new Thread(() -> {
+//			new PokerPlaningRespondsPrototype().stopSprint();
+//		});
+//		pushEffort.setDaemon(true);//method will exit if only daemon thread is left leading to faster performance
+//		pushEffort.start();
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//thread to get all data from the database
-		Thread getAllData = new Thread(() -> {
-			List<RetrieveAll> allInformation = new PokerPlaningRespondsPrototype().retrieveAll(); //retrive all the data from the database
-
-			
-			singletonInstance.setAllInformation(allInformation);
-			System.out.println("done");
-		});
-		getAllData.setDaemon(true);
-		getAllData.start();
+//		Thread getAllData = new Thread(() -> {
+//			List<RetrieveAll> allInformation = new PokerPlaningRespondsPrototype().retrieveAll(); //retrive all the data from the database
+//
+//			
+//			singletonInstance.setAllInformation(allInformation);
+//			System.out.println("done");
+//		});
+//		getAllData.setDaemon(true);
+//		getAllData.start();
 		//set the label color and text to the right one depending on the activity
 		
 //		-----------------IMPORTANT------------------------
@@ -378,8 +401,9 @@ public class Controller implements Initializable{
 //			close();
 //			return true;
 //			
-//		}
-		if (new Query().openEffort())
+//		
+		Efforts effort = singletonInstance.getEffort();
+		if (effort != null)
 		{
 			clock.setText("Clock Is ON");
 			clock.setStyle("-fx-background-color: GREEN;");
