@@ -39,96 +39,91 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Controller implements Initializable{
 
-	@FXML
-	private StackPane SprintPane;
+    @FXML
+    private Button VOTE;
 
-	@FXML
-	private Button VOTE;
+    @FXML
+    private Button backButton;
 
-	@FXML
-	private Button backButton;
+    @FXML
+    private ScrollPane choseWeightPanel;
 
-	@FXML
-	private ScrollPane choseWeightPanel;
+    @FXML
+    private TableColumn<?, ?> defectCol;
 
-	@FXML
-	private TableColumn<String, String> defectCol;
+    @FXML
+    private ScrollPane display;
 
-	@FXML
-	private ScrollPane display;
+    @FXML
+    private VBox displayFlow;
 
-	@FXML
-	private FlowPane displayFlow;
+    @FXML
+    private VBox qlookPane;
 
-	//	@FXML
-	//	private Button newSprint;
+    @FXML
+    private Label quickLookCurrentWeight;
 
-	@FXML
-	private FlowPane qlookPane;
+    @FXML
+    private TextArea quicklookDescription;
 
-	@FXML
-	private Label quickLookCurrentWeight;
+    @FXML
+    private TextArea quicklookEfforts;
 
-	@FXML
-	private TextArea quicklookDescription;
+    @FXML
+    private TextArea quicklookOtherInfo;
 
-	@FXML
-	private TextArea quicklookEfforts;
+    @FXML
+    private ScrollPane quicklookPanel;
 
-	@FXML
-	private TextArea quicklookOtherInfo;
+    @FXML
+    private TableView<?> quicklookTable;
 
-	@FXML
-	private ScrollPane quicklookPanel;
+    @FXML
+    private TextField quicklookTitle;
 
-	@FXML
-	private TableView<String> quicklookTable;
+    @FXML
+    private TextField searchBar;
 
-	@FXML
-	private TextField quicklookTitle;
+    @FXML
+    private Button searchButton;
 
-	@FXML
-	private TextField searchBar;
+    @FXML
+    private AnchorPane searchPane;
 
-	@FXML
-	private Button searchButton;
+    @FXML
+    private Button startSprint;
 
-	@FXML
-	private AnchorPane searchPane;
+    @FXML
+    private Label upcommingRating;
 
-	@FXML
-	private Button startSprint;
+    @FXML
+    private Button upcommingStartNow;
 
-	@FXML
-	private Label upcommingRating;
+    @FXML
+    private Label upcommingTime;
 
-	@FXML
-	private Button upcommingStartNow;
+    @FXML
+    private Label upcommingTitle;
 
-	@FXML
-	private Label upcommingTime;
+    @FXML
+    private TextArea upcommingUserStory;
 
-	@FXML
-	private Label upcommingTitle;
+    @FXML
+    private ImageView w0;
 
-	@FXML
-	private TextArea upcommingUserStory;
+    @FXML
+    private ImageView w1;
 
-	@FXML
-	private ImageView w0;
+    @FXML
+    private ImageView w2;
 
-	@FXML
-	private ImageView w1;
-
-	@FXML
-	private ImageView w2;
-
-	@FXML
-	private ImageView w3;
+    @FXML
+    private ImageView w3;
 
 	//	-----------------------RETURNING TO THE MAIN CONSOLE--------------------
 	private Scene scene;
@@ -166,6 +161,7 @@ public class Controller implements Initializable{
 		try {
 			userRates = new ArrayList<>();
 			populate();
+			toConsole = true;
 			serverCheck=new Thread(()->{
 				while (keepchecking)
 				{
@@ -203,7 +199,7 @@ public class Controller implements Initializable{
 			});
 			serverCheck.setDaemon(true);
 			serverCheck.start();
-			//			loadInstance = FxmlPreLoader.getInstance();
+						loadInstance = FxmlPreLoader.getInstance();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -262,7 +258,7 @@ public class Controller implements Initializable{
 		//		---------------LOADING PREV SPRINT FXML-----------------
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("preSprint.fxml"));
-		AnchorPane sprint = loader.load();
+		VBox sprint = loader.load();
 		preController = loader.getController();
 		preController.preSprintTitle.setText(qlook.getTitle());
 		preController.PreSprintUserStory.setText(qlook.getUserStory());
@@ -275,7 +271,6 @@ public class Controller implements Initializable{
 		displayFlow.getChildren().add(sprint);
 	}
 	private void populateQuickLookPane(String index) {
-		toConsole = true;
 		System.out.println("populating quicklook " +index );
 		for (int i = 0;i< 3;i++)
 		{
@@ -390,7 +385,6 @@ public class Controller implements Initializable{
 	//	----------------------THIS IS FOR UPCOMMING ANCHORPANE------------------
 	public void setUpcommingsprint(String startTime,QuickLook qLook)
 	{
-		SprintPane.toFront();
 		upcommingTitle.setText(qLook.getTitle());
 		upcommingRating.setText(Integer.toString(qLook.getRating()));
 		upcommingUserStory.setText(qLook.getUserStory());
@@ -463,22 +457,18 @@ public class Controller implements Initializable{
 	}
 	public void back(ActionEvent event) throws IOException
 	{
+		System.out.println("in back");
+		System.out.println(toConsole);
 		if(toConsole)
 		{
-			try {
-				Parent root;
-				root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				stage.setScene(scene);
-				stage.show();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(loadInstance.getEffortConsole());
+			stage.setScene(scene);
+			stage.show();
 		}else 
 		{
 			populate();
+			toConsole = true;
 		}
 	}
 

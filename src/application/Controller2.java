@@ -143,12 +143,7 @@ public class Controller2 implements Initializable{
 		});
 		preLoad.setDaemon(true);
 		preLoad.start();
-		 try {
-			root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 
 		box_role.getItems().add("User");
 		box_role.getItems().add("Employee");
