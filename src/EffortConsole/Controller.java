@@ -260,7 +260,7 @@ public class Controller implements Initializable{
 
 			return; //is the clock is already on do nothing
 		}
-		QuickLook info = new PokerPlaningRespondsPrototype().getQuick();
+		QuickLook info = singletonInstance.getInfo();
 		if(info == null) {
 			//alert when trying to start a clock when one is already running
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -346,25 +346,32 @@ public class Controller implements Initializable{
 		isOn = false;
 		clock.setText("Clock Is OFF");
 		clock.setStyle("-fx-background-color: RED;");
-		PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
-		Efforts eff = pokerPlanning.getEffortOnHold();
-		QuickLook ql = pokerPlanning.getQuick();
+		Thread stopAction = new Thread(()->{
+			
+			PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
+			Efforts eff = pokerPlanning.getEffortOnHold();
+			QuickLook ql = pokerPlanning.getQuick();
+//		System.out.println(eff.getProjectType());
 //		---------------------IF IT IS A NEW SPRINT--------------------
-		if(ql.isNewSprint())
-		{
+			if(ql.isNewSprint())
+			{
 //			--------------KEETING ALL THE PEOPLE WHO VOTED AND THEIR VOTES-----------
-			List<Rate> userRates = pokerPlanning.getAllUserRates();
-			ql.setUserRates(userRates);
-			pokerPlanning.writeTo(new RetrieveAll(eff, ql));
-		}else 
-		{
-			pokerPlanning.updatenew(new RetrieveAll(eff, ql));
-		}
+				List<Rate> userRates = pokerPlanning.getAllUserRates();
+				ql.setUserRates(userRates);
+				System.out.println(eff.getProjectType());
+				System.out.println(eff.toString());
+				pokerPlanning.writeTo(new RetrieveAll(eff, ql));
+			}else 
+			{
+				pokerPlanning.updatenew(new RetrieveAll(eff, ql));
+			}
 //		---------------------DELETE INFO IN THE TEMP TABLES--------------
-		pokerPlanning.delAllUserRates();
-		pokerPlanning.deleteEffortOnHold();
-		pokerPlanning.delQuickLookOnHold();
-		
+			pokerPlanning.delAllUserRates();
+			pokerPlanning.deleteEffortOnHold();
+			pokerPlanning.delQuickLookOnHold();
+		});
+		stopAction.setDaemon(true);
+		stopAction.start();
 		//stopping an activity
 		//create a thread for faster performance java concurrency.
 //		Thread pushEffort = new Thread(() -> {

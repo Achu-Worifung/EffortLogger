@@ -155,7 +155,9 @@ public class Controller implements Initializable{
 	//	-------------------------BACK TO CONSOLE OR HISTORICAL DATA---------------------------
 	boolean toConsole;
 
-	//	--------------------------WILL STORE EVERY EFFORT START DATES--------------------
+	//	--------------------------CHECK DB FOR ALL VOTES--------------------
+	Thread serverCheck = null;
+	boolean keepchecking =true;
 
 
 
@@ -164,6 +166,43 @@ public class Controller implements Initializable{
 		try {
 			userRates = new ArrayList<>();
 			populate();
+			serverCheck=new Thread(()->{
+				while (keepchecking)
+				{
+
+					List<Rate> newUserRates = new ServerCheck().getAllUserRates();
+					System.out.println("Checking...");
+					int sum = 0;
+					for (int j = 0; j <newUserRates.size();j++) {
+						sum = sum+newUserRates.get(j).getRate();
+					}
+					//					if(newUserRates.size() != allVotes)
+					//					{
+					//
+					//						for(Rate rate:newUserRates)
+					//						{
+					//							sum +=rate.getRate();
+					//						}
+					//					}
+					final int finalSum = sum;
+					Platform.runLater(() -> {
+
+						upcommingRating.setText(Integer.toString((finalSum/(newUserRates.size()+1))));
+						System.out.println("updated...");
+
+					});
+					try {
+						Thread.sleep(6000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+
+				}
+			});
+			serverCheck.setDaemon(true);
+			serverCheck.start();
 			//			loadInstance = FxmlPreLoader.getInstance();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -182,22 +221,11 @@ public class Controller implements Initializable{
 		upcommingStartNow.setDisable(true);
 		upcommingStartNow.setOnMouseClicked((event)->
 		{
-						stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-						scene = new Scene(loadInstance.getEffortConsole());
-						stage.setScene(scene);
-						stage.show();
+			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			scene = new Scene(loadInstance.getEffortConsole());
+			stage.setScene(scene);
+			stage.show();
 
-			Parent root;
-			try {
-				root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
-				stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-				scene = new Scene(root);
-				stage.setScene(scene);
-				stage.show();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 		});
 		VOTE.setOnMouseClicked((event)->
@@ -209,6 +237,7 @@ public class Controller implements Initializable{
 		String startTime = null;
 		if(tempLook != null) 
 		{
+			upcommingStartNow.setDisable(false);
 			startTime = tempLook.start;
 			setUpcommingsprint(startTime,tempLook);
 		}
@@ -351,11 +380,11 @@ public class Controller implements Initializable{
 			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
 
 		}
-//		if(newSprint) {
-//			VOTE.setDisable(false);
-//			upcommingStartNow.setDisable(false);
-//			setUpcommingsprint(LocalTime.now().toString(),workingOn)/;
-//		}
+		//		if(newSprint) {
+		//			VOTE.setDisable(false);
+		//			upcommingStartNow.setDisable(false);
+		//			setUpcommingsprint(LocalTime.now().toString(),workingOn)/;
+		//		}
 	}
 
 	//	----------------------THIS IS FOR UPCOMMING ANCHORPANE------------------
@@ -482,40 +511,9 @@ public class Controller implements Initializable{
 			choice = 3;
 		}
 		//		--------------------WILL KEEP CHECKING SERVER FOR OTHER'S VOTE---------------
-		if(serverCheck== null || !serverCheck.isAlive()) {
-			serverCheck=new Thread(()->{
-				while (true)
-				{
-
-					List<Rate> newUserRates = new ServerCheck().getAllUserRates();
-					System.out.println("Checking...");
-					int sum = 0;
-					if(newUserRates.size() != allVotes)
-					{
-
-						for(Rate rate:newUserRates)
-						{
-							sum +=rate.getRate();
-						}
-					}
-					final int finalSum = sum;
-					Platform.runLater(() -> {
-
-						upcommingRating.setText(Integer.toString((finalSum/newUserRates.size())));
-						System.out.println("updated...");
-
-					});
-					try {
-						Thread.sleep(6000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-
-				}
-			});
-		}
+		//		if(serverCheck== null || !serverCheck.isAlive()) {
+		//			
+		//		}
 		int sum = 0;
 		for(i = 0; i < userRates.size(); i++)
 		{
@@ -540,8 +538,8 @@ public class Controller implements Initializable{
 		upcommingRating.setText(Integer.toString(average));
 
 		//		----------------------STARTING THE THREAD---------------------------
-		serverCheck.setDaemon(true);
-		serverCheck.start();
+		//		serverCheck.setDaemon(true);
+		//		serverCheck.start();
 	}
 
 }

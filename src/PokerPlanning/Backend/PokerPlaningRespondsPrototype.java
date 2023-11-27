@@ -188,7 +188,7 @@ public class PokerPlaningRespondsPrototype {
 	// creates new quickloo;
 	public boolean writeTo(RetrieveAll info) {
 		close();
-		reopen("EffortsOnHold");
+		reopen("Efforts");
 		List<Document> ratings = new ArrayList<>();
 
 		for(int i= 0; i < info.getqLook().getUserRates().size();i++)
@@ -260,13 +260,15 @@ public class PokerPlaningRespondsPrototype {
 	}
 	public Efforts getEffortOnHold()
 	{
-		reopen("EffortOnHold");
+		reopen("EffortsOnHold");
 		Document first = collection.find().first();
 		if(first != null)
 		{
-			return new Efforts(first.getString("Project"), first.getList("Start Time", String.class), first.getList("End Time", String.class),
+			Efforts eff = new Efforts(first.getString("Project"), first.getList("Start Time", String.class), first.getList("End Time", String.class),
 					first.getList("Start Date", String.class), first.getList("Life Cycle", String.class), first.getList("effort Cat", String.class),
 					first.getList("rand Time", String.class));
+			System.out.println(eff.toString());
+			return eff;
 		}
 		return null;
 	}
@@ -285,6 +287,7 @@ public class PokerPlaningRespondsPrototype {
 	public boolean writeEffortInfo(Efforts effort)
 	{
 		reopen("EffortsOnHold");
+		if(collection.find().first() != null) return false;
 		Document doc = new Document();
 		doc.append("Project", effort.getProjectType())
 		.append("Start TIme", effort.getStartTime())
@@ -300,6 +303,7 @@ public class PokerPlaningRespondsPrototype {
 	public boolean writeQuickLookInfo(QuickLook info)
 	{
 		reopen("Quicklook");
+		if(collection.find().first() != null) return false;
 		Document document = new Document();
 //		if(newSprint) {
 		document.append("Status", info.getStatus())
