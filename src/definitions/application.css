@@ -93,9 +93,11 @@
 }
 
 .table-row-cell:odd {
-    -fx-background-color: #404040; /* Background color for odd rows */
+    -fx-background-color: #F5F5F5; /* Light Gray */
 }
-
+.table-row-cell:even {
+    -fx-background-color: #FFFFFF; /* White */
+}
 .table-header {
     -fx-background-color: #555555; /* Background color for the header */
     -fx-text-fill: red;
@@ -104,4 +106,7 @@
 .table-view:focused {
     -fx-border-color: #FF0000; /* Border color when the table is focused */
     -fx-border-width: 2px; /* Border width */
+}
+.table-row-cell:selected {
+    -fx-background-color: #ADD8E6; /* Light Blue for selected rows */
 }

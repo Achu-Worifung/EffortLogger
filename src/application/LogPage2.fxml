@@ -55,7 +55,7 @@
                               <Font size="16.0" />
                            </font>
                         </Button>
-                        <Hyperlink layoutX="416.0" layoutY="298.0" text="forgot username/account" />
+                        <Hyperlink fx:id="forgot" layoutX="416.0" layoutY="298.0" onAction="#forgot" text="forgot username/account" />
                         <Label fx:id="cWarning" layoutX="9.0" layoutY="528.0" styleClass="loginLabel" stylesheets="@application.css" textFill="#e80602">
                            <cursor>
                               <Cursor fx:constant="TEXT" />

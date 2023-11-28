@@ -16,11 +16,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -30,7 +33,8 @@ import poker2.RetrieveAll;
 import poker2.SingleTon;
 public class Controller2 implements Initializable{
 
-
+	  @FXML
+	    private Hyperlink forgot;
 	boolean toCreate = false;
 	@FXML
 	private ComboBox<String> box_role;
@@ -264,5 +268,12 @@ public class Controller2 implements Initializable{
 		lWarning.setText("Username or Password is INCORRECT");
 		txt_lpass1.setText("");
 	}
+    @FXML
+    void forgot(ActionEvent event) {
+    	Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Feauture Not Yet Implemented");
+		alert.setContentText("App is currently unable to reset Passwords, Please create a new Account.");
+		alert.show();
+    }
 
 }
