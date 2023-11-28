@@ -33,8 +33,8 @@ import poker2.RetrieveAll;
 import poker2.SingleTon;
 public class Controller2 implements Initializable{
 
-	  @FXML
-	    private Hyperlink forgot;
+	@FXML
+	private Hyperlink forgot;
 	boolean toCreate = false;
 	@FXML
 	private ComboBox<String> box_role;
@@ -128,26 +128,35 @@ public class Controller2 implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Thread preLoad = new Thread(()-> {
-			System.out.println("thread started");
-			try {
-				PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
-				List<RetrieveAll> allInformation = pokerPlanning.retrieveAll(); 
-				singletonInstance.setAllInformation(allInformation);
-//				----------------CHECK FOR ONGOING EFFORT-------------------
-				Efforts effort = pokerPlanning.getEffortOnHold();
-				if(effort != null) singletonInstance.setEffort(effort);
-//				-----------------CHECK FOR ONGOING QUICKLOOK---------------
-				QuickLook ql = pokerPlanning.getQuick();
-				if(ql != null)singletonInstance.setInfo(ql);
-				System.out.println("done");
-				loadInstance= FxmlPreLoader.getInstance();
-			} catch (IOException e) {
-				e.printStackTrace();
+			while(true) {
+				System.out.println("updating information");
+				try {
+					PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
+					List<RetrieveAll> allInformation = pokerPlanning.retrieveAll(); 
+					singletonInstance.setAllInformation(allInformation);
+					//				----------------CHECK FOR ONGOING EFFORT-------------------
+					Efforts effort = pokerPlanning.getEffortOnHold();
+					if(effort != null) singletonInstance.setEffort(effort);
+					//				-----------------CHECK FOR ONGOING QUICKLOOK---------------
+					QuickLook ql = pokerPlanning.getQuick();
+					if(ql != null)singletonInstance.setInfo(ql);
+					System.out.println("done");
+					loadInstance= FxmlPreLoader.getInstance();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				try {
+					Thread.sleep(30000); //updating info every 30 seconds
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 		preLoad.setDaemon(true);
 		preLoad.start();
-		
+
 
 		box_role.getItems().add("User");
 		box_role.getItems().add("Employee");
@@ -251,11 +260,11 @@ public class Controller2 implements Initializable{
 		{
 			//going to the main console
 			//performance insane:- might have a problem with memory though
-//			---------------------SETTING ALL THE DATA---------------------
+			//			---------------------SETTING ALL THE DATA---------------------
 			Thread getAllData = new Thread(() -> {
 				singletonInstance.setUser(username);
 
-				
+
 			});
 			getAllData.setDaemon(true);
 			getAllData.start();
@@ -268,12 +277,12 @@ public class Controller2 implements Initializable{
 		lWarning.setText("Username or Password is INCORRECT");
 		txt_lpass1.setText("");
 	}
-    @FXML
-    void forgot(ActionEvent event) {
-    	Alert alert = new Alert(AlertType.INFORMATION);
+	@FXML
+	void forgot(ActionEvent event) {
+		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Feauture Not Yet Implemented");
 		alert.setContentText("App is currently unable to reset Passwords, Please create a new Account.");
 		alert.show();
-    }
+	}
 
 }

@@ -93,10 +93,10 @@
 }
 
 .table-row-cell:odd {
-    -fx-background-color: #F5F5F5; /* Light Gray */
+   -fx-text-fill: #F5F5F5;
 }
 .table-row-cell:even {
-    -fx-background-color: #FFFFFF; /* White */
+   -fx-text-fill: #F5F5F5;
 }
 .table-header {
     -fx-background-color: #555555; /* Background color for the header */

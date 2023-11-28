@@ -43,86 +43,86 @@ import javafx.stage.Stage;
 
 public class Controller implements Initializable{
 
-    @FXML
-    private Button VOTE;
+	@FXML
+	private Button VOTE;
 
-    @FXML
-    private Button backButton;
+	@FXML
+	private Button backButton;
 
-    @FXML
-    private ScrollPane choseWeightPanel;
+	@FXML
+	private ScrollPane choseWeightPanel;
 
-    @FXML
-    private TableColumn<?, ?> defectCol;
+	@FXML
+	private TableColumn<?, ?> defectCol;
 
-    @FXML
-    private ScrollPane display;
+	@FXML
+	private ScrollPane display;
 
-    @FXML
-    private FlowPane displayFlow;
+	@FXML
+	private FlowPane displayFlow;
 
-    @FXML
-    private VBox qlookPane;
+	@FXML
+	private VBox qlookPane;
 
-    @FXML
-    private Label quickLookCurrentWeight;
+	@FXML
+	private Label quickLookCurrentWeight;
 
-    @FXML
-    private TextArea quicklookDescription;
+	@FXML
+	private TextArea quicklookDescription;
 
-    @FXML
-    private TextArea quicklookEfforts;
+	@FXML
+	private TextArea quicklookEfforts;
 
-    @FXML
-    private TextArea quicklookOtherInfo;
+	@FXML
+	private TextArea quicklookOtherInfo;
 
-    @FXML
-    private ScrollPane quicklookPanel;
+	@FXML
+	private ScrollPane quicklookPanel;
 
-    @FXML
-    private TableView<?> quicklookTable;
+	@FXML
+	private TableView<?> quicklookTable;
 
-    @FXML
-    private TextField quicklookTitle;
+	@FXML
+	private TextField quicklookTitle;
 
-    @FXML
-    private TextField searchBar;
+	@FXML
+	private TextField searchBar;
 
-    @FXML
-    private Button searchButton;
+	@FXML
+	private Button searchButton;
 
-    @FXML
-    private AnchorPane searchPane;
+	@FXML
+	private AnchorPane searchPane;
 
-    @FXML
-    private Button startSprint;
+	@FXML
+	private Button startSprint;
 
-    @FXML
-    private Label upcommingRating;
+	@FXML
+	private Label upcommingRating;
 
-    @FXML
-    private Button upcommingStartNow;
+	@FXML
+	private Button upcommingStartNow;
 
-    @FXML
-    private Label upcommingTime;
+	@FXML
+	private Label upcommingTime;
 
-    @FXML
-    private Label upcommingTitle;
+	@FXML
+	private Label upcommingTitle;
 
-    @FXML
-    private TextArea upcommingUserStory;
+	@FXML
+	private TextArea upcommingUserStory;
 
-    @FXML
-    private ImageView w0;
+	@FXML
+	private ImageView w0;
 
-    @FXML
-    private ImageView w1;
+	@FXML
+	private ImageView w1;
 
-    @FXML
-    private ImageView w2;
+	@FXML
+	private ImageView w2;
 
-    @FXML
-    private ImageView w3;
+	@FXML
+	private ImageView w3;
 
 	//	-----------------------RETURNING TO THE MAIN CONSOLE--------------------
 	private Scene scene;
@@ -187,12 +187,15 @@ public class Controller implements Initializable{
 						System.out.println("updated...");
 
 					});
-					
-//					--------------------CHECK IF SOMEONE ELSE HAS MADE A SPRINT---------------
+
+					//					--------------------CHECK IF SOMEONE ELSE HAS MADE A SPRINT---------------
 					QuickLook ql = checkServer.getQuick();
-					if(ql != null && !upcommingUserStory.getText().isBlank())
+					if(ql != null && upcommingUserStory.getText().isBlank())
 					{
-						setUpcommingsprint(ql.getStart(), ql);
+						Platform.runLater(() -> {
+							setUpcommingsprint(ql.getStart(), ql);
+						});
+						
 					}
 					try {
 						Thread.sleep(6000);
@@ -206,7 +209,7 @@ public class Controller implements Initializable{
 			});
 			serverCheck.setDaemon(true);
 			serverCheck.start();
-						loadInstance = FxmlPreLoader.getInstance();
+			loadInstance = FxmlPreLoader.getInstance();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -227,6 +230,7 @@ public class Controller implements Initializable{
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			try {
 				scene = new Scene(loadInstance.getEffortConsole());
+				keepchecking = false;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -284,18 +288,13 @@ public class Controller implements Initializable{
 	}
 	private void populateQuickLookPane(String index) {
 		System.out.println("populating quicklook " +index );
-		for (int i = 0;i< 3;i++)
-		{
-			System.out.println(allInformation.get(i).getEffort().toString());
-		}
 		RetrieveAll info = allInformation.get(Integer.parseInt(index));
-		System.out.println(info);
 		workingOn = info.getqLook();
 		//		System.out.println(info.getEffort().getStartDate());
 		List<String> startDates = info.getEffort().getStartDate();
 		List<String> startTimes = info.getEffort().getStartTime();
 		List<String> endTimes = info.getEffort().getEndTime();
-		//		System.out.println(startDates.toString());
+		System.out.println("here is the start date "+startDates.get(startDates.size()-1));
 		workingOn.setDate(startDates.get(startDates.size()-1));
 		workingOn.setStart(startTimes.get(startTimes.size()-1));
 		quicklookTitle.setText(workingOn.getTitle());
@@ -361,10 +360,8 @@ public class Controller implements Initializable{
 			userRates.add(userRate);
 			workingOn.setUserRates(userRates);
 			workingOn.setNewSprint(false);
-			System.out.println(workingOn);
-			System.out.println(workingOn.getStart());
 			setUpcommingsprint(workingOn.getStart(),workingOn);
-			workingOn.setDate(LocalDate.now().toString());
+//			workingOn.setDate(workingOn.getStart());
 			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
 
 		}
@@ -405,7 +402,7 @@ public class Controller implements Initializable{
 		Duration duration= Duration.between(LocalTime.now(), timeStarted);
 		System.out.println(duration.toSeconds());
 		//		int timeLeft = (int)duration.getSeconds()*60;
-		System.out.println((int)duration.toMinutes());
+		System.out.println("how many minutes left "+(int)duration.toMinutes());
 		countDown((int)duration.toMinutes(), LocalDate.parse(qLook.getDate()));
 
 	}
@@ -413,11 +410,10 @@ public class Controller implements Initializable{
 		int[] timeLeft = new int[1]; 
 		timeLeft[0] = startTime;
 		VOTE.setDisable(true);
-		upcommingStartNow.setDisable(true);
 
+		upcommingStartNow.setDisable(false);
 		Thread countDownThread = new Thread(() -> {
-			while (startDate.compareTo( LocalDate.now()) ==0 &&  timeLeft[0] > 0) {
-				upcommingStartNow.setDisable(false);
+			while (startDate.compareTo( LocalDate.now()) == 0 &&  timeLeft[0] > 0) {
 				VOTE.setDisable(false);
 
 				Platform.runLater(() -> {
@@ -477,6 +473,7 @@ public class Controller implements Initializable{
 			scene = new Scene(loadInstance.getEffortConsole());
 			stage.setScene(scene);
 			stage.show();
+			keepchecking = false;
 		}else 
 		{
 			populate();
