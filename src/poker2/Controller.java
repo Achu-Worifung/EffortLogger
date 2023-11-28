@@ -143,6 +143,8 @@ public class Controller implements Initializable{
 	//	--------------------SINGLETON INSTANCE----------------------
 	SingleTon singletonInstance = SingleTon.getInstance();
 	FxmlPreLoader loadInstance;
+	PokerPlaningRespondsPrototype pokerInstance = PokerPlaningRespondsPrototype.getInstance();
+
 
 	//	------------------ARE WE CREATING A NEW SPRINT OR WORKING ON A PREVIOUSE SPRINT---------
 	boolean newSprint;
@@ -161,29 +163,24 @@ public class Controller implements Initializable{
 			userRates = new ArrayList<>();
 			populate();
 			toConsole = true;
+			ServerCheck checkServer = new ServerCheck();
 			serverCheck=new Thread(()->{
 				while (keepchecking)
 				{
-					ServerCheck checkServer = new ServerCheck();
 
-					List<Rate> newUserRates = checkServer.getAllUserRates();
+					userRates = pokerInstance.getAllUserRates();
 					System.out.println("Checking...");
-					int sum = 0;
-					for (int j = 0; j <newUserRates.size();j++) {
-						sum = sum+newUserRates.get(j).getRate();
+					double sum = 0.0;
+
+					// Assuming userRates is a List of numeric values
+					for (Rate rate : userRates) {
+						sum += rate.getRate();
 					}
-					//					if(newUserRates.size() != allVotes)
-					//					{
-					//
-					//						for(Rate rate:newUserRates)
-					//						{
-					//							sum +=rate.getRate();
-					//						}
-					//					}
-					final int finalSum = sum;
+
+					final int average = userRates.isEmpty() ? 0 :(int) sum / userRates.size();
 					Platform.runLater(() -> {
 
-						upcommingRating.setText(Integer.toString((finalSum/(newUserRates.size()+1))));
+						upcommingRating.setText(Integer.toString(average));
 						System.out.println("updated...");
 
 					});
@@ -195,10 +192,10 @@ public class Controller implements Initializable{
 						Platform.runLater(() -> {
 							setUpcommingsprint(ql.getStart(), ql);
 						});
-						
+
 					}
 					try {
-						Thread.sleep(6000);
+						Thread.sleep(15000); //sleeps for 15 seconds
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -361,8 +358,8 @@ public class Controller implements Initializable{
 			workingOn.setUserRates(userRates);
 			workingOn.setNewSprint(false);
 			setUpcommingsprint(workingOn.getStart(),workingOn);
-//			workingOn.setDate(workingOn.getStart());
-			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
+			//			workingOn.setDate(workingOn.getStart());
+			pokerInstance.writeQuickLookInfo(workingOn);
 
 		}
 
@@ -380,8 +377,9 @@ public class Controller implements Initializable{
 			workingOn.setRating(0);
 			singletonInstance.setInfo(workingOn);
 			workingOn.setDate(LocalDate.now().toString());
+			workingOn.setStart(LocalTime.now().toString());
 			setUpcommingsprint(workingOn.start,workingOn);
-			new PokerPlaningRespondsPrototype().writeQuickLookInfo(workingOn);
+			pokerInstance.writeQuickLookInfo(workingOn);
 
 		}
 		//		if(newSprint) {
@@ -491,7 +489,7 @@ public class Controller implements Initializable{
 		//		--------------------------CHECKING IF USER HAS ALREAD VOTED-------------------
 		boolean notvoted = true;
 		int i,  choice;
-		List<Rate> userRates = new PokerPlaningRespondsPrototype().getAllUserRates();
+		List<Rate> userRates = pokerInstance.getAllUserRates();
 		int allVotes = userRates.size();
 
 		if(event.getSource() == w0)
@@ -513,28 +511,36 @@ public class Controller implements Initializable{
 		//		if(serverCheck== null || !serverCheck.isAlive()) {
 		//			
 		//		}
-		int sum = 0;
 		for(i = 0; i < userRates.size(); i++)
 		{
+			int rate = userRates.get(i).getRate();
 			System.out.println("here");
 			if(singletonInstance.getUser().equalsIgnoreCase(userRates.get(i).getUser()))
 			{
 				notvoted = false;
-				new PokerPlaningRespondsPrototype().updateRate(new Rate(singletonInstance.getUser(), choice));
-				continue;
+				pokerInstance.updateRate(new Rate(singletonInstance.getUser(), choice));
+				break;
 			}
-			sum+=userRates.get(i).getRate();
 		}
 		if(notvoted) {
 			System.out.println("note voted");
-			boolean done = new PokerPlaningRespondsPrototype().toUserRate(new Rate(singletonInstance.getUser(), choice));
+			boolean done = pokerInstance.toUserRate(new Rate(singletonInstance.getUser(), choice));
 			System.out.println(done);
 			notvoted= false;
 		}
 		choseWeightPanel.toBack();
 		//		--------------MIGHT NEED TO CHECK THIS AVERAGE----------------
-		int average = (sum + choice) / (userRates.size() + 1);
-		upcommingRating.setText(Integer.toString(average));
+		userRates = pokerInstance.getAllUserRates();
+		double sum = 0.0;
+
+		// Assuming userRates is a List of numeric values
+		for (Rate rate : userRates) {
+			sum += rate.getRate();
+		}
+
+		double average = userRates.isEmpty() ? 0.0 : sum / userRates.size();
+		System.out.println("average is "+average);
+		upcommingRating.setText(Integer.toString((int)average));
 
 		//		----------------------STARTING THE THREAD---------------------------
 		//		serverCheck.setDaemon(true);

@@ -85,6 +85,7 @@ public class Controller2 implements Initializable{
 	AddUserToDb adduser;
 	SingleTon singletonInstance = SingleTon.getInstance(); //getting the singleton instance from poker planning
 	FxmlPreLoader loadInstance; //fxmlpreloader instance
+	PokerPlaningRespondsPrototype pokerInstance = PokerPlaningRespondsPrototype.getInstance();
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
@@ -127,35 +128,6 @@ public class Controller2 implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Thread preLoad = new Thread(()-> {
-			while(true) {
-				System.out.println("updating information");
-				try {
-					PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
-					List<RetrieveAll> allInformation = pokerPlanning.retrieveAll(); 
-					singletonInstance.setAllInformation(allInformation);
-					//				----------------CHECK FOR ONGOING EFFORT-------------------
-					Efforts effort = pokerPlanning.getEffortOnHold();
-					if(effort != null) singletonInstance.setEffort(effort);
-					//				-----------------CHECK FOR ONGOING QUICKLOOK---------------
-					QuickLook ql = pokerPlanning.getQuick();
-					if(ql != null)singletonInstance.setInfo(ql);
-					System.out.println("done");
-					loadInstance= FxmlPreLoader.getInstance();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				try {
-					Thread.sleep(30000); //updating info every 30 seconds
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-		});
-		preLoad.setDaemon(true);
-		preLoad.start();
 
 
 		box_role.getItems().add("User");
@@ -259,19 +231,39 @@ public class Controller2 implements Initializable{
 		if(adduser.authen(txt_luname1.getText(), txt_lpass1.getText()))
 		{
 			//going to the main console
-			//performance insane:- might have a problem with memory though
 			//			---------------------SETTING ALL THE DATA---------------------
-			Thread getAllData = new Thread(() -> {
-				singletonInstance.setUser(username);
+			loadInstance= FxmlPreLoader.getInstance();
+			singletonInstance.setUser(username);
 
-
-			});
-			getAllData.setDaemon(true);
-			getAllData.start();
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(loadInstance.getEffortConsole());
 			stage.setScene(scene);
 			stage.show();
+			Thread preLoad = new Thread(()-> {
+				while(true) {
+					System.out.println("updating information");
+					List<RetrieveAll> allInformation = pokerInstance.retrieveAll(); 
+					singletonInstance.setAllInformation(allInformation);
+					//				----------------CHECK FOR ONGOING EFFORT-------------------
+					Efforts effort = pokerInstance.getEffortOnHold();
+					if(effort != null) singletonInstance.setEffort(effort);
+					//				-----------------CHECK FOR ONGOING QUICKLOOK---------------
+					QuickLook ql = pokerInstance.getQuick();
+					if(ql != null)singletonInstance.setInfo(ql);
+					System.out.println("done");
+					try {
+						//						Thread.sleep(30000); //updating info every 30 seconds
+						Thread.sleep(60000); //updating info every minute
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
+			});
+			preLoad.setDaemon(true);
+			preLoad.start();
+
 			return;
 		}
 		lWarning.setText("Username or Password is INCORRECT");

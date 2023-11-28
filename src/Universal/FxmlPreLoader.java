@@ -76,28 +76,28 @@ public class FxmlPreLoader {
 		if(preLoader == null)
 		{
 			preLoader = new FxmlPreLoader();
-//			----SETTING EVERY PANEL----
-			  FXMLLoader loader = new FXMLLoader(FxmlPreLoader.class.getResource("/EffortConsole/Console.fxml"));
-			    effortConsole = loader.load();
-
-			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/Defects/Defects.fxml"));
-			    defect = loader.load();
-
-			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/EffortEditor/EditorConsole.fxml"));
-			    editor = loader.load();
-
-			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/definitions/console2.fxml"));
-			    definition = loader.load();
-
-			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/poker2/console.fxml"));
-			    poker = loader.load();
-			    
-//			    -----SETTING THE PANELS-----
-			    FxmlPreLoader.setEffortConsole(effortConsole);
-			    FxmlPreLoader.setDefinition(definition);
-			    FxmlPreLoader.setDefect(defect);
-			    FxmlPreLoader.setEditor(editor);
-			    FxmlPreLoader.setPoker(poker);
+////			----SETTING EVERY PANEL----
+//			  FXMLLoader loader = new FXMLLoader(FxmlPreLoader.class.getResource("/EffortConsole/Console.fxml"));
+//			    effortConsole = loader.load();
+//
+//			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/Defects/Defects.fxml"));
+//			    defect = loader.load();
+//
+//			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/EffortEditor/EditorConsole.fxml"));
+//			    editor = loader.load();
+//
+//			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/definitions/console2.fxml"));
+//			    definition = loader.load();
+//
+//			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/poker2/console.fxml"));
+//			    poker = loader.load();
+//			    
+////			    -----SETTING THE PANELS-----
+//			    FxmlPreLoader.setEffortConsole(effortConsole);
+//			    FxmlPreLoader.setDefinition(definition);
+//			    FxmlPreLoader.setDefect(defect);
+//			    FxmlPreLoader.setEditor(editor);
+//			    FxmlPreLoader.setPoker(poker);
 			    
 		}
 		return preLoader;

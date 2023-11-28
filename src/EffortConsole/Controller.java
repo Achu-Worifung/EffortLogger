@@ -83,6 +83,8 @@ public class Controller implements Initializable{
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss"); //used to format
     DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	FxmlPreLoader loadInstance; //fxmlpreloader instance
+	PokerPlaningRespondsPrototype pokerInstance = PokerPlaningRespondsPrototype.getInstance();
+
 
 
 	//query object
@@ -316,7 +318,7 @@ public class Controller implements Initializable{
 			
 			Efforts effort = new Efforts(project,startTime,endTime,startDate,lifeCycle, effortCat, randVal);
 //			QuickLook info = singletonInstance.getInfo();
-			new PokerPlaningRespondsPrototype().writeEffortInfo(effort);
+			pokerInstance.writeEffortInfo(effort);
 //			new PokerPlaningRespondsPrototype().writeTo(new RetrieveAll(effort, info));
 //			new PokerPlaningRespondsPrototype().updatenew(new Efforts("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
 //					lifeCycle, effortCat, randVal, singletonInstance.getQuicklook()));
@@ -346,27 +348,37 @@ public class Controller implements Initializable{
 		clock.setStyle("-fx-background-color: RED;");
 		Thread stopAction = new Thread(()->{
 			
-			PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
-			Efforts eff = pokerPlanning.getEffortOnHold();
-			QuickLook ql = pokerPlanning.getQuick();
+//			PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
+			Efforts eff = pokerInstance.getEffortOnHold();
+			QuickLook ql = pokerInstance.getQuick();
 //		System.out.println(eff.getProjectType());
 //		---------------------IF IT IS A NEW SPRINT--------------------
 			if(ql.isNewSprint())
 			{
 //			--------------KEETING ALL THE PEOPLE WHO VOTED AND THEIR VOTES-----------
-				List<Rate> userRates = pokerPlanning.getAllUserRates();
+				List<Rate> userRates = pokerInstance.getAllUserRates();
+				double sum = 0.0;
+
+				// Assuming userRates is a List of numeric values
+				for (Rate rate : userRates) {
+				    sum += rate.getRate();
+				}
+
+				double average = userRates.isEmpty() ? 0.0 : sum / userRates.size();
+
+				ql.setRating((int)average);
 				ql.setUserRates(userRates);
 				System.out.println(eff.getProjectType());
 				System.out.println(eff.toString());
-				pokerPlanning.writeTo(new RetrieveAll(eff, ql));
+				pokerInstance.writeTo(new RetrieveAll(eff, ql));
 			}else 
 			{
-				pokerPlanning.updatenew(new RetrieveAll(eff, ql));
+				pokerInstance.updatenew(new RetrieveAll(eff, ql));
 			}
 //		---------------------DELETE INFO IN THE TEMP TABLES--------------
-			pokerPlanning.delAllUserRates();
-			pokerPlanning.deleteEffortOnHold();
-			pokerPlanning.delQuickLookOnHold();
+			pokerInstance.delAllUserRates();
+			pokerInstance.deleteEffortOnHold();
+			pokerInstance.delQuickLookOnHold();
 		});
 		stopAction.setDaemon(true);
 		stopAction.start();

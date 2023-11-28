@@ -19,8 +19,8 @@ import poker2.Rate;
 
 public class ServerCheck {
 	String uri = "mongodb+srv://achuworifung:QqgHwlf9hnQl53fW@cluster0.fodlvul.mongodb.net/";
-	MongoClient mongoClient;
-	MongoDatabase database;
+	MongoClient mongoClient=MongoClients.create(uri);;
+	MongoDatabase database = mongoClient.getDatabase("EffortLoggerv2");
 	MongoCollection<Document> collection;
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss"); // used to format
 
