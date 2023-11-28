@@ -18,7 +18,7 @@ public class LogPage extends Application {
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		
-//		stage.getIcons().add(new Image("./Screenshot 2023-09-19 140838-modified (1).png"));
+		stage.getIcons().add(new Image("C:\\Users\\achuw\\eclipse-workspace\\search\\src\\application\\Screenshot 2023-09-19 140838-modified (1).png"));
 		stage.show();
 		
 		

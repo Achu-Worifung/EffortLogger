@@ -103,23 +103,22 @@ public class Controller implements Initializable{
 		{
 //			root = FXMLLoader.load(getClass().getResource("/Defects/Defects.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(loadInstance.getDefectConsole());
+			scene = new Scene(loadInstance.getDefect());
 			stage.setScene(scene);
 			stage.show();
 		}
 		else if(event.getSource() == editor)
 		{
-//			Parent root = FXMLLoader.load(getClass().getResource("/EffortEditor/EditorConsole.fxml"));
-			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(loadInstance.getEditorConsole());
-			stage.setScene(scene);
-			stage.show();
+		    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		    stage.getScene().setRoot(loadInstance.getEditor());
+		    stage.show();
 		}
+
 		else if(event.getSource() == defination)
 		{
 //			Parent root = FXMLLoader.load(getClass().getResource("/definitions/console2.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(loadInstance.getDefinitionConsole());
+			scene = new Scene(loadInstance.getDefinition());
 			stage.setScene(scene);
 			stage.show();
 		}
@@ -127,7 +126,7 @@ public class Controller implements Initializable{
 		{
 //			Parent root = FXMLLoader.load(getClass().getResource("/poker2/console.fxml"));
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(loadInstance.getPokerConsole());
+			scene = new Scene(loadInstance.getPoker());
 			stage.setScene(scene);
 			stage.show();
 		}

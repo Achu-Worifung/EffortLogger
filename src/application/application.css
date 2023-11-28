@@ -72,6 +72,36 @@
   -fx-background-color: blue;
   -fx-text-fill: white;
 }
+/* styles.css */
+
+.theBack {
+    -fx-background-color: linear-gradient(to right, white, black);
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #888888; /* Color of the thumb (scroll handle) */
+}
+
+.scroll-bar .track {
+    -fx-background-color: #333333; /* Color of the track (scroll area) */
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: #555555; /* Color of the increment and decrement buttons */
+}
+
+.scroll-bar:disabled {
+    -fx-opacity: 1.0; /* Adjust opacity if needed for disabled state */
+}
 
 
 

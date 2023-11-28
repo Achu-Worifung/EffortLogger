@@ -1,23 +1,30 @@
 package definitions;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import ToDB.Query;
+import Universal.FxmlPreLoader;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 
 public class DefController implements Initializable{
 	//Configure the table
+	FxmlPreLoader loadInstance;
 	@FXML
     private TableColumn<Break, String> breakColumn;
     @FXML
@@ -115,6 +122,11 @@ public class DefController implements Initializable{
     private TableColumn<Category, Integer> categoryId;
     @FXML
     private TableColumn<Life, Integer> lifeCycleId;
+   
+    
+    private Stage stage;
+    private Scene scene;
+    
     
     
     
@@ -258,6 +270,12 @@ public class DefController implements Initializable{
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    	try {
+			loadInstance= FxmlPreLoader.getInstance();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     projectNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("projectName"));
     breakColumn.setCellValueFactory(new PropertyValueFactory<Break, String>("breakName"));
     categoryColumn.setCellValueFactory(new PropertyValueFactory<Category, String>("categoryName"));
@@ -318,14 +336,18 @@ public class DefController implements Initializable{
     column25.setCellValueFactory(new PropertyValueFactory<User, String>("col25"));
     //To this Line
     //Load data into tables
-    tableView.setItems(getPeople());
-    categoryTableView.setItems(getCategory());
-    lifeTableView.setItems(getLife());
-    interruptionTableView.setItems(getInterruption());
-    plansTableView.setItems(getPlans());
-    defectTableView.setItems(getDefect());
-    deliverableTableView.setItems(getDeliverable());
-    
+    Thread loadData = new Thread(()->{
+    	
+    	tableView.setItems(getPeople());
+    	categoryTableView.setItems(getCategory());
+    	lifeTableView.setItems(getLife());
+    	plansTableView.setItems(getPlans());
+    	deliverableTableView.setItems(getDeliverable());
+    	interruptionTableView.setItems(getInterruption());
+    	defectTableView.setItems(getDefect());
+    });
+    loadData.setDaemon(true);
+    loadData.start();
     //Allow the table fields to be editable
     tableView.setEditable(true);
     categoryTableView.setEditable(true);
@@ -407,5 +429,37 @@ public class DefController implements Initializable{
     	ObservableList<Deliverable> deliverable = FXCollections.observableArrayList();
     	deliverable.addAll(new Query().getDeli("Deliverables"));
     	return deliverable;
+    }
+    
+    public void toEffortConsole(ActionEvent event) throws IOException
+    {
+    	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(loadInstance.getEffortConsole());
+		stage.setScene(scene);
+		stage.show();
+    }
+    public void toEffortandDefect(ActionEvent event) throws IOException
+    {
+    	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	scene = new Scene(loadInstance.getEffortConsole());
+    	stage.setScene(scene);
+    	stage.show();
+    	
+    }
+    public void toEditor(ActionEvent event) throws IOException
+    {
+    	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	scene = new Scene(loadInstance.getEditor());
+    	stage.setScene(scene);
+    	stage.show();
+    	
+    }
+    public void toDefect(ActionEvent event) throws IOException
+    {
+    	stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	scene = new Scene(loadInstance.getDefect());
+    	stage.setScene(scene);
+    	stage.show();
+    	
     }
 }

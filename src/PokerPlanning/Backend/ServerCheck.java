@@ -14,6 +14,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 import poker2.Efforts;
+import poker2.QuickLook;
 import poker2.Rate;
 
 public class ServerCheck {
@@ -22,7 +23,7 @@ public class ServerCheck {
 	MongoDatabase database;
 	MongoCollection<Document> collection;
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss"); // used to format
-		
+
 	public void reopen(String collectionName) {
 		try {
 			mongoClient = MongoClients.create(uri);
@@ -46,7 +47,7 @@ public class ServerCheck {
 			}
 		}catch(MongoException me)
 		{
-			
+
 		}
 		return userRate;
 	}
@@ -59,6 +60,16 @@ public class ServerCheck {
 			return new Efforts(first.getString("Project"), first.getList("Start Time", String.class), first.getList("End Time", String.class),
 					first.getList("Start Date", String.class), first.getList("Life Cycle", String.class), first.getList("effort Cat", String.class),
 					first.getList("rand Time", String.class));
+		}
+		return null;
+	}
+	public QuickLook getQuick()
+	{
+		reopen("Quicklook");
+		Document first = collection.find().first();
+		if(first != null) {
+			return new QuickLook(first.getObjectId("_id"),first.getString("Status"), first.getString("Title"), first.getString("OtherInfo"), first.getString("User Story")
+					,first.getInteger("Rating"), first.getString("Start Time"), first.getString("Start Date"), first.getBoolean("New Sprint", false));
 		}
 		return null;
 	}

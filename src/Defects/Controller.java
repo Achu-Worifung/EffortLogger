@@ -114,9 +114,9 @@ public class Controller implements Initializable{
 
 	@FXML
 	void toConsole(ActionEvent event) throws IOException {
-//		root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(loadInstance.getDefectConsole());
+		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
@@ -132,14 +132,19 @@ public class Controller implements Initializable{
 		selectProject.getItems().add("Business Project");
 		selectProject.getItems().add("Development Project");
 
-
-		defectCat = new Request().getDefectCategory();
-		for(String s: defectCat)
-		{
-			defectCategory.getItems().add(s);
-		}
-		change = false;
-		newDefect = false;
+		Thread getDefectCat = new Thread(()->{
+			
+			defectCat = new Request().getDefectCategory();
+			for(String s: defectCat)
+			{
+				defectCategory.getItems().add(s);
+			}
+			change = false;
+			newDefect = false;
+		});
+		getDefectCat.setDaemon(true);
+		getDefectCat.start();
+		
 
 	}
 	public void seletedProject(ActionEvent event) {

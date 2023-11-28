@@ -60,7 +60,7 @@ public class Controller implements Initializable{
     private ScrollPane display;
 
     @FXML
-    private VBox displayFlow;
+    private FlowPane displayFlow;
 
     @FXML
     private VBox qlookPane;
@@ -165,8 +165,9 @@ public class Controller implements Initializable{
 			serverCheck=new Thread(()->{
 				while (keepchecking)
 				{
+					ServerCheck checkServer = new ServerCheck();
 
-					List<Rate> newUserRates = new ServerCheck().getAllUserRates();
+					List<Rate> newUserRates = checkServer.getAllUserRates();
 					System.out.println("Checking...");
 					int sum = 0;
 					for (int j = 0; j <newUserRates.size();j++) {
@@ -187,6 +188,13 @@ public class Controller implements Initializable{
 						System.out.println("updated...");
 
 					});
+					
+//					--------------------CHECK IF SOMEONE ELSE HAS MADE A SPRINT---------------
+					QuickLook ql = checkServer.getQuick();
+					if(ql != null && !upcommingUserStory.getText().isBlank())
+					{
+						setUpcommingsprint(ql.getStart(), ql);
+					}
 					try {
 						Thread.sleep(6000);
 					} catch (InterruptedException e) {
@@ -218,7 +226,12 @@ public class Controller implements Initializable{
 		upcommingStartNow.setOnMouseClicked((event)->
 		{
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			scene = new Scene(loadInstance.getEffortConsole());
+			try {
+				scene = new Scene(loadInstance.getEffortConsole());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			stage.setScene(scene);
 			stage.show();
 

@@ -4,56 +4,68 @@ import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
+
 
 public class FxmlPreLoader {
 	//	--------------------------------THIS IS AN ATTEMP TO IMPROVE PERFORMANCE--------------------------
 	//	    ---------THIS WILL BE DONE BY PRE-EMPTIVELY LOADING EACH PANEL AT THE START-----------
-	private static Parent effortConsole, definitionConsole,defectConsole,pokerConsole,editorConsole;
+//	private static Parent effortConsole, definitionConsole,defectConsole,pokerConsole,editorConsole;
+	private  static ScrollPane defect, effortConsole, editor,definition;
+	private static VBox poker;
 
 	//	class instance
 	private static FxmlPreLoader preLoader;
 
-	public  Parent getEffortConsole() {
+	
+
+	public  ScrollPane getDefinition() throws IOException {
+		FXMLLoader loader = new FXMLLoader(FxmlPreLoader.class.getResource("/definitions/console2.fxml"));
+	    definition = loader.load();
+		return definition;
+	}
+	public static void setDefinition(ScrollPane definition) {
+		FxmlPreLoader.definition = definition;
+	}
+	public  VBox getPoker() throws IOException {
+		FXMLLoader loader = new FXMLLoader(FxmlPreLoader.class.getResource("/poker2/console.fxml"));
+	    poker = loader.load();
+		return poker;
+	}
+	public static void setPoker(VBox poker) {
+		FxmlPreLoader.poker = poker;
+	}
+	public  ScrollPane getDefect() throws IOException {
+		FXMLLoader loader = new FXMLLoader(FxmlPreLoader.class.getResource("/Defects/Defects.fxml"));
+	    defect = loader.load();
+		return defect;
+	}
+	public static  void setDefect(ScrollPane defect) {
+		FxmlPreLoader.defect = defect;
+	}
+	public  ScrollPane getEffortConsole() throws IOException {
+		 FXMLLoader loader = new FXMLLoader(FxmlPreLoader.class.getResource("/EffortConsole/Console.fxml"));
+		    effortConsole = loader.load();
 		return effortConsole;
 	}
-
-	public  void setEffortConsole(Parent effortConsole) {
+	public static void setEffortConsole(ScrollPane effortConsole) {
 		FxmlPreLoader.effortConsole = effortConsole;
 	}
-
-	public  Parent getDefinitionConsole() {
-		return definitionConsole;
+	public  ScrollPane getEditor() throws IOException {
+		FXMLLoader loader = new FXMLLoader(FxmlPreLoader.class.getResource("/EffortEditor/EditorConsole.fxml"));
+		    editor = loader.load();
+		return editor;
 	}
-
-	public  void setDefinitionConsole(Parent definitionConsole) {
-		FxmlPreLoader.definitionConsole = definitionConsole;
+	public static void setEditor(ScrollPane editor) {
+		FxmlPreLoader.editor = editor;
 	}
-
-	public  Parent getDefectConsole() {
-		return defectConsole;
+	public  FxmlPreLoader getPreLoader() {
+		return preLoader;
 	}
-
-	public  void setDefectConsole(Parent defectConsole) {
-		FxmlPreLoader.defectConsole = defectConsole;
+	public static void setPreLoader(FxmlPreLoader preLoader) {
+		FxmlPreLoader.preLoader = preLoader;
 	}
-
-	public  Parent getPokerConsole() {
-		return pokerConsole;
-	}
-
-	public  void setPokerConsole(Parent pokerConsole) {
-		FxmlPreLoader.pokerConsole = pokerConsole;
-	}
-
-	public  Parent getEditorConsole() {
-		return editorConsole;
-	}
-
-	public  void setEditorConsole(Parent editorConsole) {
-		FxmlPreLoader.editorConsole = editorConsole;
-	}
-
-
 	//	----------SINGLETON CONSTRUCTOR--------
 	private FxmlPreLoader()
 	{
@@ -69,23 +81,23 @@ public class FxmlPreLoader {
 			    effortConsole = loader.load();
 
 			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/Defects/Defects.fxml"));
-			    defectConsole = loader.load();
+			    defect = loader.load();
 
 			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/EffortEditor/EditorConsole.fxml"));
-			    editorConsole = loader.load();
+			    editor = loader.load();
 
 			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/definitions/console2.fxml"));
-			    definitionConsole = loader.load();
+			    definition = loader.load();
 
 			    loader = new FXMLLoader(FxmlPreLoader.class.getResource("/poker2/console.fxml"));
-			    pokerConsole = loader.load();
+			    poker = loader.load();
 			    
 //			    -----SETTING THE PANELS-----
-			    preLoader.setEffortConsole(effortConsole);
-			    preLoader.setDefinitionConsole(definitionConsole);
-			    preLoader.setDefectConsole(defectConsole);
-			    preLoader.setEditorConsole(editorConsole);
-			    preLoader.setPokerConsole(pokerConsole);
+			    FxmlPreLoader.setEffortConsole(effortConsole);
+			    FxmlPreLoader.setDefinition(definition);
+			    FxmlPreLoader.setDefect(defect);
+			    FxmlPreLoader.setEditor(editor);
+			    FxmlPreLoader.setPoker(poker);
 			    
 		}
 		return preLoader;

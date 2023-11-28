@@ -1,6 +1,7 @@
 package EffortEditor;
 
 import static com.mongodb.client.model.Filters.eq;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +14,7 @@ import java.util.ResourceBundle;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import javafx.scene.control.ScrollPane;
 
 import ToDB.Query;
 import Universal.FxmlPreLoader;
@@ -108,11 +110,16 @@ public class Controller implements Initializable{
 
 	@FXML
 	void toConsole(ActionEvent event) throws IOException {
-		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-		scene = new Scene(preLoader.getEffortConsole());
+		System.out.println("here");
+		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		Parent root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
+		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
+
+
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

@@ -96,19 +96,3 @@
 .text-area:focused {
     -fx-border-color: #FF0000; /* Red border color on focus */
 }
-.table-view {
-    -fx-background-color: #333333; /* Background color for the entire table */
-}
-
-.table-row-cell:odd {
-    -fx-background-color: #404040; /* Background color for odd rows */
-}
-
-.table-header {
-    -fx-background-color: #555555; /* Background color for the header */
-}
-
-.table-view:focused {
-    -fx-border-color: #FF0000; /* Border color when the table is focused */
-    -fx-border-width: 2px; /* Border width */
-}

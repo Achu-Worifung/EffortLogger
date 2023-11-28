@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="definitions.DefController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" vvalue="1.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="definitions.DefController">
   <content>
     <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="2000.0" prefWidth="1300.0">
          <children>
@@ -84,22 +84,22 @@
                   <TableColumn fx:id="defectColumn" prefWidth="255.0" text="Specify Defect category here:" />
                </columns>
             </TableView>
-            <Button layoutX="20.0" layoutY="1512.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to the Effort Log Console">
+            <Button layoutX="20.0" layoutY="1512.0" mnemonicParsing="false" onAction="#toEffortConsole" prefHeight="44.0" prefWidth="358.0" text="Proceed to the Effort Log Console">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="20.0" layoutY="1613.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to the Defect Log Console">
+            <Button layoutX="20.0" layoutY="1613.0" mnemonicParsing="false" onAction="#toDefect" prefHeight="44.0" prefWidth="358.0" text="Proceed to the Defect Log Console">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="20.0" layoutY="1707.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to Effort Log Editor">
+            <Button layoutX="20.0" layoutY="1707.0" mnemonicParsing="false" onAction="#toEditor" prefHeight="44.0" prefWidth="358.0" text="Proceed to Effort Log Editor">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Button>
-            <Button layoutX="20.0" layoutY="1794.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" text="Proceed to Effort  and Defect Logs">
+            <Button layoutX="20.0" layoutY="1794.0" mnemonicParsing="false" onAction="#toEffortConsole" prefHeight="44.0" prefWidth="358.0" text="Proceed to Effort  and Defect Logs">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
