@@ -8,18 +8,37 @@
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EffortConsole.Controller">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EffortConsole.Controller">
    <content>
       <VBox alignment="CENTER" styleClass="background" stylesheets="@application.css">
          <children>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="background" stylesheets="@application.css">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="836.0" prefWidth="883.0" styleClass="background" stylesheets="@application.css">
                <children>
-                  <Label id="words" alignment="CENTER" layoutX="-1.0" layoutY="1.0" prefHeight="39.0" prefWidth="946.0" styleClass="words" stylesheets="@application.css" text="Effort Logger Console" textAlignment="CENTER" AnchorPane.bottomAnchor="797.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Label id="words" alignment="CENTER" layoutY="8.0" prefHeight="39.0" prefWidth="946.0" stylesheets="@application.css" text="Effort Logger Console" textAlignment="CENTER" AnchorPane.bottomAnchor="789.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
                      <font>
-                        <Font name="Arial Bold" size="25.0" />
+                        <Font name="Arial Bold" size="30.0" />
                      </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.5394737124443054" green="0.07742446660995483" blue="0.07742446660995483" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
                   </Label>
                   <Label id="words" layoutX="48.0" layoutY="122.0" prefHeight="21.0" prefWidth="488.0" styleClass="words" stylesheets="@application.css" text="1. When you start a new activity, press the &quot;start an Activity&quot; button.">
                      <font>
@@ -88,7 +107,7 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="defination" alignment="CENTER" layoutX="488.0" layoutY="693.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" styleClass="buttons" text="Definitions" textAlignment="CENTER">
+                  <Button fx:id="defination" alignment="CENTER" layoutX="442.0" layoutY="693.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" styleClass="buttons" text="Definitions" textAlignment="CENTER">
                      <effect>
                         <Glow />
                      </effect>
@@ -96,7 +115,7 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Button fx:id="defects" alignment="CENTER" layoutX="268.0" layoutY="693.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" styleClass="buttons" text="Defect Log Console" textAlignment="CENTER">
+                  <Button fx:id="defects" alignment="CENTER" layoutX="252.0" layoutY="693.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="25.0" prefWidth="165.0" styleClass="buttons" text="Defect Log Console" textAlignment="CENTER">
                      <effect>
                         <Glow />
                      </effect>
@@ -104,13 +123,13 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Label id="words" fx:id="clock" alignment="CENTER" layoutX="428.0" layoutY="54.0" prefHeight="42.0" prefWidth="137.0" styleClass="words" stylesheets="@application.css" text="Clock is OFF" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+                  <Label id="words" fx:id="clock" alignment="CENTER" layoutX="100.0" layoutY="63.0" prefHeight="42.0" prefWidth="137.0" styleClass="words" stylesheets="@application.css" text="Clock is OFF" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
                      <font>
                         <Font name="System Bold" size="25.0" />
                      </font>
                   </Label>
                   <ComboBox fx:id="lifecycle" layoutX="536.0" layoutY="306.0" onAction="#DynamicSwitchByLifeCyle" prefHeight="31.0" prefWidth="347.0" styleClass="textField" stylesheets="@application.css" AnchorPane.rightAnchor="55.0" />
-                  <ComboBox fx:id="chooseproject" layoutX="104.0" layoutY="306.0" onAction="#DynamicSwitchByProject" prefHeight="31.0" prefWidth="423.0" styleClass="textField" stylesheets="@application.css" />
+                  <ComboBox fx:id="chooseproject" layoutX="104.0" layoutY="306.0" onAction="#DynamicSwitchByProject" prefHeight="31.0" prefWidth="370.0" styleClass="textField" stylesheets="@application.css" />
                   <ComboBox fx:id="randdrop" layoutX="462.0" layoutY="428.0" onAction="#DynamicSwitchByRand" prefHeight="31.0" prefWidth="423.0" styleClass="textField" stylesheets="@application.css" AnchorPane.rightAnchor="55.0" />
                   <ComboBox fx:id="effortcat" layoutX="100.0" layoutY="428.0" onAction="#DynamicSwitchByEffortCat" prefHeight="31.0" prefWidth="278.0" styleClass="textField" stylesheets="@application.css" />
                   <Label id="words" fx:id="randLable" layoutX="463.0" layoutY="397.0" styleClass="words" stylesheets="@application.css">
@@ -118,13 +137,13 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label id="words" fx:id="hide" layoutX="100.0" layoutY="474.0" styleClass="words" stylesheets="@application.css" text="Enter Other details here:" visible="false">
+                  <Label id="words" fx:id="hide" layoutX="100.0" layoutY="474.0" prefHeight="21.0" prefWidth="275.0" styleClass="words" stylesheets="@application.css" text="Enter Other details here:" visible="false">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
                   <TextField fx:id="hideText" layoutX="100.0" layoutY="508.0" prefHeight="25.0" prefWidth="789.0" visible="false" />
-                  <Button fx:id="poker" layoutX="368.0" layoutY="758.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="31.0" prefWidth="135.0" styleClass="buttons" text="Poker Planning" AnchorPane.leftAnchor="368.0" AnchorPane.rightAnchor="387.0">
+                  <Button fx:id="poker" layoutX="368.0" layoutY="758.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="31.0" prefWidth="166.0" styleClass="buttons" text="Poker Planning" AnchorPane.leftAnchor="368.0" AnchorPane.rightAnchor="349.0">
                      <font>
                         <Font size="15.0" />
                      </font></Button>

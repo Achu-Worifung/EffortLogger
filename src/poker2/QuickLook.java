@@ -24,6 +24,7 @@ public class QuickLook {
         this.id = id;
         this.status = status;
         this.userRates = userRates;
+        this.rating = presentRating;
     }
     public QuickLook(ObjectId id,String status, String title, String otherInfo, String userStory,
             Integer presentRating, String start,String date, boolean newSprint) { 

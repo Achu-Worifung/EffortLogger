@@ -134,6 +134,7 @@ public class PokerPlaningRespondsPrototype {
 				//quickinfo object
 				info = new QuickLook(doc.getObjectId("_id"),doc.getString("Status"),doc.getString("Title"),doc.getString("Other Information")
 						,doc.getString("User Story"),doc.getInteger("Rating"),userRates);
+				System.out.println("rating from info "+info.getRating());
 				//				(String status, String projectType,List<String> startTime, List<String>  endTime, List<String>  startDate, List<String>  lifeCycle,
 				//			    		List<String>  effortCat, List<String> rand) 
 				effort = new Efforts(doc.getString("Project"),doc.getList("Start Time", String.class)
@@ -340,12 +341,13 @@ public class PokerPlaningRespondsPrototype {
 		if(collection.find().first() != null) return false;
 		Document document = new Document();
 		//		if(newSprint) {
-		document.append("Status", info.getStatus())
+		document.append("_id", info.getId())
+		.append("Status", info.getStatus())
 		.append("Title", info.getTitle())
 		.append("User Story", info.getUserStory())
 		.append("Other Information", info.getOtherInfo())
 		.append("Rating", info.getRating())
-		.append("Start Time", LocalTime.now().format(formatter).toString())
+		.append("Start Time", info.getStart())
 		.append("Start Date", info.getDate())
 		.append("New Sprint", info.isNewSprint())
 		;
@@ -410,6 +412,7 @@ public class PokerPlaningRespondsPrototype {
 	}
 	public boolean updatenew(RetrieveAll info)
 	{
+		
 		//close();
 		reopen("Efforts");
 		ObjectId docId = info.getqLook().getId();
@@ -443,26 +446,7 @@ public class PokerPlaningRespondsPrototype {
 		update = Updates.push("Random Value", info.getEffort().getRand().get(0));
 		collection.updateOne(filter, update);
 
-		//		Document document = collection.find(eq("_id", docId)).first();
-		//		List<String> users = document.getList("User", String.class);
-
-		//		for (int i = 0; i < users.size(); i++) {
-		//			if (users.get(i).equals(eff.getInfo().getUserRate().getUser())) {
-		//				filter = Filters.and(
-		//						Filters.eq("_id", docId),
-		//						Filters.eq("Ratings.user", eff.getInfo().getUserRate().getUser())
-		//						);
-		//				update = Updates.set("Ratings.$.rating", eff.getInfo().getUserRate().getRating());
-		//				collection.updateOne(filter, update);
-		//				return true;
-		//			}
-		//		}
-		//
-		//		//else push the new user and his rating
-		//		update = Updates.push("User", eff.getInfo().getUserRate().getUser());
-		//		collection.updateOne(filter, update);
-		//		update = Updates.push("Rating", eff.getInfo().getUserRate().getRating());
-		//		collection.updateOne(filter, update);
+	
 
 		return true;
 	}

@@ -60,6 +60,8 @@ public class Controller implements Initializable{
 
 	@FXML
 	private FlowPane displayFlow;
+	@FXML
+	private AnchorPane upcommingPane;
 
 	@FXML
 	private VBox qlookPane;
@@ -194,6 +196,18 @@ public class Controller implements Initializable{
 						});
 
 					}
+					else if(!upcommingUserStory.getText().isBlank() && ql == null)
+					{
+						Platform.runLater(() -> {
+							upcommingTitle.setText("UPCOMMING SPRINT TITLE");
+							upcommingStartNow.setDisable(true);
+							VOTE.setDisable(true);
+							upcommingUserStory.setText("");
+							upcommingTime.setText("Starts in:");
+							upcommingRating.setText("");
+						});
+						
+					}
 					try {
 						Thread.sleep(15000); //sleeps for 15 seconds
 					} catch (InterruptedException e) {
@@ -243,15 +257,16 @@ public class Controller implements Initializable{
 		});
 		//		--------------------CHECK FOR ONGOING SPRINT--------------------
 		QuickLook tempLook = singletonInstance.getInfo();
-		String startTime = null;
+//		String startTime = null;
 		if(tempLook != null) 
 		{
 			upcommingStartNow.setDisable(false);
-			startTime = tempLook.start;
-			setUpcommingsprint(startTime,tempLook);
+//			startTime = tempLook.start;
+//			System.out.println("start time is :" + startTime);
+			System.out.println("I am in populate come and get me");
+			setUpcommingsprint(tempLook.getStart(),tempLook);
 		}
 		allInformation = singletonInstance.getAllInformation();
-		System.out.println(allInformation.toString());
 		int i = 0;
 		for (RetrieveAll all:allInformation)
 		{
@@ -295,6 +310,7 @@ public class Controller implements Initializable{
 		workingOn.setDate(startDates.get(startDates.size()-1));
 		workingOn.setStart(startTimes.get(startTimes.size()-1));
 		quicklookTitle.setText(workingOn.getTitle());
+		quickLookCurrentWeight.setText(Integer.toString(workingOn.rating));
 		quicklookDescription.setText(workingOn.getUserStory());
 		quicklookOtherInfo.setText(workingOn.getOtherInfo());
 
@@ -396,11 +412,10 @@ public class Controller implements Initializable{
 		upcommingRating.setText(Integer.toString(qLook.getRating()));
 		upcommingUserStory.setText(qLook.getUserStory());
 		LocalTime timeStarted = LocalTime.parse(startTime);
-		timeStarted = timeStarted.plusMinutes(10);
-		Duration duration= Duration.between(LocalTime.now(), timeStarted);
+//		timeStarted = timeStarted.plusMinutes(10);
+		Duration duration= Duration.between(LocalTime.now().minusMinutes(10), timeStarted);
 		System.out.println(duration.toSeconds());
 		//		int timeLeft = (int)duration.getSeconds()*60;
-		System.out.println("how many minutes left "+(int)duration.toMinutes());
 		countDown((int)duration.toMinutes(), LocalDate.parse(qLook.getDate()));
 
 	}

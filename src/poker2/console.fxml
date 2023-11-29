@@ -51,9 +51,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefWidth="1020.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poker2.Controller">
+<VBox prefHeight="800.0" prefWidth="900.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="poker2.Controller">
   <children>
-    <SplitPane dividerPositions="0.61" focusTraversable="true" prefHeight="900.0" prefWidth="1019.0" styleClass="background" stylesheets="@application.css" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.62" focusTraversable="true" prefHeight="900.0" prefWidth="1019.0" styleClass="background" stylesheets="@application.css" VBox.vgrow="ALWAYS">
       <items>
             <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="background" stylesheets="@application.css">
                <children>
@@ -64,38 +64,38 @@
                      <content>
                         <FlowPane fx:id="displayFlow" alignment="TOP_CENTER" columnHalignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" styleClass="background" stylesheets="@application.css" vgap="2.0">
                            <children>
-                              <AnchorPane fx:id="searchPane" maxWidth="700.0" prefHeight="86.0" prefWidth="595.0" styleClass="background" stylesheets="@application.css">
+                              <AnchorPane fx:id="searchPane" maxWidth="700.0" prefHeight="86.0" prefWidth="528.0" styleClass="background" stylesheets="@application.css">
                                  <children>
                                     <TextField fx:id="searchBar" layoutX="81.0" layoutY="58.0" prefHeight="28.0" prefWidth="410.0" styleClass="textField" stylesheets="@application.css" AnchorPane.leftAnchor="81.0" AnchorPane.rightAnchor="104.0" />
-                                    <Button fx:id="searchButton" layoutX="483.0" layoutY="57.0" mnemonicParsing="false" onAction="#search" prefHeight="27.0" prefWidth="100.0" styleClass="buttons" stylesheets="@application.css" text="Search" AnchorPane.leftAnchor="483.0" AnchorPane.rightAnchor="12.0" />
-                                    <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="33.0" prefWidth="43.0" styleClass="buttons" stylesheets="@application.css" text="&lt;--" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="538.0" />
+                                    <Button fx:id="searchButton" layoutX="416.0" layoutY="57.0" mnemonicParsing="false" onAction="#search" prefHeight="27.0" prefWidth="100.0" styleClass="buttons" stylesheets="@application.css" text="Search" AnchorPane.leftAnchor="416.0" AnchorPane.rightAnchor="12.0" />
+                                    <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="33.0" prefWidth="38.0" styleClass="buttons" stylesheets="@application.css" text="&lt;--" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="476.0" />
                                  </children>
                               </AnchorPane>
-                              <AnchorPane maxWidth="700.0" prefHeight="200.0" prefWidth="599.0" styleClass="background" stylesheets="@application.css">
+                              <AnchorPane fx:id="upcommingPane" maxWidth="700.0" prefHeight="200.0" prefWidth="511.0" styleClass="background" stylesheets="@application.css">
                                  <children>
-                                    <Label fx:id="upcommingTitle" alignment="TOP_RIGHT" layoutX="301.0" layoutY="14.0" prefHeight="25.0" prefWidth="298.0" styleClass="words" stylesheets="@application.css" text="UPCOMMING SPRINT TITLE" textAlignment="JUSTIFY" AnchorPane.rightAnchor="51.0" AnchorPane.topAnchor="14.0">
+                                    <Label fx:id="upcommingTitle" alignment="TOP_RIGHT" layoutX="301.0" layoutY="14.0" prefHeight="25.0" prefWidth="271.0" styleClass="words" stylesheets="@application.css" text="UPCOMMING SPRINT TITLE" textAlignment="JUSTIFY" AnchorPane.rightAnchor="51.0" AnchorPane.topAnchor="14.0">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="upcommingStartNow" layoutX="411.0" layoutY="157.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="166.0" styleClass="buttons" stylesheets="@application.css" text="Start Now" AnchorPane.leftAnchor="411.0" AnchorPane.rightAnchor="51.0" AnchorPane.topAnchor="157.0" />
+                                    <Button fx:id="upcommingStartNow" layoutX="434.0" layoutY="158.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="166.0" styleClass="buttons" stylesheets="@application.css" text="Start Now" AnchorPane.leftAnchor="434.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="158.0" />
                                     <TextArea fx:id="upcommingUserStory" editable="false" layoutX="31.0" layoutY="46.0" prefHeight="88.0" prefWidth="569.0" styleClass="textField" stylesheets="@application.css" wrapText="true" AnchorPane.bottomAnchor="66.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="46.0" />
-                                    <Label layoutX="19.333333333333332" layoutY="160.0" prefHeight="25.0" prefWidth="62.0" styleClass="words" stylesheets="@application.css" text="Rating: " AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="519.0" AnchorPane.topAnchor="160.0">
+                                    <Label layoutX="14.0" layoutY="160.0" prefHeight="25.0" prefWidth="60.0" styleClass="words" stylesheets="@application.css" text="Rating: " AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="496.0" AnchorPane.topAnchor="160.0">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="upcommingTime" layoutX="137.0" layoutY="162.0" prefHeight="25.0" prefWidth="247.0" styleClass="words" stylesheets="@application.css" text="Starts in:" AnchorPane.leftAnchor="137.0" AnchorPane.rightAnchor="244.0" AnchorPane.topAnchor="162.0">
+                                    <Label fx:id="upcommingTime" layoutX="152.0" layoutY="162.0" prefHeight="25.0" prefWidth="220.0" styleClass="words" stylesheets="@application.css" text="Starts in:" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="198.0" AnchorPane.topAnchor="162.0">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="25.0" layoutY="14.0" prefHeight="25.0" prefWidth="88.0" styleClass="words" stylesheets="@application.css" text="User Story" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="457.0">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="25.0" layoutY="14.0" prefHeight="25.0" prefWidth="113.0" styleClass="words" stylesheets="@application.css" text="User Story" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="490.33333333333337">
-                                       <font>
-                                          <Font name="System Bold" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="upcommingRating" layoutX="80.0" layoutY="162.0" prefHeight="25.0" prefWidth="31.0" styleClass="words" stylesheets="@application.css" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="489.3333333333333">
+                                    <Label fx:id="upcommingRating" layoutX="80.0" layoutY="162.0" prefHeight="25.0" prefWidth="0.0" styleClass="words" stylesheets="@application.css" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="489.3333333333333">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
@@ -148,57 +148,60 @@
                         </VBox>
                      </content>
                   </ScrollPane>
-                  <ScrollPane fx:id="quicklookPanel" fitToHeight="true" fitToWidth="true" prefHeight="898.0" prefWidth="372.0" styleClass="background" stylesheets="@application.css">
+                  <ScrollPane fx:id="quicklookPanel" fitToHeight="true" fitToWidth="true" prefHeight="898.0" prefWidth="372.0" styleClass="background" stylesheets="@application.css" vvalue="1.0">
                      <content>
-                        <VBox fx:id="qlookPane" alignment="CENTER" prefHeight="888.0" prefWidth="373.0" styleClass="background" stylesheets="@application.css">
+                        <VBox fx:id="qlookPane" alignment="CENTER" prefHeight="896.0" prefWidth="372.0" styleClass="background" stylesheets="@application.css">
                            <children>
-                              <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="359.0">
+                              <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="344.0">
                                  <children>
-                                    <Label layoutX="3.0" layoutY="29.0" prefHeight="32.0" prefWidth="158.0" styleClass="words" stylesheets="@application.css" text="Title" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="29.0">
+                                    <Label layoutX="3.0" layoutY="29.0" prefHeight="32.0" prefWidth="327.0" styleClass="words" stylesheets="@application.css" text="Title" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="29.0">
                                        <font>
                                           <Font name="System Bold" size="22.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="12.0" layoutY="97.0" prefHeight="32.0" prefWidth="158.0" styleClass="words" stylesheets="@application.css" text="USER STORY" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
+                                    <Label layoutX="12.0" layoutY="97.0" prefHeight="32.0" prefWidth="331.0" styleClass="words" stylesheets="@application.css" text="USER STORY" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="25.0">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="quicklookDescription" layoutX="4.0" layoutY="129.0" prefHeight="113.0" prefWidth="340.0" styleClass="textField" stylesheets="@application.css" wrapText="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" />
-                                    <Label layoutX="12.0" layoutY="255.0" prefHeight="32.0" prefWidth="158.0" styleClass="words" stylesheets="@application.css" text="CURRENT WEIGHT" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="23.0">
+                                    <TextArea fx:id="quicklookDescription" layoutX="4.0" layoutY="129.0" prefHeight="113.0" prefWidth="334.0" styleClass="textField" stylesheets="@application.css" wrapText="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="27.0" />
+                                    <Label layoutX="12.0" layoutY="255.0" prefHeight="32.0" prefWidth="158.0" styleClass="words" stylesheets="@application.css" text="CURRENT WEIGHT" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="183.0">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TableView fx:id="quicklookTable" layoutX="16.0" layoutY="336.0" prefHeight="151.0" prefWidth="344.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                    <TableView fx:id="quicklookTable" layoutX="16.0" layoutY="336.0" prefHeight="151.0" prefWidth="327.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="27.0">
                                        <columns>
-                                          <TableColumn fx:id="defectCol" prefWidth="348.0" text="DEFECTS" />
+                                          <TableColumn fx:id="defectCol" prefWidth="326.0" text="DEFECTS" />
                                        </columns>
                                     </TableView>
-                                    <Label layoutX="12.0" layoutY="499.0" prefHeight="32.0" prefWidth="158.0" styleClass="words" stylesheets="@application.css" text="EFFORTS" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
+                                    <Label layoutX="12.0" layoutY="499.0" prefHeight="32.0" prefWidth="332.0" styleClass="words" stylesheets="@application.css" text="EFFORTS" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="24.0">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="quicklookEfforts" editable="false" layoutX="1.0" layoutY="531.0" prefHeight="113.0" prefWidth="354.0" styleClass="textField" stylesheets="@application.css" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" />
-                                    <Label layoutX="11.0" layoutY="654.0" prefHeight="32.0" prefWidth="180.0" styleClass="words" stylesheets="@application.css" text="OTHER INFORMATION" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
+                                    <TextArea fx:id="quicklookEfforts" editable="false" layoutX="1.0" layoutY="531.0" prefHeight="113.0" prefWidth="335.0" styleClass="textField" stylesheets="@application.css" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="27.0" />
+                                    <Label layoutX="11.0" layoutY="654.0" prefHeight="32.0" prefWidth="336.0" styleClass="words" stylesheets="@application.css" text="OTHER INFORMATION" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="20.0">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <TextArea fx:id="quicklookOtherInfo" layoutY="686.0" prefHeight="113.0" prefWidth="354.0" promptText="Enter any additional information..." stylesheets="@application.css" wrapText="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
+                                    <TextArea fx:id="quicklookOtherInfo" layoutY="686.0" prefHeight="113.0" prefWidth="323.0" promptText="Enter any additional information..." stylesheets="@application.css" wrapText="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="27.0">
                                        <styleClass>
                                           <String fx:value="textField" />
                                           <String fx:value="text-area" />
                                        </styleClass></TextArea>
-                                    <Button fx:id="startSprint" layoutX="83.0" layoutY="822.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="185.0" styleClass="buttons" stylesheets="@application.css" text="start sprint" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="91.0" AnchorPane.topAnchor="822.0">
+                                    <Button fx:id="startSprint" layoutX="83.0" layoutY="828.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="178.0" styleClass="buttons" stylesheets="@application.css" text="start sprint" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="83.0" AnchorPane.rightAnchor="83.0" AnchorPane.topAnchor="828.0">
                                        <font>
-                                          <Font name="System Bold" size="16.0" />
+                                          <Font name="System Bold" size="15.0" />
                                        </font>
                                     </Button>
-                                    <TextField fx:id="quicklookTitle" layoutX="5.0" layoutY="61.0" prefHeight="25.0" prefWidth="344.0" styleClass="textField" stylesheets="@application.css" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                    <Label fx:id="quickLookCurrentWeight" layoutX="173.0" layoutY="255.0" prefHeight="32.0" prefWidth="158.0" styleClass="words" stylesheets="@application.css" AnchorPane.rightAnchor="3.0" />
-                                    <Label layoutX="12.0" layoutY="296.0" prefHeight="32.0" prefWidth="158.0" styleClass="words" stylesheets="@application.css" text="DEFECTS" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0">
+                                    <TextField fx:id="quicklookTitle" layoutX="5.0" layoutY="61.0" prefHeight="27.0" prefWidth="328.0" styleClass="textField" stylesheets="@application.css" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="27.0" />
+                                    <Label fx:id="quickLookCurrentWeight" layoutX="173.0" layoutY="255.0" prefHeight="32.0" prefWidth="139.0" styleClass="words" stylesheets="@application.css" AnchorPane.rightAnchor="22.0">
+                                       <font>
+                                          <Font name="System Bold" size="16.0" />
+                                       </font></Label>
+                                    <Label layoutX="12.0" layoutY="296.0" prefHeight="32.0" prefWidth="337.0" styleClass="words" stylesheets="@application.css" text="DEFECTS" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="19.0">
                                        <font>
                                           <Font name="System Bold" size="16.0" />
                                        </font>

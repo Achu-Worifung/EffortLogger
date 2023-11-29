@@ -16,14 +16,15 @@ public class quicklookInfo {
     Rate userRate;
     int rating;
 
-    public quicklookInfo(ObjectId id, String title, String otherInfo, String desc,
-            Integer presentRating, Rate userRate) { //pastRating is a list of list make it a list
+
+
+	public quicklookInfo(ObjectId id, String title, String otherInfo, String desc,
+            int presentRating, Rate userRate) { //pastRating is a list of list make it a list
         this.title = title;
         this.otherInfo = otherInfo;
         this.desc = desc;
-        this.presentRating = presentRating;
         this.id = id;
-        this.presentRating = presentRating;
+        this.rating = presentRating;
         
     }
 

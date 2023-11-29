@@ -234,7 +234,6 @@ public class Controller2 implements Initializable{
 			//			---------------------SETTING ALL THE DATA---------------------
 			loadInstance= FxmlPreLoader.getInstance();
 			singletonInstance.setUser(username);
-
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(loadInstance.getEffortConsole());
 			stage.setScene(scene);

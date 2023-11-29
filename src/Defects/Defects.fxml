@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane cacheShape="false" fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Defects.Controller">
+<ScrollPane cacheShape="false" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Defects.Controller">
    <content>
-      <VBox alignment="CENTER" styleClass="background" stylesheets="@application.css">
+      <VBox alignment="CENTER" prefHeight="831.0" prefWidth="900.0" styleClass="background" stylesheets="@application.css">
          <children>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="831.0" prefWidth="1000.0">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="826.0" prefWidth="882.0">
                <children>
                   <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="57.0" prefWidth="1000.0" styleClass="title" stylesheets="@application.css" text="Defect Console" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
@@ -25,7 +25,7 @@
                   </Label>
                   <Label layoutX="46.0" layoutY="97.0" styleClass="words" stylesheets="@application.css" text="1. Select the Project" />
                   <Label layoutX="582.0" layoutY="106.0" styleClass="words" stylesheets="@application.css" text="2.a. Clear this Project's Defect Log." />
-                  <Label fx:id="howmany" layoutX="94.0" layoutY="255.0" styleClass="words" stylesheets="@application.css">
+                  <Label fx:id="howmany" layoutX="94.0" layoutY="168.0" prefHeight="19.0" prefWidth="359.0" styleClass="words" stylesheets="@application.css">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -52,7 +52,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="37.0" layoutY="758.0" styleClass="words" stylesheets="@application.css" text="4. Press the &quot;Update the Current Defect&quot; to save the changes made above" />
+                  <Label layoutX="39.0" layoutY="742.0" styleClass="words" stylesheets="@application.css" text="4. Press the &quot;Update the Current Defect&quot; to save the changes made above" />
                   <Label layoutX="552.0" layoutY="704.0" styleClass="words" stylesheets="@application.css" text="Fix:">
                      <font>
                         <Font name="System Bold" size="16.0" />
@@ -62,8 +62,8 @@
                   <Label layoutX="684.0" layoutY="506.0" styleClass="words" stylesheets="@application.css" text="Defect Category" AnchorPane.rightAnchor="154.0" AnchorPane.topAnchor="502.0" />
                   <Button fx:id="clearLog" layoutX="596.0" layoutY="127.0" mnemonicParsing="false" onAction="#clearDefectLog" prefHeight="25.0" prefWidth="202.0" styleClass="buttons" stylesheets="@application.css" text="Clear this Defect Log" />
                   <Button fx:id="newProject" layoutX="596.0" layoutY="223.0" mnemonicParsing="false" onAction="#createNewDefect" prefHeight="25.0" prefWidth="202.0" styleClass="buttons" stylesheets="@application.css" text="Create a New Defect" />
-                  <Button fx:id="close" layoutX="560.0" layoutY="330.0" mnemonicParsing="false" onAction="#status" prefHeight="25.0" prefWidth="143.0" styleClass="buttons" stylesheets="@application.css" text="Close" />
-                  <Button fx:id="reopen" layoutX="734.0" layoutY="330.0" mnemonicParsing="false" onAction="#status" prefHeight="25.0" prefWidth="150.0" styleClass="buttons" stylesheets="@application.css" text="Reopen" AnchorPane.rightAnchor="40.0" />
+                  <Button fx:id="close" layoutX="573.0" layoutY="330.0" mnemonicParsing="false" onAction="#status" prefHeight="25.0" prefWidth="128.0" styleClass="buttons" stylesheets="@application.css" text="Close" />
+                  <Button fx:id="reopen" layoutX="710.0" layoutY="330.0" mnemonicParsing="false" onAction="#status" prefHeight="25.0" prefWidth="128.0" styleClass="buttons" stylesheets="@application.css" text="Reopen" AnchorPane.rightAnchor="44.0" />
                   <ListView fx:id="stepInj" layoutX="67.0" layoutY="527.0" onMouseClicked="#select" prefHeight="136.0" prefWidth="200.0" stylesheets="@application.css" AnchorPane.leftAnchor="46.0">
                      <styleClass>
                         <String fx:value="textField" />
@@ -79,12 +79,12 @@
                         <String fx:value="textField" />
                         <String fx:value="text-area" />
                      </styleClass></ListView>
-                  <Button fx:id="updateDefect" layoutX="42.0" layoutY="791.0" mnemonicParsing="false" onAction="#updateDefect" prefHeight="30.0" prefWidth="216.0" styleClass="buttons" stylesheets="@application.css" text="Update the Current Defect" AnchorPane.leftAnchor="40.0" />
-                  <Button fx:id="delDefect" layoutX="397.0" layoutY="792.0" mnemonicParsing="false" onAction="#deleteCurrentDefect" prefHeight="28.0" prefWidth="207.0" styleClass="buttons" stylesheets="@application.css" text="Delete the Current Defect" />
-                  <Button fx:id="toConsole" layoutX="650.0" layoutY="791.0" mnemonicParsing="false" onAction="#toConsole" prefHeight="28.0" prefWidth="207.0" styleClass="buttons" stylesheets="@application.css" text="Proceed To Effort Log Console" AnchorPane.rightAnchor="40.0" />
+                  <Button fx:id="updateDefect" layoutX="42.0" layoutY="775.0" mnemonicParsing="false" onAction="#updateDefect" prefHeight="30.0" prefWidth="216.0" styleClass="buttons" stylesheets="@application.css" text="Update the Current Defect" AnchorPane.leftAnchor="42.0" />
+                  <Button fx:id="delDefect" layoutX="399.0" layoutY="776.0" mnemonicParsing="false" onAction="#deleteCurrentDefect" prefHeight="28.0" prefWidth="207.0" styleClass="buttons" stylesheets="@application.css" text="Delete the Current Defect" />
+                  <Button fx:id="toConsole" layoutX="637.0" layoutY="775.0" mnemonicParsing="false" onAction="#toConsole" prefHeight="28.0" prefWidth="207.0" styleClass="buttons" stylesheets="@application.css" text="Proceed To Effort Log Console" AnchorPane.rightAnchor="38.0" />
                   <ComboBox fx:id="selectProject" layoutX="94.0" layoutY="127.0" onAction="#seletedProject" prefHeight="25.0" prefWidth="384.0" promptText="-no project selected-" styleClass="textField" stylesheets="@application.css" />
                   <ComboBox fx:id="selectDefect" layoutX="94.0" layoutY="223.0" onAction="#selectDefect" prefHeight="25.0" prefWidth="276.0" promptText="-no defect selected-" styleClass="textField" stylesheets="@application.css" />
-                  <ComboBox fx:id="fix" layoutX="593.0" layoutY="695.0" prefHeight="25.0" prefWidth="276.0" promptText="-no project selected-" styleClass="textField" stylesheets="@application.css" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="593.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="695.0" />
+                  <ComboBox fx:id="fix" layoutX="593.0" layoutY="695.0" prefHeight="30.0" prefWidth="250.0" promptText="-no project selected-" styleClass="textField" stylesheets="@application.css" AnchorPane.bottomAnchor="101.0" AnchorPane.leftAnchor="593.0" AnchorPane.rightAnchor="39.0" AnchorPane.topAnchor="695.0" />
                   <TextField fx:id="defectName" layoutX="94.0" layoutY="330.0" onInputMethodTextChanged="#change" onKeyPressed="#change" onKeyReleased="#change" prefHeight="25.0" prefWidth="323.0" styleClass="textField" stylesheets="@application.css" />
                   <Label fx:id="status" layoutX="652.0" layoutY="305.0" prefHeight="17.0" prefWidth="42.0" styleClass="words" stylesheets="@application.css" text="Closed">
                      <font>

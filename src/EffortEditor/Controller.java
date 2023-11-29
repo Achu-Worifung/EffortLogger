@@ -110,7 +110,6 @@ public class Controller implements Initializable{
 
 	@FXML
 	void toConsole(ActionEvent event) throws IOException {
-		System.out.println("here");
 		stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/EffortConsole/Console.fxml"));
 		scene = new Scene(root);

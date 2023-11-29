@@ -9,13 +9,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1000.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="definitions.DefController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="definitions.DefController">
    <content>
-      <VBox alignment="CENTER" prefHeight="1869.0" prefWidth="1300.0" stylesheets="@application.css">
+      <VBox alignment="CENTER" prefHeight="1869.0" prefWidth="1300.0" styleClass="background" stylesheets="@application.css">
          <children>
-            <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="1869.0" prefWidth="1300.0" styleClass="background" stylesheets="@application.css">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1869.0" prefWidth="1300.0" styleClass="background" stylesheets="@application.css">
                <children>
-                  <TableView fx:id="tableView" fixedCellSize="3.0" layoutX="3.0" layoutY="14.0" prefHeight="180.0" prefWidth="1294.0" AnchorPane.bottomAnchor="1675.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="14.0">
+                  <TableView fx:id="tableView" fixedCellSize="3.0" layoutX="3.0" layoutY="14.0" prefHeight="180.0" prefWidth="1275.0" AnchorPane.bottomAnchor="1675.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="14.0">
                      <columns>
                         <TableColumn fx:id="projectNameColumn" onEditCommit="#changeProjectNameCellEvent" prefWidth="188.00006103515625" text="Project Names:" />
                         <TableColumn fx:id="columnOne" onEditCommit="#changeColumn1CellEvent" prefWidth="38.4000244140625" text="1" />
@@ -40,9 +40,9 @@
                         <TableColumn fx:id="column20" onEditCommit="#changeColumn20CellEvent" prefWidth="38.4000244140625" text="20" />
                         <TableColumn fx:id="column21" onEditCommit="#changeColumn21CellEvent" prefWidth="38.4000244140625" text="21" />
                         <TableColumn fx:id="column22" onEditCommit="#changeColumn22CellEvent" prefWidth="41.5999755859375" text="22" />
-                        <TableColumn fx:id="column23" onEditCommit="#changeColumn23CellEvent" prefWidth="75.0" text="23" />
-                        <TableColumn fx:id="column24" onEditCommit="#changeColumn24CellEvent" prefWidth="74.40008544921875" text="24" />
-                        <TableColumn fx:id="column25" onEditCommit="#changeColumn25CellEvent" prefWidth="38.4000244140625" text="25" />
+                        <TableColumn fx:id="column23" onEditCommit="#changeColumn23CellEvent" prefWidth="59.0" text="23" />
+                        <TableColumn fx:id="column24" onEditCommit="#changeColumn24CellEvent" prefWidth="55.0" text="24" />
+                        <TableColumn fx:id="column25" onEditCommit="#changeColumn25CellEvent" prefWidth="55.0" text="25" />
                      </columns>
                   </TableView>
                   <TableView fx:id="lifeTableView" fixedCellSize="4.0" layoutX="10.0" layoutY="212.0" prefHeight="962.0" prefWidth="378.0" AnchorPane.leftAnchor="10.0">
@@ -53,34 +53,34 @@
                         <TableColumn fx:id="defaultDColumn" prefWidth="72.0" text="D" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="categoryTableView" layoutX="676.0" layoutY="249.0" prefHeight="243.0" prefWidth="291.0">
+                  <TableView fx:id="categoryTableView" layoutX="620.0" layoutY="245.0" prefHeight="243.0" prefWidth="245.0">
                      <columns>
                         <TableColumn fx:id="categoryId" prefWidth="41.0" text="Id" />
-                        <TableColumn fx:id="categoryColumn" prefWidth="249.0" text="Specify Category here:" />
+                        <TableColumn fx:id="categoryColumn" prefWidth="202.0" text="Specify Category here:" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="plansTableView" layoutX="676.0" layoutY="521.0" prefHeight="258.0" prefWidth="291.0">
+                  <TableView fx:id="plansTableView" layoutX="620.0" layoutY="520.0" prefHeight="258.0" prefWidth="246.0">
                      <columns>
                         <TableColumn fx:id="plansId" prefWidth="41.0" text="Id" />
-                        <TableColumn fx:id="plansColumn" prefWidth="249.0" text="Specify Plan here:" />
+                        <TableColumn fx:id="plansColumn" prefWidth="202.0" text="Specify Plan here:" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="deliverableTableView" layoutX="676.0" layoutY="823.0" prefHeight="279.0" prefWidth="291.0">
+                  <TableView fx:id="deliverableTableView" layoutX="620.0" layoutY="822.0" prefHeight="279.0" prefWidth="250.0">
                      <columns>
                         <TableColumn fx:id="deliverableId" prefWidth="41.0" text="Id" />
-                        <TableColumn fx:id="deliverableColumn" prefWidth="249.0" text="Specify Deliverables here:" />
+                        <TableColumn fx:id="deliverableColumn" prefWidth="206.0" text="Specify Deliverables here:" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="interruptionTableView" fixedCellSize="3.0" layoutX="676.0" layoutY="1146.0" prefHeight="271.0" prefWidth="291.0">
+                  <TableView fx:id="interruptionTableView" fixedCellSize="3.0" layoutX="620.0" layoutY="1139.0" prefHeight="271.0" prefWidth="255.0">
                      <columns>
                         <TableColumn fx:id="breakId" prefWidth="41.0" text="Id" />
-                        <TableColumn fx:id="breakColumn" prefWidth="249.0" text="breakColumn" />
+                        <TableColumn fx:id="breakColumn" prefWidth="210.0" text="breakColumn" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="defectTableView" layoutX="676.0" layoutY="1433.0" prefHeight="424.0" prefWidth="291.0">
+                  <TableView fx:id="defectTableView" layoutX="620.0" layoutY="1431.0" prefHeight="424.0" prefWidth="258.0">
                      <columns>
                         <TableColumn fx:id="defectId" prefWidth="41.0" text="Id" />
-                        <TableColumn fx:id="defectColumn" prefWidth="249.0" text="Specify Defect category here:" />
+                        <TableColumn fx:id="defectColumn" prefWidth="215.0" text="Specify Defect category here:" />
                      </columns>
                   </TableView>
                   <Button layoutX="20.0" layoutY="1342.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="358.0" styleClass="buttons" stylesheets="@application.css" text="Proceed to the Effort Log Console">
@@ -103,37 +103,37 @@
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Button>
-                  <Text fill="WHITE" layoutX="412.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="EC is the Effort Category and the default for each life cycle step can be specified from block 3." wrappingWidth="256.255859375">
+                  <Text fill="WHITE" layoutX="407.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="EC is the Effort Category and the default for each life cycle step can be specified from block 3." wrappingWidth="201.255859375">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="412.0" layoutY="554.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="D is the default Deliverable item for each life cycle step. The value of D is selected from block 4. 5, or 6 depending on the value of EC" wrappingWidth="256.255859375">
+                  <Text fill="WHITE" layoutX="411.0" layoutY="576.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="D is the default Deliverable item for each life cycle step. The value of D is selected from block 4. 5, or 6 depending on the value of EC" wrappingWidth="192.255859375">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="1019.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="The order of these items is crucial to the way this code was implemented. You can change the words, but the function is hard coded" wrappingWidth="256.255859375">
+                  <Text fill="WHITE" layoutX="907.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="The order of these items is crucial to the way this code was implemented. You can change the words, but the function is hard coded" wrappingWidth="256.255859375">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="1019.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="These names and the order of these items can be changed at will" wrappingWidth="256.255859375">
+                  <Text fill="WHITE" layoutX="907.0" layoutY="624.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="These names and the order of these items can be changed at will" wrappingWidth="256.255859375">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="1019.0" layoutY="908.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="You may change the items in this list. The tool looks for &quot;User Defined&quot; and &quot;Others&quot; and performs special actions for these two items and the system looks for these precise sequence of letters to find a match. The must also be in slot 9 and 10." wrappingWidth="256.255859375">
+                  <Text fill="WHITE" layoutX="907.0" layoutY="907.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="You may change the items in this list. The tool looks for &quot;User Defined&quot; and &quot;Others&quot; and performs special actions for these two items and the system looks for these precise sequence of letters to find a match. The must also be in slot 9 and 10." wrappingWidth="256.255859375">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="1019.0" layoutY="1244.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="These names and their order may be changed at will" wrappingWidth="256.255859375">
+                  <Text fill="WHITE" layoutX="907.0" layoutY="1250.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="These names and their order may be changed at will" wrappingWidth="256.255859375">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <Text fill="WHITE" layoutX="1019.0" layoutY="1521.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="These names and their order may be changed at will" wrappingWidth="256.255859375">
+                  <Text fill="WHITE" layoutX="907.0" layoutY="1526.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="words" text="These names and their order may be changed at will" wrappingWidth="256.255859375">
                      <font>
                         <Font size="15.0" />
                      </font>

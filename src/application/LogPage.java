@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -7,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class LogPage extends Application {
@@ -15,12 +17,17 @@ public class LogPage extends Application {
 	public void start(Stage stage) throws IOException 
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("LogPage2.fxml"));
-//		Scene scene = new Scene(root, 900,800);
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 900,800);
+//		Scene scene = new Scene(root);
 		stage.setScene(scene);
-		
-//		stage.getIcons().add(new Image("C:\\Users\\achuw\\eclipse-workspace\\search\\src\\application\\Screenshot 2023-09-19 140838-modified (1).png"));
+		stage.centerOnScreen();
+		stage.getIcons().add(new Image("/application/logo.png"));
 		stage.show();
+//		------------------------CENTERING THE STAGE------------------------------------
+//		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+//		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+//		stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+
 		
 		
 	}

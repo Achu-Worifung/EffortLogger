@@ -6,8 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import com.mongodb.MongoException;
 
 import PokerPlanning.Backend.PokerPlaningRespondsPrototype;
 import ToDB.Query;
@@ -106,12 +109,15 @@ public class Controller implements Initializable{
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(loadInstance.getDefect());
 			stage.setScene(scene);
+			stage.centerOnScreen();
 			stage.show();
 		}
 		else if(event.getSource() == editor)
 		{
 		    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		    stage.getScene().setRoot(loadInstance.getEditor());
+			stage.centerOnScreen();
+
 		    stage.show();
 		}
 
@@ -121,6 +127,8 @@ public class Controller implements Initializable{
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(loadInstance.getDefinition());
 			stage.setScene(scene);
+			stage.centerOnScreen();
+
 			stage.show();
 		}
 		else if(event.getSource() == poker)
@@ -129,6 +137,8 @@ public class Controller implements Initializable{
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(loadInstance.getPoker());
 			stage.setScene(scene);
+			stage.centerOnScreen();
+
 			stage.show();
 		}
 		
@@ -260,8 +270,7 @@ public class Controller implements Initializable{
 
 			return; //is the clock is already on do nothing
 		}
-		QuickLook info = singletonInstance.getInfo();
-		if(info == null) {
+		if(pokerInstance.getQuick() == null) {
 			//alert when trying to start a clock when one is already running
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Start A new  Activity");
@@ -275,8 +284,6 @@ public class Controller implements Initializable{
 		clock.setStyle("-fx-background-color: GREEN;");
 		//getting all infor
 		String project = chooseproject.getValue();
-//		String lifeCycle = lifecycle.getValue();
-//		String effortCat = effortcat.getValue();
 		String randdropdown;
 		if(randdrop.getValue() == null || randdrop.getValue().isEmpty()|| randdrop.getValue()=="Others")
 		{
@@ -303,30 +310,11 @@ public class Controller implements Initializable{
 			effortCat.add(effortcat.getValue());
 			List<String> randVal = new ArrayList<>();
 			randVal.add(randdropdown);
-//			if(singletonInstance.getQuicklook() == null) {
-//				//alert when trying to start a clock when one is already running
-//				Alert alert = new Alert(AlertType.CONFIRMATION);
-//				alert.setTitle("Start A new  Activity");
-//				alert.setHeaderText("Please first select or Create a new Sprint");
-//				alert.show();
-//
-//				return; //is the clock is already on do nothing
-//			}
-			//writing to the database
-//			(String status,List<String> startTime, List<String>  endTime, String projectType, List<String>  startDate, List<String>  lifeCycle,
-//		    		List<String>  effortCat,List<String> rand,  quicklookInfo info)
-			
+
 			Efforts effort = new Efforts(project,startTime,endTime,startDate,lifeCycle, effortCat, randVal);
-//			QuickLook info = singletonInstance.getInfo();
+
 			pokerInstance.writeEffortInfo(effort);
-//			new PokerPlaningRespondsPrototype().writeTo(new RetrieveAll(effort, info));
-//			new PokerPlaningRespondsPrototype().updatenew(new Efforts("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
-//					lifeCycle, effortCat, randVal, singletonInstance.getQuicklook()));
-//			new PokerPlaningRespondsPrototype().writeTo(new effort("In Progress", startTime, endTime,chooseproject.getValue(), startDate,
-//					lifeCycle, effortCat, singletonInstance.getQuicklook()));
-			
-			
-			//			PokerPlanning.Backend.effort  effortObject = new effort("In Progress", new );
+
 		});
 		pushEffort.setDaemon(true);//method will exit if only daemon thread is left leading to faster performance
 		pushEffort.start();
@@ -350,6 +338,7 @@ public class Controller implements Initializable{
 			
 //			PokerPlaningRespondsPrototype pokerPlanning = new PokerPlaningRespondsPrototype();
 			Efforts eff = pokerInstance.getEffortOnHold();
+			eff.setEndTime(new ArrayList<>(Arrays.asList(LocalTime.now().format(formatter))));
 			QuickLook ql = pokerInstance.getQuick();
 //		System.out.println(eff.getProjectType());
 //		---------------------IF IT IS A NEW SPRINT--------------------
@@ -368,11 +357,10 @@ public class Controller implements Initializable{
 
 				ql.setRating((int)average);
 				ql.setUserRates(userRates);
-				System.out.println(eff.getProjectType());
-				System.out.println(eff.toString());
 				pokerInstance.writeTo(new RetrieveAll(eff, ql));
 			}else 
 			{
+				ql.setStatus("In Progress");
 				pokerInstance.updatenew(new RetrieveAll(eff, ql));
 			}
 //		---------------------DELETE INFO IN THE TEMP TABLES--------------
@@ -392,50 +380,35 @@ public class Controller implements Initializable{
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//thread to get all data from the database
-//		Thread getAllData = new Thread(() -> {
-//			List<RetrieveAll> allInformation = new PokerPlaningRespondsPrototype().retrieveAll(); //retrive all the data from the database
-//
-//			
-//			singletonInstance.setAllInformation(allInformation);
-//			System.out.println("done");
-//		});
-//		getAllData.setDaemon(true);
-//		getAllData.start();
-		//set the label color and text to the right one depending on the activity
+
+		Thread load = new Thread(()->{
+			
+			try {
+				loadInstance = FxmlPreLoader.getInstance();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			Efforts effort = pokerInstance.getEffortOnHold();
+			if (effort != null)
+			{
+				Platform.runLater(() -> {
+					clock.setText("Clock Is ON");
+					clock.setStyle("-fx-background-color: GREEN;");
+				});
+				
+				isOn = true;
+			}else 
+			{
+				Platform.runLater(() -> {
+					clock.setText("Clock Is OFF");
+					clock.setStyle("-fx-background-color: RED;");
+				});
+				
+				isOn = false;
+			}
+		});
 		
-//		-----------------IMPORTANT------------------------
-//		THIS WORKED EVENTHOUGH IT WAS IN AN ARRAY
-//		public boolean openEffort()
-//		{
-//			close();
-//			reopen("Efforts");
-//			if(collection.find(eq("End Time", "")).first() == null) {
-//				close();
-//				return false;
-//			}
-//			close();
-//			return true;
-//			
-//		
-		try {
-			loadInstance = FxmlPreLoader.getInstance();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Efforts effort = singletonInstance.getEffort();
-		if (effort != null)
-		{
-			clock.setText("Clock Is ON");
-			clock.setStyle("-fx-background-color: GREEN;");
-			isOn = true;
-		}else 
-		{
-			clock.setText("Clock Is OFF");
-			clock.setStyle("-fx-background-color: RED;");
-			isOn = false;
-		}
 		// adding drop down menu options
 		chooseproject.getItems().add("Business Project");
 		chooseproject.getItems().add("Development Project");
@@ -461,6 +434,8 @@ public class Controller implements Initializable{
 			randdrop.getItems().add(s); //add all times in choice to the dropdown
 			randdrop.setValue(choice[0]);
 		}
+		load.setDaemon(true);
+		load.start();
 	}
 
 	public void setRandomDrop()
