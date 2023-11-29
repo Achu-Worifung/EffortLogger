@@ -351,37 +351,7 @@ public class PokerPlaningRespondsPrototype {
 		.append("Start Date", info.getDate())
 		.append("New Sprint", info.isNewSprint())
 		;
-		//		}else 
-		//		{
-		//			ObjectId docId = info.getId();
-		//			collection.updateOne(eq("_id", docId), new Document("$set", new Document("Status", info.getStatus())));
-		//			collection.updateOne(eq("_id", docId), new Document("$set", new Document("User Story", info.getUserStory())));
-		//			collection.updateOne(eq("_id", docId), new Document("$set", new Document("Other Information",info.getOtherInfo())));
-		//			collection.updateOne(eq("_id", docId), new Document("$set", new Document("Rating", info.getRating())));
-		//			--------------------WILL DO THIS WHEN VOTING-------------------------------------
-		//			Document doc = collection.find(eq("_id", docId)).first();
-		//			List<String> users = doc.getList("User", String.class);
-		//			Bson update;
-		//			Bson filter = Filters.eq("_id", docId);
-		////			--------------UPDATING VOTE FOR THOSE WHO HAVE ALREADY VOTED-------------------------
-		//			for (int i = 0; i < users.size(); i++) {
-		//				if (users.get(i).equals( info.getUserRate().getUser())) {
-		//					filter = Filters.and(
-		//							Filters.eq("_id", docId),
-		//							Filters.eq("Ratings.user",  info.getUserRate().getRate())
-		//							);
-		//					update = Updates.set("Ratings.$.rating",  info.getUserRate().getRate());
-		//					collection.updateOne(filter, update);
-		//					return true;
-		//				}
-		//			}
-		//
-		////			------------------------ADDING VOTE FOR NEW USERS----------------------
-		//			update = Updates.push("User",  info.getUserRate().getRate());
-		//			collection.updateOne(filter, update);
-		//			update = Updates.push("Rating",  info.getUserRate().getRate());
-		//			collection.updateOne(filter, update);
-		//		}
+		
 		collection.insertOne(document);
 		return true;
 	}
@@ -416,17 +386,12 @@ public class PokerPlaningRespondsPrototype {
 		//close();
 		reopen("Efforts");
 		ObjectId docId = info.getqLook().getId();
-		//		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Title", eff.getInfo().getTitle())));
-		//		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Status", eff.getStatus())));
-		//		collection.updateOne(eq("_id", docId), new Document("$set", new Document("User Story", eff.getInfo().desc)));
 		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Other Information", info.getqLook().otherInfo)));
 		//		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Rating", eff.getInfo().getPresentRating())));
 		collection.updateOne(eq("_id", docId), new Document("$set", new Document("Project",info.getEffort().getProjectType())));
 		//updating the arrays
 		Bson filter = Filters.eq("_id", docId); // Assuming you're using '_id' as the
-		// unique identifier
-		//Define the update operation to push a new item to the array
-		//mistake you are pushing in the array not the value
+		
 		Bson update;
 		//		collection.updateOne(filter, update);
 		update = Updates.push("Start Dates", info.getEffort().getStartDate().get(0));
@@ -440,8 +405,7 @@ public class PokerPlaningRespondsPrototype {
 		collection.updateOne(filter, update);
 		update = Updates.push("Life Cycle Step", info.getEffort().getEffortCat().get(0));
 		collection.updateOne(filter, update);
-		//		update = Updates.push("Prev Rating", eff.getInfo().getPresentRating());
-		//		collection.updateOne(filter, update);
+		
 
 		update = Updates.push("Random Value", info.getEffort().getRand().get(0));
 		collection.updateOne(filter, update);
