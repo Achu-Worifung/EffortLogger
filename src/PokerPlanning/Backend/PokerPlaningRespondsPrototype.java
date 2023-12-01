@@ -50,9 +50,6 @@ public class PokerPlaningRespondsPrototype {
 		return pokerInstance;
 	}
 
-	defect defectinfo;
-	effort effortInfo;
-
 	public void close() {
 		if (mongoClient != null) {
 			try {
@@ -159,59 +156,6 @@ public class PokerPlaningRespondsPrototype {
 
 		return allInformation;
 	}
-	//	public void printAllEfforts() {
-	//		List<effort> effortList = retrieveAll();
-	//		if (effortList != null) {
-	//			for (effort eff : effortList) {
-	//				System.out.println(eff.toString());
-	//			}
-	//		} else {
-	//			System.out.println("No efforts found or an error occurred.");
-	//		}
-	//	}
-
-
-
-
-
-	//    public boolean updatequickLook(quicklookInfo qlook) {
-	//        close();
-	//        reopen("Efforts");
-	//
-	//        try {
-	//            // find doc with the same id and update it
-	//            collection.updateOne(eq("_id", qlook.getId()),
-	//                    new Document("$set", new Document("Other Information", qlook.getOtherInfo())));
-	//            collection.updateOne(eq("_id", qlook.getId()),
-	//                    new Document("$set", new Document("Description", qlook.getDesc())));
-	//            Document doc = collection.find(eq("_id", qlook.getId())).first();
-	//            if (doc.getInteger("Rating") != qlook.getPresentRating()) {
-	//                // suppose to find the average
-	//                collection.updateOne(eq("_id", qlook.getId()),
-	//                        new Document("$set", new Document("Rating", qlook.getPresentRating())));
-	//                // Define the filter to identify the document you want to update
-	//
-	//                Bson filter = Filters.eq("_id", document.getObjectId("_id")); // Assuming you're using '_id' as the
-	//                                                                              // unique identifier
-	//                // Define the update operation to push a new item to the array
-	//                // Bson update = Updates.push("Past Rating", );
-	//
-	//                // Perform the update
-	//                // collection.updateOne(filter, update);
-	//
-	//            }
-
-	// getting entries number
-	//            Integer entries = collection.find(eq("_id", id)).first().getInteger("Number of Entries");
-	//
-	//            entries++;
-	//            collection.updateOne(eq("_id", id), new Document("$set", new Document("Number of Entries", entries)));
-	//            return true;
-	//        } catch (MongoException e) {
-	//            System.out.println("Failed to update Effort");
-	//            return false;
-	//        }
-	//    }
 
 	// create a new quick look
 	// creates new quickloo;
@@ -250,12 +194,6 @@ public class PokerPlaningRespondsPrototype {
 			//close();
 		}
 
-		//	        .append("User", Arrays.asList(eff.getInfo().getUserRate().getUser())) // assuming getUserRate returns a Rate object
-		//	        .append("Rate", Arrays.asList(eff.getInfo().getUserRate().getRating())));
-		//	        .append("Hey", "")); // not sure what this is forget about the random no important
-
-		// Inserting the document into the collection
-		//	    collection.insertOne(doc);
 
 		return true;
 	}
@@ -446,23 +384,7 @@ public class PokerPlaningRespondsPrototype {
 		return true;
 	}
 
-	public boolean writeToquickLook(quicklookInfo qlook) {
-		//close();
-		reopen("Efforts");
-		try {
-			collection.insertOne(new Document()
-					.append("Title", qlook.getTitle())
-					.append("Other Information", qlook.getOtherInfo())
-					.append("Description", qlook.getDesc())
-					.append("Rating", qlook.getPresentRating())
-					.append("Past Rating", Arrays.asList(qlook.getPastRating())));
-
-		} catch (MongoException e) {
-			System.out.println("Failed to Insert Effort");
-			return false;
-		}
-		return true;
-	}
+	
 
 	public boolean writeToEffort(String projectType, LocalDate date, LocalTime startTime, String lifeCycleStep,
 			String effortCategory, String randomdrop)
@@ -491,7 +413,5 @@ public class PokerPlaningRespondsPrototype {
 
 	}
 
-	// it can have multiple defects //make defects a sub class of quicklook //also
-	// you cant chage defects
-	// public void writeToDefect()
+
 }

@@ -87,8 +87,9 @@ public class Controller implements Initializable{
 	List<String> defectCat;
 	boolean change, newDefect;
 	int selectedDefect; //keep track of which specific defect currently working on
-	
+	int count;
 	FxmlPreLoader loadInstance;
+	Request request = Request.getInstance();
 
 	//--------------------------------THESE ARE TEMP VALUE ARRAY------------------------------------------
 	List<String> stepWhenInjected = Arrays.asList(
@@ -106,11 +107,13 @@ public class Controller implements Initializable{
 	String injection, removed, cat;
 
 
-//defect console
+	//defect console
 
 	private Stage stage;
 	private Scene scene;
-//	private Parent root;
+
+	boolean inDefect;
+	//	private Parent root;
 
 	@FXML
 	void toConsole(ActionEvent event) throws IOException {
@@ -119,6 +122,8 @@ public class Controller implements Initializable{
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+		inDefect = false;
+		request.close();
 	}
 
 	@Override
@@ -131,10 +136,30 @@ public class Controller implements Initializable{
 		}
 		selectProject.getItems().add("Business Project");
 		selectProject.getItems().add("Development Project");
+		selectProject.setValue("");
+		inDefect = true;
+
+		selectDefect.getItems().clear();
+		Thread getDefects = new Thread(() -> {
+			// Getting the defects for the selected value
+			while(inDefect) {
+				System.out.println("i am here");
+				defects = request.getDefects();
+				try {
+					Thread.sleep(2500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		getDefects.setDaemon(true);
+		getDefects.start();
 
 		Thread getDefectCat = new Thread(()->{
-			
-			defectCat = new Request().getDefectCategory();
+
+			defectCat = request.getDefectCategory();
 			for(String s: defectCat)
 			{
 				defectCategory.getItems().add(s);
@@ -144,40 +169,24 @@ public class Controller implements Initializable{
 		});
 		getDefectCat.setDaemon(true);
 		getDefectCat.start();
-		
+
 
 	}
 	public void seletedProject(ActionEvent event) {
 		//clear everything out
-		System.out.println(newDefect);
 		if(newDefect) return;
-		String selectedProject = selectProject.getValue();
-
 		selectDefect.getItems().clear();
-		Thread getDefects = new Thread(() -> {
-			// Getting the defects for the selected value
-			defects = new Request().getDefects(selectedProject);
-
-
-			// Adding defects to the defect dropdown
-			int i = 0;
-			for (Document doc : defects) {
+		//		String selectedProject = selectProject.getValue();
+		int i = 0;
+		for (Document doc : defects) {
+			if(doc.getString("Project Type").equals(selectProject.getValue())) {
 				i++;
-				final int index = i;
-				Platform.runLater(() -> {
-					selectDefect.getItems().add(index + "." + doc.getString("Name"));
-					fix.getItems().add(index + "." + doc.getString("Name"));
-				});
+				selectDefect.getItems().add(i + "." + doc.getString("Name"));
+				fix.getItems().add(i + "." + doc.getString("Name"));
 			}
-
-			// Update UI text using Platform.runLater
-			Platform.runLater(() -> {
-				howmany.setText(defects.size() + " Effort Log Entry for this Project");
-			});
-		});
-
-		getDefects.setDaemon(true);
-		getDefects.start();
+		}
+		count = i;
+		howmany.setText(count + " Effort Log Entry for this Project");
 		//specifying the steps when injected steps wehn removed and defect category
 
 		for(String s: stepWhenInjected)
@@ -191,32 +200,24 @@ public class Controller implements Initializable{
 	{
 		if(newDefect) return;
 		//getting the selected defect index
+		if(selectDefect.getValue() == null)return;
 		String getSelectedvalue = selectDefect.getValue();
 		char index = getSelectedvalue.charAt(0);
 		selectedDefect = (index-'0')-1;
 
 		//getting the selected document
 		Document doc = defects.get(selectedDefect);
-		
+
 		String injectionValueToSelect = doc.getString("Injection Step");
 		String removedValueToSelect = doc.getString("Removed Step");
 		String catValueToSelect = doc.getString("Defect Category");
 		//getting the index of each list view
-		
-//		int indexWhenInjected = stepWhenInjected.indexOf(injectionValueToSelect);
-//		stepInj.getSelectionModel().select(indexWhenInjected);
-//		
-//		int indexWhenRemoved = stepWhenRemoved.indexOf(removedValueToSelect);
-//		stepRem.getSelectionModel().select(indexWhenRemoved);
-//		
-//		int indexcat = defectCat.indexOf(catValueToSelect);
-//		defectCategory.getSelectionModel().select(indexcat);
 		System.out.println(removedValueToSelect);
 		System.out.println(catValueToSelect);
 		defectCategory.getSelectionModel().select(removedValueToSelect);
 		stepInj.getSelectionModel().select(injectionValueToSelect);
 		stepRem.getSelectionModel().select(catValueToSelect);
-		
+
 
 		//Populating all things
 		defectName.setText(doc.getString("Name"));
@@ -228,7 +229,7 @@ public class Controller implements Initializable{
 	}
 	public void change()
 	{
-//		if(!change) return;
+		//		if(!change) return;
 		saved.setStyle("-fx-background-color: RED;");
 	}
 
@@ -251,7 +252,19 @@ public class Controller implements Initializable{
 		Optional<ButtonType> result = alert.showAndWait(); //show and wait for response
 		if(result.isPresent() && result.get() == ButtonType.OK)
 		{
-			new Request().clearDefectLog(selectDefect.getValue());
+			request.clearDefectLog(selectDefect.getValue());
+			defects.clear();
+			selectDefect.getItems().clear();
+			selectDefect.getItems().add("");
+			defectName.setText("");
+			defectSymptop.setText("");
+			injection = (String) stepInj.getSelectionModel().getSelectedItem();
+			stepInj.getSelectionModel().clearSelection();
+			stepRem.getSelectionModel().clearSelection();
+			defectCategory.getSelectionModel().clearSelection();
+			count = 0;
+			howmany.setText(count + " Effort Log Entry for this Project");
+			selectProject.setValue("");
 		}
 	}
 	public void status(ActionEvent e)
@@ -295,8 +308,9 @@ public class Controller implements Initializable{
 		if(result.isPresent() && result.get() == ButtonType.OK)
 		{
 			//getting the current defect
+//			------------------PUT THIS IN A THREAT-----------------
 			Document doc = defects.get(selectedDefect);
-			deleted = new Request().deleteDefect(doc.getObjectId("_id"));
+			deleted = request.deleteDefect(doc.getObjectId("_id"));
 		}else 
 		{
 			return;
@@ -308,6 +322,20 @@ public class Controller implements Initializable{
 			alert.setTitle("Delete Current Defect");
 			alert.setContentText(" Defect was deleted successfully");
 			alert.show();
+			defects.remove(selectedDefect);
+			selectDefect.getItems().clear();
+			selectDefect.getItems().add("");
+			defectName.setText("");
+			defectSymptop.setText("");
+			injection = (String) stepInj.getSelectionModel().getSelectedItem();
+			stepInj.getSelectionModel().clearSelection();
+			stepRem.getSelectionModel().clearSelection();
+			defectCategory.getSelectionModel().clearSelection();
+			count --;
+			howmany.setText(count + " Effort Log Entry for this Project");
+			selectProject.setValue("");
+
+
 		}else 
 		{
 			alert = new Alert(AlertType.WARNING);
@@ -328,6 +356,17 @@ public class Controller implements Initializable{
 			stepInj.getItems().add(s);
 			stepRem.getItems().add(s);
 		}
+		HashMap<String, String> updateDefects = new HashMap<>();
+		updateDefects.put("Project Type", selectProject.getValue());
+		updateDefects.put("Previous Name", selectDefect.getValue());
+		updateDefects.put("Name", defectName.getText());
+		updateDefects.put("Symptom",defectSymptop.getText());
+		updateDefects.put("Status", status.getText());
+		updateDefects.put("Injection Step", injection);
+		updateDefects.put("Removed Step", removed);
+		updateDefects.put("Defect Category", cat);
+		
+		request.newDefect(updateDefects);
 	}
 	public void select()
 	{
@@ -355,19 +394,19 @@ public class Controller implements Initializable{
 		updateDefects.put("Removed Step", removed);
 		updateDefects.put("Defect Category", cat);
 		for (Entry<String, String> entry : updateDefects.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            if(value == null)
-            {
-            	Alert alert = new Alert(AlertType.WARNING);
-    			alert.setTitle("Updating Effort");
-    			alert.setHeaderText("Please Ensure that "+ key+ " is not Null.");
-    			alert.show();
-            	return;
-            }
-        }
-		new Send().newDefect(updateDefects);
-		
-//		String injection = stepInj.sel
+			String key = entry.getKey();
+			String value = entry.getValue();
+			if(value == null)
+			{
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Updating Defect");
+				alert.setHeaderText("Please Ensure that "+ key+ " is not Null.");
+				alert.show();
+				return;
+			}
+		}
+		request.update(defects.get(selectedDefect).getObjectId("_Id") , updateDefects);
+		saved.setStyle("-fx-background-color: none;");
+
 	}
 }

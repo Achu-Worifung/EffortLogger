@@ -129,6 +129,7 @@ public class Controller implements Initializable{
 	//	-----------------------RETURNING TO THE MAIN CONSOLE--------------------
 	private Scene scene;
 	private Stage stage;
+	boolean countdown;
 
 	//    -------------------DATE VARIABLE--------------
 	List<RetrieveAll> allInformation;
@@ -368,6 +369,7 @@ public class Controller implements Initializable{
 		newSprint = false;
 		if( workingOn.getTitle().equals(quicklookTitle.getText()) || workingOn.getUserStory().equalsIgnoreCase(quicklookDescription.getText()))
 		{
+			countdown = true;
 			workingOn.setOtherInfo(otherInfo);
 			Rate userRate = new Rate(user, 0);
 			userRates.add(userRate);
@@ -408,6 +410,7 @@ public class Controller implements Initializable{
 	//	----------------------THIS IS FOR UPCOMMING ANCHORPANE------------------
 	public void setUpcommingsprint(String startTime,QuickLook qLook)
 	{
+		countdown = true;
 		upcommingTitle.setText(qLook.getTitle());
 		upcommingRating.setText(Integer.toString(qLook.getRating()));
 		upcommingUserStory.setText(qLook.getUserStory());
@@ -426,7 +429,7 @@ public class Controller implements Initializable{
 
 		upcommingStartNow.setDisable(false);
 		Thread countDownThread = new Thread(() -> {
-			while (startDate.compareTo( LocalDate.now()) == 0 &&  timeLeft[0] > 0) {
+			while (startDate.compareTo( LocalDate.now()) == 0 &&  timeLeft[0] > 0 && countdown) {
 				VOTE.setDisable(false);
 
 				Platform.runLater(() -> {
@@ -443,6 +446,7 @@ public class Controller implements Initializable{
 				// Decrement the timeLeft
 				timeLeft[0]--;
 			}
+			VOTE.setDisable(true);
 
 			// After the countdown is complete, you can perform additional actions if needed
 			Platform.runLater(() -> {
@@ -526,6 +530,8 @@ public class Controller implements Initializable{
 		//		if(serverCheck== null || !serverCheck.isAlive()) {
 		//			
 		//		}
+		
+		//you could have done this using mongo db
 		for(i = 0; i < userRates.size(); i++)
 		{
 			int rate = userRates.get(i).getRate();

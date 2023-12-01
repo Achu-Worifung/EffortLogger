@@ -24,9 +24,7 @@ public class LogPage extends Application {
 		stage.getIcons().add(new Image("/application/logo.png"));
 		stage.show();
 //		------------------------CENTERING THE STAGE------------------------------------
-//		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-//		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-//		stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+
 
 		
 		

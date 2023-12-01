@@ -17,20 +17,10 @@ import com.mongodb.client.result.InsertOneResult;
 public class AddUserToDb {
 	
 	String uri = "mongodb+srv://achuworifung:QqgHwlf9hnQl53fW@cluster0.fodlvul.mongodb.net/";
-	MongoClient mongoClient;
-	MongoDatabase database;
-	MongoCollection<Document> collection;
-	public AddUserToDb()
-	{
-		try {
-		mongoClient = MongoClients.create(uri);
-		database = mongoClient.getDatabase("EffortLoggerv2");
-		collection = database.getCollection("Users");
-		}catch(MongoException e)
-		{
-			System.out.println("connection failed");
-		}
-	}
+	MongoClient mongoClient =  MongoClients.create(uri);;
+	MongoDatabase database = mongoClient.getDatabase("EffortLoggerv2");;
+	MongoCollection<Document> collection = database.getCollection("Users");
+
 	
 	public boolean addUserTODB(String fullName, String userName, String Password, String role, String jobTitle)
 	{
@@ -39,7 +29,7 @@ public class AddUserToDb {
 			
 			
 			//check that userName doesn't already exist
-			Document document = collection.find(eq("User_Name", userName)).first();
+			Document document = collection.find(eq("UserName", userName)).first();
 			if(document == null)
 			{
 				try {
@@ -57,6 +47,10 @@ public class AddUserToDb {
 					System.out.println("failed to insert user into database");
 					return false;
 				}
+				return true;
+			}else 
+			{
+				return false;
 			}
 			
 		}catch(MongoException e)
@@ -64,11 +58,6 @@ public class AddUserToDb {
 			System.out.println("failed to connect to database");
 			return false;
 		}
-		finally
-		{
-			close();
-		}
-		return true;
 	}
 	
 	private String Encrypt(String password) {
@@ -94,14 +83,12 @@ public class AddUserToDb {
 
 	public boolean authen(String username, String Password)
 	{
-		reopen();
 		System.out.println("username :" + username);
 		System.out.println("password :" + Password);
 		Document document = collection.find(eq("UserName", username)).first();
 		if(document == null) 
 		{
 			System.out.println("username not in db");
-			close();
 			return false;
 		}
 		String hashedPassword = document.getString("Password");
@@ -121,14 +108,6 @@ public class AddUserToDb {
         collection = null;
     }
 
-    public void reopen() {
-        try {
-            mongoClient = MongoClients.create(uri);
-            database = mongoClient.getDatabase("EffortLoggerv2");
-            collection = database.getCollection("Users");
-        } catch (MongoException e) {
-            System.out.println("connection failed");
-        }
-    }
+   
 
 }

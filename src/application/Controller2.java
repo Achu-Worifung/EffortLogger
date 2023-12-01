@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import PokerPlanning.Singleton;
 import PokerPlanning.Backend.PokerPlaningRespondsPrototype;
 import Universal.FxmlPreLoader;
 import javafx.animation.TranslateTransition;
@@ -230,6 +229,7 @@ public class Controller2 implements Initializable{
 		String username = txt_luname1.getText();
 		if(adduser.authen(txt_luname1.getText(), txt_lpass1.getText()))
 		{
+			adduser.close();
 			//going to the main console
 			//			---------------------SETTING ALL THE DATA---------------------
 			loadInstance= FxmlPreLoader.getInstance();
@@ -249,7 +249,7 @@ public class Controller2 implements Initializable{
 					//				-----------------CHECK FOR ONGOING QUICKLOOK---------------
 					QuickLook ql = pokerInstance.getQuick();
 					if(ql != null)singletonInstance.setInfo(ql);
-					System.out.println("done");
+					System.out.println("from logpage 2");
 					try {
 						//						Thread.sleep(30000); //updating info every 30 seconds
 						Thread.sleep(60000); //updating info every minute

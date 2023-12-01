@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.mongodb.MongoException;
 
 import PokerPlanning.Backend.PokerPlaningRespondsPrototype;
 import ToDB.Query;
@@ -18,7 +17,6 @@ import Universal.FxmlPreLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -109,14 +107,12 @@ public class Controller implements Initializable{
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(loadInstance.getDefect());
 			stage.setScene(scene);
-			stage.centerOnScreen();
 			stage.show();
 		}
 		else if(event.getSource() == editor)
 		{
 		    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		    stage.getScene().setRoot(loadInstance.getEditor());
-			stage.centerOnScreen();
 
 		    stage.show();
 		}
@@ -127,7 +123,6 @@ public class Controller implements Initializable{
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(loadInstance.getDefinition());
 			stage.setScene(scene);
-			stage.centerOnScreen();
 
 			stage.show();
 		}
@@ -137,7 +132,6 @@ public class Controller implements Initializable{
 			stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 			scene = new Scene(loadInstance.getPoker());
 			stage.setScene(scene);
-			stage.centerOnScreen();
 
 			stage.show();
 		}
