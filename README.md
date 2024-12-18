@@ -20,7 +20,7 @@ EffortLogger is a desktop application designed to help users track and log their
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/effortlogger.git
+   [git clone https://github.com/your-username/effortlogger.git](https://github.com/Achu-Worifung/EffortLogger.git)
    cd effortlogger
    ```
 
