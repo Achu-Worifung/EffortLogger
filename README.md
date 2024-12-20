@@ -66,6 +66,10 @@ This project is licensed under the [MIT License](LICENSE).
 
 - Inspiration for this project came from the need to better manage time and productivity.
 - Special thanks to open-source tools like JavaFX, MongoDB, and Scene Builder for simplifying development.
+## Pictures
+
+![effortloger](https://github.com/user-attachments/assets/b5eb79fa-6a32-443b-a581-a8639cce82f4)
+
 
 ---
 
