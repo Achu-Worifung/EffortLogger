@@ -34,7 +34,7 @@ import definitions.Plans;
 import definitions.User;
 
 public class Query {
-	String uri = "mongodb+srv://achuworifung:QqgHwlf9hnQl53fW@cluster0.fodlvul.mongodb.net/";
+	String uri = "update with your mongodb connection string";
 	MongoClient mongoClient;
 	MongoDatabase database;
 	MongoCollection<Document> collection;
